@@ -1,19 +1,21 @@
-import '../styles/globals.css'
-import '../styles/globals.css'
+import Head from 'next/head';
+import '../styles/globals.css';
 
-// var runChecks = require('../components/run_checks');
-// import '../components/run_checks'
 
-function MyApp({ Component, pageProps }) {
-  // Promise.all([runChecks()]).then((val) => {
-  //     runChecks = val[0];
-  //     console.log(runChecks);
-  //     // Aafter completed this code will be called
-  //     // let users = GetUser(service);
-  //     // let users = GetAdress(process);
-  //     console.log('I am called after all promises completed.')
-  // });
-  return <Component {...pageProps} />
+function MyApp({ Component, pageProps: { ...pageProps} }) {
+	return (
+		<>
+			<Head>
+				<title>Stacks Grant Launchpad</title>
+				<meta name="description" content="Stacks Blockchain Status" />
+				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+				<meta property="title" content="Stacks Blockchain Status" key="title" />
+				<meta name="theme-color" content="#05030A" />
+				<meta property="description" content="Stacks Blockchain Status" key="description" />
+			</Head>
+      <Component {...pageProps} />
+		</>
+	);
 }
 
 export default MyApp

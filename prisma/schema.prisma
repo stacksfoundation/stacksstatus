@@ -10,12 +10,51 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// After the database connection
-
 model mempool_size {
-  id Int @id @default(autoincrement())
-  ts DateTime @default(now())
+  ts DateTime @unique @default(now())
   data Int
 }
+
+model tx_fees_daily {
+  ts DateTime @unique @default(now())
+  data numeric
+}
+
+model tx_fees_hourly {
+  ts DateTime @unique @default(now())
+  data numeric
+}
+
+model mempool_contracts {
+  ts DateTime @unique @default(now())
+  contract String?
+  count Int
+}
+
+model blocks {
+  ts DateTime @unique @default(now())
+  block_height Int
+  block_hash String?
+  burn_block_time Int
+}
+
+model block_txs {
+  ts DateTime @unique @default(now())
+  data Int
+}
+
+model single_tx_blocks {
+  ts DateTime @unique @default(now())
+  data Int
+}
+
+model block_time {
+  ts DateTime @unique @default(now())
+  data numeric
+}
+
+
+
+
 
 

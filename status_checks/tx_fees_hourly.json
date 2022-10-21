@@ -1,0 +1,17 @@
+{
+  "url": "https://api.stacksdata.info/v1/sql",
+  "method": "POST",
+  "table": "tx_fees_hourly",
+  "query": [
+    "select",
+    "    round((avg(fee_rate) / 1000000), 4)",
+    "as",
+    "    data",
+    "from",
+    "    txs",
+    "where",
+    "    block_time>now()-interval'1 hour'",
+    "order by 1",
+    "limit 1"
+  ]
+}

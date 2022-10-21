@@ -1,0 +1,11 @@
+{
+  "url": "https://api.stacksdata.info/v1/sql",
+  "method": "POST",
+  "table": "blocks",
+  "query": [
+    "select",
+    "    block_height, block_hash, burn_block_time",
+    "from",
+    "    last_block"
+  ]
+}

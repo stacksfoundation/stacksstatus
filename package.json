@@ -2,13 +2,12 @@
   "name": "stacksstatus",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "get": "node ./components/test.js"
+    "prismaDev": "dotenv -e .env.local prisma migrate dev"
   },
   "dependencies": {
     "dotenv-flow": "^3.2.0",
@@ -21,8 +20,9 @@
   },
   "devDependencies": {
     "@prisma/client": "^4.4.0",
+    "@svgr/webpack": "^6.5.0",
     "eslint": "8.25.0",
     "eslint-config-next": "12.3.1",
-    "node-fetch": "^3.2.10"
+    "node-fetch": "^2.6.1"
   }
 }

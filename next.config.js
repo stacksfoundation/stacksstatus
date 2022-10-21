@@ -9,3 +9,18 @@ module.exports = {
     ]
   },
 }
+
+module.exports = {
+  webpack: true,
+  webpack: (config) => {
+    config.resolve.fallback = { 
+      fs: false,
+      path: false
+    };
+		config.module.rules.push({
+			test: /\.svg$/,
+			use: ['@svgr/webpack']
+		});
+    return config;
+  },
+};

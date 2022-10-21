@@ -1,0 +1,17 @@
+{
+  "url": "https://api.stacksdata.info/v1/sql",
+  "method": "POST",
+  "table": "mempool_contracts",
+  "query": [
+    "SELECT",
+    "    split_part(payload ->> 'contract_id','.',2)",
+    "as",
+    "    Contract, count(*)",
+    "FROM",
+    "    mempool",
+    "WHERE",
+    "    tx_type = 'contract_call'",
+    "GROUP BY 1",
+    "LIMIT 5"
+  ]
+}

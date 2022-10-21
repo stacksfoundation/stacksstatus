@@ -1,0 +1,13 @@
+{
+  "url": "https://api.stacksdata.info/v1/sql",
+  "method": "POST",
+  "table": "mempool_size",
+  "query": [
+    "select",
+    "    count(tx_id)",
+    "as",
+    "    data",
+    "from ",
+    "    mempool"
+  ]
+}

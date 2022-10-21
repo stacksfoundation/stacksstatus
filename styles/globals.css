@@ -1,26 +1,113 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+
+
+@font-face {
+  font-family: "Open Sauce Sans";
+  src: url("/fonts/Open-Sauce-Sans/OpenSauceSans-Regular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-* {
+/*
+  1. Use a more-intuitive box-sizing model.
+*/
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
+/*
+  2. Remove default margin
+*/
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/*
+  3. Allow percentage-based heights in the application
+*/
+html,
+body {
+  height: 100%;
+  color: rgba(255, 255, 255, 0.92);
+  background: -webkit-linear-gradient(bottom,
+      rgb(35, 24, 70) 0%,
+      rgb(9, 8, 18) 74%,
+      rgb(0, 0, 0) 100%);
+  background: -o-linear-gradient(bottom,
+      rgb(35, 24, 70) 0%,
+      rgb(9, 8, 18) 74%,
+      rgb(0, 0, 0) 100%);
+  background: -ms-linear-gradient(bottom,
+      rgb(35, 24, 70) 0%,
+      rgb(9, 8, 18) 74%,
+      rgb(0, 0, 0) 100%);
+  background: -moz-linear-gradient(bottom,
+      rgb(35, 24, 70) 0%,
+      rgb(9, 8, 18) 74%,
+      rgb(0, 0, 0) 100%);
+  background: linear-gradient(to top,
+      rgb(35, 24, 70) 0%,
+      rgb(9, 8, 18) 74%,
+      rgb(0, 0, 0) 100%);
+  overflow-y: hidden;
+}
+
+/*
+  Typographic tweaks!
+  4. Add accessible line-height
+  5. Improve text rendering
+*/
+body {
+  line-height: 1.5;
+  font-family: "Open Sauce Sans";
+  -webkit-font-smoothing: antialiased;
+}
+
+/*
+  6. Improve media defaults
+*/
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/*
+  7. Remove built-in form typography styles
+*/
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/*
+  8. Avoid text overflows
+*/
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+/*
+  9. Create a root stacking context
+*/
+#root,
+#__next {
+  isolation: isolate;
+}
+
+a {
+  text-decoration: none;
 }
