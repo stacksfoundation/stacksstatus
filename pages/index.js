@@ -9,6 +9,7 @@ import StacksLogo from '../public/images/stacks.svg';
 import Link from 'next/link';
 import prisma from '../lib/db';
 import { makeSerializable } from '../lib/util'
+import { convertEpoch } from '../lib/util'
 
 
 const Home = props => {
@@ -69,42 +70,93 @@ const Home = props => {
         </div>
         <div className={styles.indexRow}>
           <div className={styles.metrics}>
-            <p>Current Mempool size</p>
-            {props.mempool_size[0].data}
+            <p className={styles.metricsTitle}>Current Mempool size:
+               <span className={styles["metricsData"] + " " + styles["metricsTitle"]}>
+                  {props.mempool_size[0].data}
+              </span>
+            </p>
           </div>
           <div className={styles.metrics}>
-            <p>Last Block Time</p>
-            {props.block_time[0].data}
+            <p className={styles.metricsTitle}>Last Block Time
+              <span className={styles["metricsData"] + " " + styles["metricsTitle"]}>
+                {props.block_time[0].data}
+              </span>
+            </p>
           </div>
           <div className={styles.metrics}>
-            <p>Tx Fees</p>
-            <p>Daily:</p> {props.tx_fees_daily[0].data} 
-            <p>Hourly: {props.tx_fees_hourly[0].data}</p>
+            <p className={styles.metricsTitle}>Avg Daily Fees:
+              <span className={styles["metricsData"] + " " + styles["metricsTitle"]}>
+                {props.tx_fees_daily[0].data} 
+              </span>
+            </p>
+            <p className={styles.metricsTitle}>Avg Hourly Fees: 
+              <span className={styles["metricsData"] + " " + styles["metricsTitle"]}>
+                {props.tx_fees_hourly[0].data}
+              </span>
+            </p>
           </div>
           <div className={styles.metrics}>
-            <p>Block Transactions</p>
-            {props.block_txs[0].data}
+            <p className={styles.metricsTitle}>Block Transactions
+              <span className={styles["metricsData"] + " " + styles["metricsTitle"]}>
+                {props.block_txs[0].data}
+              </span>
+            </p>
           </div>
           <div className={styles.metrics}>
-            <p>Last 10 blocks with single tx</p>
-            {props.single_tx_blocks[0].data}
+            <p className={styles.metricsTitle}>Last 10 blocks with single tx
+              <span className={styles["metricsData"] + " " + styles["metricsTitle"]}>
+                {props.single_tx_blocks[0].data}
+              </span>
+            </p>
           </div>
           <br/>
         </div>
         <div className={styles.indexRow}>
           <div className={styles.metrics}>
             <p>Blocks</p>
-            <p>Block height: {props.blocks[0].block_height}</p>
-            <p>Block hash: {props.blocks[0].block_hash}</p>
-            <p>Burn blocktime: {props.blocks[0].burn_block_time}</p>
+            <p className={styles.metricsTitle}>Block height: 
+              <span className={styles["metricsData"] + " " + styles["metricsTitle"]}>
+                {props.blocks[0].block_height}
+              </span>
+            </p>
+            <p className={styles.metricsTitle}>Block hash: 
+              <span className={styles["metricsData"] + " " + styles["metricsTitle"]}>
+                {props.blocks[0].block_hash}
+              </span>
+            </p>
+            <p className={styles.metricsTitle}>Burn blocktime: 
+              <span className={styles["metricsData"] + " " + styles["metricsTitle"]}>
+                { convertEpoch(props.blocks[0].burn_block_time) }
+              </span>
+            </p>
           </div>
           <div className={styles.metrics}>
             <p>Mempool Contracts</p>
-            <p>{props.contracts[0].contract}: {props.contracts[0].count}</p>
-            <p>{props.contracts[1].contract}: {props.contracts[1].count}</p>
-            <p>{props.contracts[2].contract}: {props.contracts[2].count}</p>
-            <p>{props.contracts[3].contract}: {props.contracts[3].count}</p>
-            <p>{props.contracts[4].contract}: {props.contracts[4].count}</p>
+            <p className={styles.metricsTitle}>{props.contracts[0].contract}: 
+              <span className={styles["metricsData"] + " " + styles["metricsTitle"]}>
+                {props.contracts[0].count}
+              </span>
+            </p>
+            <p className={styles.metricsTitle}>{props.contracts[1].contract}: 
+              <span className={styles["metricsData"] + " " + styles["metricsTitle"]}>
+                {props.contracts[1].count}
+              </span>
+            </p>
+            <p className={styles.metricsTitle}>{props.contracts[2].contract}: 
+              <span className={styles["metricsData"] + " " + styles["metricsTitle"]}>
+                {props.contracts[2].count}
+              </span>
+            </p>
+            <p className={styles.metricsTitle}>{props.contracts[3].contract}: 
+              <span className={styles["metricsData"] + " " + styles["metricsTitle"]}>
+                {props.contracts[3].count}
+              </span>
+            </p>
+            <p className={styles.metricsTitle}>{props.contracts[4].contract}: 
+              <span className={styles["metricsData"] + " " + styles["metricsTitle"]}>
+                {props.contracts[4].count}
+              </span>
+            </p>
           </div>
         </div>
       </div>

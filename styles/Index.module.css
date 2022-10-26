@@ -1,7 +1,9 @@
 .indexParent {
-    width: 90%;
-    min-width: 1350px;
+    width: 99%;
+    text-align: center;
+    min-width: 1.5vw;
     /* border: 1px solid rgba(255, 255, 255, 0.24); */
+    margin: auto;
     margin-top: 150px;
     padding-top: 230px;
 }
@@ -13,16 +15,22 @@
 }
 
 .indexStxOnChain {
+    text-align: left;
     position: absolute;
     left: 0px;
     bottom: 0px;
-    margin-left:15px;
-    margin-bottom: 15px;
+    margin-left:1em;
+    margin-bottom: 1em;
     color: rgba(255, 255, 255, 0.7);
     display: block;
     width: 50vw;
     height: auto;
-    font-size: 1.3rem;
+    font-size: 1vw;
+    /* border: 1px solid rgba(255, 255, 255, 0.24); */
+}
+
+.indexStxOnChain:hover {
+    font-weight: bold;
 }
 
 .indexRow {
@@ -47,9 +55,9 @@
     background: rgba(0, 0, 0, 0.8);
     position: relative;
     bottom: 200px;
-    font-size: 16px;
+    /* font-size: 16px; */
     text-align: left;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.24);
     white-space: nowrap;
 }
@@ -58,6 +66,19 @@
     cursor: default;
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
 }
+
+.metricsData {
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: bold;
+    margin-left: 1em;
+    text-transform: none;
+    /* float: right; */
+}
+
+.metricsTitle {
+    font-size: 1vw;
+}
+
 
 .serviceLogo {
     filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(97deg) brightness(105%) contrast(101%);

@@ -115,4 +115,5 @@ a {
 
 p {
   color: rgba(240, 140, 140, 0.7);
+  text-transform: uppercase;
 }
