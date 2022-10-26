@@ -1,14 +1,33 @@
 .indexParent {
-    overflow-x: auto;
-    overflow-y: hidden;
+    width: 90%;
+    min-width: 1350px;
+    /* border: 1px solid rgba(255, 255, 255, 0.24); */
+    margin-top: 150px;
+    padding-top: 230px;
 }
 
-.indexRow1 {
+.indexLogos {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+
+.indexRow {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 50px;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: auto;
+}
+
+/* .indexRow1 {
     position: relative;
     display: flex;
     justify-content: space-between;
     padding-top: 230px;
-    margin-top: 50px;
+    margin-top: 150px;
     margin-left: 50px;
     padding-left: 10px;
     padding-right: 10px;
@@ -24,25 +43,14 @@
     padding-left: 10px;
     padding-right: 10px;
     height: auto;
-}
-
-.indexRow3 {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    padding-top: -50px;
-    margin-left: 50px;
-    padding-left: 10px;
-    padding-right: 10px;
-    height: auto;
-}
+} */
 
 .metrics {
-    margin: .5rem;
-    display: inline-block;
-    padding: 1.5rem;
-    width: auto;
+    display: block;
+    width: 100vw;
     height: auto;
+    padding: 1.5rem;
+    margin: .5rem;
     color: rgba(255, 255, 255, 0.5);
     text-decoration: none;
     border: 1px solid rgba(255, 255, 255, 0.24);
@@ -60,6 +68,7 @@
 
 .metrics:hover {
     cursor: default;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
 }
 
 .serviceLogo {
@@ -78,11 +87,11 @@
     margin-bottom:10px;
     align-items: center;
     gap: 8px;
-    float: right;
 }
 
 .serviceLogo:hover {
     transform: scale(1.2);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
 }
 
 .stxLogo {

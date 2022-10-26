@@ -22,6 +22,11 @@ const Home = props => {
 
   return (
     <div className={styles.indexParent}>
+          <Link href="https://stacks.org">
+            <a target="_blank" rel="noopener noreferrer">
+              <Logo className={styles.stxLogo} />
+            </a>
+          </Link>
       <div>
         <style 
           global jsx>{`
@@ -34,12 +39,7 @@ const Home = props => {
             }
           `}
         </style>
-        <div className={styles.indexParent}>
-          <Link href="https://stacks.org">
-            <a target="_blank" rel="noopener noreferrer">
-              <Logo className={styles.stxLogo} />
-            </a>
-          </Link>
+        <div className={styles.indexLogos}>
           <Link href="https://stacks.org">
             <a target="_blank" rel="noopener noreferrer">
               <StacksLogo className={styles.serviceLogo} />
@@ -61,7 +61,8 @@ const Home = props => {
             </a>
           </Link>
         </div>
-        <div className={styles.indexRow1}>
+        {/* <div className={styles.indexRow1}> */}
+        <div className={styles.indexRow}>
           <div className={styles.metrics}>
             <p>Current Mempool size</p>
             {props.mempool_size[0].data}
@@ -85,15 +86,14 @@ const Home = props => {
           </div>
           <br/>
         </div>
-        <div className={styles.indexRow2}>
+        {/* <div className={styles.indexRow2}> */}
+        <div className={styles.indexRow}>
           <div className={styles.metrics}>
             <p>Blocks</p>
             <p>Block height: {props.blocks[0].block_height}</p>
             <p>Block hash: {props.blocks[0].block_hash}</p>
             <p>Burn blocktime: {props.blocks[0].burn_block_time}</p>
           </div>
-        </div>
-        <div className={styles.indexRow3}>
           <div className={styles.metrics}>
             <p>Mempool Contracts</p>
             <p>{props.contracts[0].contract}: {props.contracts[0].count}</p>

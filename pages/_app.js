@@ -6,7 +6,7 @@ function MyApp({ Component, pageProps: { ...pageProps} }) {
 	return (
 		<>
 			<Head>
-				<title>Stacks Grant Launchpad</title>
+				<title>Stacks Blockchain Status</title>
 				<meta name="description" content="Stacks Blockchain Status" />
 				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 				<meta property="title" content="Stacks Blockchain Status" key="title" />
