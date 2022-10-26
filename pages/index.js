@@ -5,6 +5,7 @@ import GithubLogo from '../public/images/github.svg';
 import DiscordLogo from '../public/images/discord.svg';
 import TwitterLogo from '../public/images/twitter.svg';
 import StacksLogo from '../public/images/stacks.svg';
+
 import Link from 'next/link';
 import prisma from '../lib/db';
 import { makeSerializable } from '../lib/util'
@@ -22,11 +23,11 @@ const Home = props => {
 
   return (
     <div className={styles.indexParent}>
-          <Link href="https://stacks.org">
-            <a target="_blank" rel="noopener noreferrer">
-              <Logo className={styles.stxLogo} />
-            </a>
-          </Link>
+      <Link href="https://stacks.org">
+        <a target="_blank" rel="noopener noreferrer">
+          <Logo className={styles.stxLogo} />
+        </a>
+      </Link>
       <div>
         <style 
           global jsx>{`
@@ -61,7 +62,11 @@ const Home = props => {
             </a>
           </Link>
         </div>
-        {/* <div className={styles.indexRow1}> */}
+        <div className={styles.indexStxOnChain}>
+            <a target="_blank" rel="noopener noreferrer" href="https://stacksonchain.com"> 
+              Data provided by Stacks on Chain
+            </a>
+        </div>
         <div className={styles.indexRow}>
           <div className={styles.metrics}>
             <p>Current Mempool size</p>
@@ -73,7 +78,7 @@ const Home = props => {
           </div>
           <div className={styles.metrics}>
             <p>Tx Fees</p>
-            <p>Daily: {props.tx_fees_daily[0].data} </p>
+            <p>Daily:</p> {props.tx_fees_daily[0].data} 
             <p>Hourly: {props.tx_fees_hourly[0].data}</p>
           </div>
           <div className={styles.metrics}>
@@ -86,7 +91,6 @@ const Home = props => {
           </div>
           <br/>
         </div>
-        {/* <div className={styles.indexRow2}> */}
         <div className={styles.indexRow}>
           <div className={styles.metrics}>
             <p>Blocks</p>
