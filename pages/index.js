@@ -67,25 +67,25 @@ const Home = props => {
             <a target="_blank" rel="noopener noreferrer" href="https://stacksonchain.com"> 
               Data provided by Stacks on Chain
             </a>
-        </div>        
+        </div>
         {/* ROW 1 */}
         <div className={styles.indexRow}>
           {/* MEMPOOL DATA */}
           <div className={styles.metrics}>
-            <p className={styles.pclass}>
-              <span className={styles.metricsTitle}>Current Mempool size</span>
-              <span className={styles.metricsData}>{props.mempool_size[0].data}</span>
+            <p className={styles.metricsData}>
+              <span className={styles.metricsKey}>Current Mempool size</span>
+              <span className={styles.metricsValue}>{props.mempool_size[0].data}</span>
             </p>
           </div>
           {/*  TX FEES */}
           <div className={styles.metrics}>
-            <p className={styles.pclass}>
-              <span className={styles.metricsTitle}>Avg Daily Fees</span>
-              <span className={styles.metricsData}>{props.tx_fees_daily[0].data}</span>
+            <p className={styles.metricsData}>
+              <span className={styles.metricsKey}>Avg Daily Fees</span>
+              <span className={styles.metricsValue}>{props.tx_fees_daily[0].data}</span>
             </p>
-            <p className={styles.pclass}>
-              <span className={styles.metricsTitle}>Avg Hourly Fees</span>
-              <span className={styles.metricsData}>{props.tx_fees_hourly[0].data}</span>
+            <p className={styles.metricsData}>
+              <span className={styles.metricsKey}>Avg Hourly Fees</span>
+              <span className={styles.metricsValue}>{props.tx_fees_hourly[0].data}</span>
             </p>
           </div>
         </div>
@@ -94,16 +94,16 @@ const Home = props => {
         <div className={styles.indexRow}>
           {/* BLOCK TX SIZE */}
           <div className={styles.metrics}>
-            <p className={styles.pclass}>
-              <span className={styles.metricsTitle}>Block Transactions</span>
-              <span className={styles.metricsData}>{props.block_txs[0].data}</span>
+            <p className={styles.metricsData}>
+              <span className={styles.metricsKey}>Block Transactions</span>
+              <span className={styles.metricsValue}>{props.block_txs[0].data}</span>
             </p>
           </div>
           {/* SINGLE TX BLOCKS */}
           <div className={styles.metrics}>
-            <p className={styles.pclass}>
-              <span className={styles.metricsTitle}>Single tx blocks</span>
-              <span className={styles.metricsData}>{props.single_tx_blocks[0].data}</span>
+            <p className={styles.metricsData}>
+              <span className={styles.metricsKey}>Single tx blocks</span>
+              <span className={styles.metricsValue}>{props.single_tx_blocks[0].data}</span>
             </p>
           </div>
         </div>
@@ -112,17 +112,17 @@ const Home = props => {
         <div className={styles.indexRow}>
           {/* BLOCK DATA */}
           <div className={styles.metrics}>
-            <p className={styles.pclass}>
-              <span className={styles.metricsTitle}>Block Height</span>
-              <span className={styles.metricsData}>{props.blocks[0].block_height}</span>
+            <p className={styles.metricsData}>
+              <span className={styles.metricsKey}>Block Height</span>
+              <span className={styles.metricsValue}>{props.blocks[0].block_height}</span>
             </p>
-            <p className={styles.pclass}>
-              <span className={styles.metricsTitle}>Block Hash</span>
-              <span className={styles.metricsData}>{props.blocks[0].block_hash}</span>
+            <p className={styles.metricsData}>
+              <span className={styles.metricsKey}>Block Hash</span>
+              <span className={styles.metricsValue}>{props.blocks[0].block_hash}</span>
             </p>
-            <p className={styles.pclass}>
-              <span className={styles.metricsTitle}>Burn Blocktime</span>
-              <span className={styles.metricsData}>{ convertEpoch(props.blocks[0].burn_block_time) }</span>
+            <p className={styles.metricsData}>
+              <span className={styles.metricsKey}>Burn Blocktime</span>
+              <span className={styles.metricsValue}>{ convertEpoch(props.blocks[0].burn_block_time) }</span>
             </p>
           </div>
         </div>
@@ -131,28 +131,29 @@ const Home = props => {
         <div className={styles.indexRow}>
           {/* CONTRACT DATA */}
           <div className={styles.metrics}>
-            <p className={styles.pclass}>
-              <span className={styles.metricsTitle}>{props.contracts[0].contract}</span>
-              <span className={styles.metricsData}>{props.contracts[0].count}</span>
+            <p className={styles.metricsData}>
+              <span className={styles.metricsKey}>{props.contracts[0].contract}</span>
+              <span className={styles.metricsValue}>{props.contracts[0].count}</span>
             </p>
-            <p className={styles.pclass}>
-              <span className={styles.metricsTitle}>{props.contracts[1].contract}</span>
-              <span className={styles.metricsData}>{props.contracts[1].count}</span>
+            <p className={styles.metricsData}>
+              <span className={styles.metricsKey}>{props.contracts[1].contract}</span>
+              <span className={styles.metricsValue}>{props.contracts[1].count}</span>
             </p>
-            <p className={styles.pclass}>
-              <span className={styles.metricsTitle}>{props.contracts[2].contract}</span>
-              <span className={styles.metricsData}>{props.contracts[2].count}</span>
+            <p className={styles.metricsData}>
+              <span className={styles.metricsKey}>{props.contracts[2].contract}</span>
+              <span className={styles.metricsValue}>{props.contracts[2].count}</span>
             </p>
-            <p className={styles.pclass}>
-              <span className={styles.metricsTitle}>{props.contracts[3].contract}</span>
-              <span className={styles.metricsData}>{props.contracts[3].count}</span>
+            <p className={styles.metricsData}>
+              <span className={styles.metricsKey}>{props.contracts[3].contract}</span>
+              <span className={styles.metricsValue}>{props.contracts[3].count}</span>
             </p>
-            <p className={styles.pclass}>
-              <span className={styles.metricsTitle}>{props.contracts[4].contract}</span>
-              <span className={styles.metricsData}>{props.contracts[4].count}</span>
+            <p className={styles.metricsData}>
+              <span className={styles.metricsKey}>{props.contracts[4].contract}</span>
+              <span className={styles.metricsValue}>{props.contracts[4].count}</span>
             </p>
           </div>
         </div>
+
       </div>
     </div>
   );
