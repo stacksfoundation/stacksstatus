@@ -24,11 +24,7 @@ const Home = props => {
 
   return (
     <div className={styles.indexParent}>
-      <Link href="https://stacks.org">
-        <a target="_blank" rel="noopener noreferrer">
-          <Logo className={styles.stxLogo} />
-        </a>
-      </Link>
+      <Logo className={styles.stxLogo} />
       <div>
         <style 
           global jsx>{`
