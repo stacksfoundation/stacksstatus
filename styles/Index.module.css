@@ -1,38 +1,22 @@
 .topRow {
-    width: 99vw;
-    /* height: 99vw; */
-    margin: auto;
-    /* min-width: 1250px; */
-    /* border: 1px solid rgba(255, 255, 255, 0.9); */
-    position: fixed;
-    /* position: absolute; */
+    /* width: 95vw; */
+    height: 150px;
     right: 5px;
     top: 5px;
-}
-
-.bottomRow {
-    width: 99vw;
-    /* height: 99vw; */
-    margin: auto;
-    /* min-width: 1250px; */
     /* border: 1px solid rgba(255, 255, 255, 0.9); */
-    /* position: fixed; */
-    position: absolute;
-    left: 10px;
-    bottom: 10px;
 }
 
 .indexParent {
     width: 99vw;
-    /* height: 99vw; */
     margin: auto;
+}
+
+.indexParent1 {
     min-width: 1250px;
-    margin-top: 150px;
-    padding-top: 230px;
     padding-left: 50px;
     padding-right: 50px;
+    padding-bottom: 100px;
     /* border: 5px solid rgba(255, 255, 255, 0.9); */
-    /* position: fixed; */
 }
 
 .indexLogos {
@@ -42,17 +26,13 @@
 }
 
 .indexStxOnChain {
-    text-align: left;
-    position: absolute;
-    left: 0px;
-    bottom: 0px;
-    margin-left:1em;
-    margin-bottom: 1em;
-    color: rgba(255, 255, 255, 0.7);
-    display: block;
-    width: 50vw;
     height: auto;
-    font-size: 1vw;
+    padding-top: 1.5rem;
+    color: rgba(255, 255, 255, 0.7);
+    position: relative;
+    text-align: left;
+    white-space: nowrap;
+    font-size: 1.5vw;
     /* border: 1px solid rgba(255, 255, 255, 0.24); */
 }
 
@@ -61,17 +41,9 @@
 }
 
 .indexRow {
-    /* position: relative;
-    display: flex;
-    justify-content: space-between;
-    margin-left: 50px;
-    padding-left: 10px;
-    padding-right: 10px;
-    height: auto; */
     position: relative;
     display: flex;
     justify-content: space-between;
-    /* margin-left: 50px; */
     padding-left: 10px;
     padding-right: 10px;
     height: auto;
@@ -89,7 +61,6 @@
     border-radius: 10px;
     background: rgba(0, 0, 0, 0.8);
     position: relative;
-    bottom: 200px;
     text-align: left;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.24);
     white-space: nowrap;
@@ -101,24 +72,15 @@
 }
 
 .metricsValue {
-    /* display: inline-block;
-    font-size: 2vw;
-    text-transform: uppercase;
-    border: 1px solid rgba(255, 255, 255, 0.24);
-    width: 100%;
-    width: min-content;
-    position: relative;
-    justify-content: space-between;
-    height: auto; */
     color: rgba(255, 255, 255, 0.7);
     font-weight: bold;
-    font-size: 1vw;
+    font-size: 1.5vw;
     text-transform: none;
     /* border: 1px solid rgba(255, 255, 255, 0.9); */
 }
 
 .metricsKey {
-    font-size: 1vw;
+    font-size: 1.5vw;
     margin-right: 1em;
     font-weight: bold;
     /* border: 1px solid rgba(255, 255, 255, 0.9); */
@@ -126,7 +88,6 @@
 
 .metricsData {
     font-weight: bold;
-    /* color: rgba(240, 140, 140, 0.7); */
     text-transform: uppercase;
     /* border: 1px solid rgba(255, 255, 255, 0.9); */
     padding: 10px;
