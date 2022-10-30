@@ -1,37 +1,38 @@
 .topRow {
     width: 99vw;
-    height: 99vw;
+    /* height: 99vw; */
     margin: auto;
-    min-width: 1250px;
-    border: 1px solid rgba(255, 255, 255, 0.9);
-    /* position: fixed; */
-    position: absolute;
-    left: 0px;
-    top: 0px;
+    /* min-width: 1250px; */
+    /* border: 1px solid rgba(255, 255, 255, 0.9); */
+    position: fixed;
+    /* position: absolute; */
+    right: 5px;
+    top: 5px;
 }
 
 .bottomRow {
     width: 99vw;
-    height: 99vw;
+    /* height: 99vw; */
     margin: auto;
-    min-width: 1250px;
-    border: 1px solid rgba(255, 255, 255, 0.9);
+    /* min-width: 1250px; */
+    /* border: 1px solid rgba(255, 255, 255, 0.9); */
     /* position: fixed; */
     position: absolute;
-    left: 0px;
-    bottom: 0px;
+    left: 10px;
+    bottom: 10px;
 }
 
 .indexParent {
     width: 99vw;
-    height: 99vw;
+    /* height: 99vw; */
     margin: auto;
     min-width: 1250px;
     margin-top: 150px;
     padding-top: 230px;
     padding-left: 50px;
     padding-right: 50px;
-    border: 5px solid rgba(255, 255, 255, 0.9);
+    /* border: 5px solid rgba(255, 255, 255, 0.9); */
+    /* position: fixed; */
 }
 
 .indexLogos {
@@ -74,6 +75,7 @@
     padding-left: 10px;
     padding-right: 10px;
     height: auto;
+    /* border: 1px solid rgba(255, 255, 255, 0.24); */
 }
 
 .metrics {
@@ -118,13 +120,15 @@
 .metricsKey {
     font-size: 1vw;
     margin-right: 1em;
+    font-weight: bold;
     /* border: 1px solid rgba(255, 255, 255, 0.9); */
 } 
 
 .metricsData {
-    color: rgba(240, 140, 140, 0.7);
+    font-weight: bold;
+    /* color: rgba(240, 140, 140, 0.7); */
     text-transform: uppercase;
-    border: 1px solid rgba(255, 255, 255, 0.9);
+    /* border: 1px solid rgba(255, 255, 255, 0.9); */
     padding: 10px;
     display: flex;
     justify-content: space-between;

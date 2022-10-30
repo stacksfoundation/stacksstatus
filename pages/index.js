@@ -41,32 +41,36 @@ const Home = props => {
             }
           `}
         </style>
-        <div className={styles.indexLogos}>
-          <Link href="https://stacks.org">
-            <a target="_blank" rel="noopener noreferrer">
-              <StacksLogo className={styles.serviceLogo} />
-            </a>
-          </Link>
-          <Link href="https://discord.gg/HsK3ShU">
-            <a target="_blank" rel="noopener noreferrer">
-              <DiscordLogo className={styles.serviceLogo} />
-            </a>
-          </Link>
-          <Link href="https://twitter.com/stacksstatus">
-            <a target="_blank" rel="noopener noreferrer">
-              <TwitterLogo className={styles.serviceLogo} />
-            </a>
-          </Link>
-          <Link href="https://github.com/stacks-network/stacks-blockchain">
-            <a target="_blank" rel="noopener noreferrer">
-              <GithubLogo className={styles.serviceLogo} />
-            </a>
-          </Link>
+        <div className={styles.topRow}>
+          <div className={styles.indexLogos}>
+            <Link href="https://stacks.org">
+              <a target="_blank" rel="noopener noreferrer">
+                <StacksLogo className={styles.serviceLogo} />
+              </a>
+            </Link>
+            <Link href="https://discord.gg/HsK3ShU">
+              <a target="_blank" rel="noopener noreferrer">
+                <DiscordLogo className={styles.serviceLogo} />
+              </a>
+            </Link>
+            <Link href="https://twitter.com/stacksstatus">
+              <a target="_blank" rel="noopener noreferrer">
+                <TwitterLogo className={styles.serviceLogo} />
+              </a>
+            </Link>
+            <Link href="https://github.com/stacks-network/stacks-blockchain">
+              <a target="_blank" rel="noopener noreferrer">
+                <GithubLogo className={styles.serviceLogo} />
+              </a>
+            </Link>
+          </div>
         </div>
-        <div className={styles.indexStxOnChain}>
+        <div className={styles.bottomRow}>
+          <div className={styles.indexStxOnChain}>
             <a target="_blank" rel="noopener noreferrer" href="https://stacksonchain.com"> 
               Data provided by Stacks on Chain
             </a>
+          </div>
         </div>
         {/* ROW 1 */}
         <div className={styles.indexRow}>
@@ -94,10 +98,14 @@ const Home = props => {
         <div className={styles.indexRow}>
           {/* BLOCK TX SIZE */}
           <div className={styles.metrics}>
-            <p className={styles.metricsData}>
-              <span className={styles.metricsKey}>Block Transactions</span>
-              <span className={styles.metricsValue}>{props.block_txs[0].data}</span>
-            </p>
+            <Link href={`https://explorer.stacks.co/block/${props.blocks[0].block_hash}?chain=mainnet`}>
+                <a target="_blank" rel="noopener noreferrer">
+                  <p className={styles.metricsData}>
+                    <span className={styles.metricsKey}>Block Transactions</span>
+                    <span className={styles.metricsValue}>{props.block_txs[0].data}</span>
+                  </p>
+                </a>
+              </Link>
           </div>
           {/* SINGLE TX BLOCKS */}
           <div className={styles.metrics}>
@@ -112,14 +120,22 @@ const Home = props => {
         <div className={styles.indexRow}>
           {/* BLOCK DATA */}
           <div className={styles.metrics}>
-            <p className={styles.metricsData}>
-              <span className={styles.metricsKey}>Block Height</span>
-              <span className={styles.metricsValue}>{props.blocks[0].block_height}</span>
-            </p>
-            <p className={styles.metricsData}>
-              <span className={styles.metricsKey}>Block Hash</span>
-              <span className={styles.metricsValue}>{props.blocks[0].block_hash}</span>
-            </p>
+            <Link href={`https://explorer.stacks.co/block/${props.blocks[0].block_hash}?chain=mainnet`}>
+              <a target="_blank" rel="noopener noreferrer">
+                <p className={styles.metricsData}>
+                  <span className={styles.metricsKey}>Block Height</span>
+                  <span className={styles.metricsValue}>{props.blocks[0].block_height}</span>
+                </p>
+              </a>
+            </Link>
+            <Link href={`https://explorer.stacks.co/block/${props.blocks[0].block_hash}?chain=mainnet`}>
+              <a target="_blank" rel="noopener noreferrer">
+                <p className={styles.metricsData}>
+                  <span className={styles.metricsKey}>Block Hash</span>
+                  <span className={styles.metricsValue}>{props.blocks[0].block_hash}</span>
+                </p>
+              </a>
+            </Link>
             <p className={styles.metricsData}>
               <span className={styles.metricsKey}>Burn Blocktime</span>
               <span className={styles.metricsValue}>{ convertEpoch(props.blocks[0].burn_block_time) }</span>
