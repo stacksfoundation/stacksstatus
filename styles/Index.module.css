@@ -35,7 +35,6 @@
     text-align: right;
     white-space: nowrap;
     font-size: 26px;
-    color: rgba(255, 255, 255, 0.7);
     /* border: 1px solid rgba(255, 255, 255, 0.9); */
 }
 
@@ -58,7 +57,7 @@
     width: 100vw;
     height: auto;
     padding: 1.5rem;
-    margin: .5rem;
+    margin: 1rem;
     color: rgba(255, 255, 255, 0.7);
     border: 1px solid rgba(255, 255, 255, 0.24);
     border-radius: 10px;
@@ -72,20 +71,48 @@
 .metrics:hover {
     cursor: default;
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+    /* text-decoration-line: underline; */
+    /* color: rgba(255, 255, 255, 0.1); */
+}
+
+.metrics:hover .metricsValue {
+    /* text-decoration-line: underline; */
+    color: rgba(255, 255, 255, 1);
+    /* font-weight: bold; */
+}
+
+.metrics:hover .metricsKey {
+    /* text-decoration-line: underline; */
+    color: rgba(255, 255, 255, 1);
+    /* font-weight: bold; */
+}
+
+.metrics:hover .metricsTitle {
+    font-weight: bold;
 }
 
 .metricsValue {
     color: rgba(255, 255, 255, 0.7);
-    font-weight: bold;
+    /* font-weight: bold; */
     font-size: 1.5vw;
     text-transform: none;
     /* border: 1px solid rgba(255, 255, 255, 0.9); */
 }
 
+.metricsTitle {
+    color: rgba(255, 255, 255, 0.45);
+    text-decoration-line: underline;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    font-size: 1.5vw;
+    margin-right: 1em;
+    /* font-weight: bold; */
+}
+
 .metricsKey {
     font-size: 1.5vw;
     margin-right: 1em;
-    font-weight: bold;
+    /* font-weight: bold; */
     /* border: 1px solid rgba(255, 255, 255, 0.9); */
 } 
 

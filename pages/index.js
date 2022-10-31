@@ -103,7 +103,7 @@ const Home = props => {
             </div>
             <div className={styles.metrics}>
               <p className={styles.metricsData}>
-                <span className={styles.metricsKey}>Single tx blocks</span>
+                <span className={styles.metricsKey}>Last 10 blocks with single Tx</span>
                 <span className={styles.metricsValue}>{props.single_tx_blocks[0].data}</span>
               </p>
             </div>
@@ -112,6 +112,9 @@ const Home = props => {
           {/* ROW 3 - blocks*/}
           <div className={styles.indexRow}>
             <div className={styles.metrics}>
+              <p className={styles.metricsTitle}>
+                Last Block
+              </p>
               <Link href={`https://explorer.stacks.co/block/${props.blocks[0].block_hash}?chain=mainnet`}>
                 <a target="_blank" rel="noopener noreferrer">
                   <p className={styles.metricsData}>
@@ -138,6 +141,9 @@ const Home = props => {
           {/* ROW 4 - contract*/}
           <div className={styles.indexRow}>
             <div className={styles.metrics}>
+              <p className={styles.metricsTitle}>
+                Most Used Contracts in Mempool
+              </p>
               <p className={styles.metricsData}>
                 <span className={styles.metricsKey}>{props.contracts[0].contract}</span>
                 <span className={styles.metricsValue}>{props.contracts[0].count}</span>
