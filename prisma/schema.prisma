@@ -17,12 +17,12 @@ model mempool_size {
 
 model tx_fees_daily {
   ts DateTime @unique @default(now())
-  data numeric
+  data Decimal
 }
 
 model tx_fees_hourly {
   ts DateTime @unique @default(now())
-  data numeric
+  data Decimal
 }
 
 model mempool_contracts {
@@ -50,11 +50,5 @@ model single_tx_blocks {
 
 model block_time {
   ts DateTime @unique @default(now())
-  data numeric
+  data DateTime
 }
-
-
-
-
-
-
