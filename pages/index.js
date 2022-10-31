@@ -144,26 +144,46 @@ const Home = props => {
               <p className={styles.metricsTitle}>
                 Most Used Contracts in Mempool
               </p>
-              <p className={styles.metricsData}>
-                <span className={styles.metricsKey}>{props.contracts[0].contract}</span>
-                <span className={styles.metricsValue}>{props.contracts[0].count}</span>
-              </p>
-              <p className={styles.metricsData}>
-                <span className={styles.metricsKey}>{props.contracts[1].contract}</span>
-                <span className={styles.metricsValue}>{props.contracts[1].count}</span>
-              </p>
-              <p className={styles.metricsData}>
-                <span className={styles.metricsKey}>{props.contracts[2].contract}</span>
-                <span className={styles.metricsValue}>{props.contracts[2].count}</span>
-              </p>
-              <p className={styles.metricsData}>
-                <span className={styles.metricsKey}>{props.contracts[3].contract}</span>
-                <span className={styles.metricsValue}>{props.contracts[3].count}</span>
-              </p>
-              <p className={styles.metricsData}>
-                <span className={styles.metricsKey}>{props.contracts[4].contract}</span>
-                <span className={styles.metricsValue}>{props.contracts[4].count}</span>
-              </p>
+              <Link href={`https://explorer.stacks.co/txid/${props.contracts[0].contract}?chain=mainnet`}>
+                <a target="_blank" rel="noopener noreferrer">
+                <p className={styles.metricsData}>
+                  <span className={styles.metricsKey}>{props.contracts[0].contract.split('.')[1]}</span>
+                  <span className={styles.metricsValue}>{props.contracts[0].count}</span>
+                </p>
+                </a>
+              </Link>
+              <Link href={`https://explorer.stacks.co/txid/${props.contracts[1].contract}?chain=mainnet`}>
+                <a target="_blank" rel="noopener noreferrer">
+                <p className={styles.metricsData}>
+                  <span className={styles.metricsKey}>{props.contracts[1].contract.split('.')[1]}</span>
+                  <span className={styles.metricsValue}>{props.contracts[1].count}</span>
+                </p>
+                </a>
+              </Link>
+              <Link href={`https://explorer.stacks.co/txid/${props.contracts[2].contract}?chain=mainnet`}>
+                <a target="_blank" rel="noopener noreferrer">
+                <p className={styles.metricsData}>
+                  <span className={styles.metricsKey}>{props.contracts[2].contract.split('.')[1]}</span>
+                  <span className={styles.metricsValue}>{props.contracts[2].count}</span>
+                </p>
+                </a>
+              </Link>
+              <Link href={`https://explorer.stacks.co/txid/${props.contracts[3].contract}?chain=mainnet`}>
+                <a target="_blank" rel="noopener noreferrer">
+                <p className={styles.metricsData}>
+                  <span className={styles.metricsKey}>{props.contracts[3].contract.split('.')[1]}</span>
+                  <span className={styles.metricsValue}>{props.contracts[3].count}</span>
+                </p>
+                </a>
+              </Link>
+              <Link href={`https://explorer.stacks.co/txid/${props.contracts[4].contract}?chain=mainnet`}>
+                <a target="_blank" rel="noopener noreferrer">
+                  <p className={styles.metricsData}>
+                    <span className={styles.metricsKey}>{props.contracts[4].contract.split('.')[1]}</span>
+                    <span className={styles.metricsValue}>{props.contracts[4].count}</span>
+                  </p>
+                </a>
+              </Link>
             </div> 
           </div>
         </div>
@@ -191,6 +211,7 @@ export const getServerSideProps = async () => {
       limit 5
     ) select * from contracts order by count desc;
   `)
+  console.log("contracts: "+ contracts);
   return {
     props: { 
       mempool_size: makeSerializable(mempool_size),
