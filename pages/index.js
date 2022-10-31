@@ -25,7 +25,7 @@ const Home = props => {
   return (
     <div className={styles.indexParent}>
         <Logo className={styles.stxLogo} />
-        <div className={styles.indexParent1}>
+        <div className={styles.indexData}>
           <style 
             global jsx>{`
               html,
@@ -59,6 +59,13 @@ const Home = props => {
                   <GithubLogo className={styles.serviceLogo} />
                 </a>
               </Link>
+              <div className={styles.indexStxOnChain}>
+                <Link href="https://stacksonchain.com">
+                  <a target="_blank" rel="noopener noreferrer">
+                    Data provided by Stacks on Chain
+                  </a>
+                </Link>
+            </div>
             </div>
           </div>
 
@@ -152,19 +159,6 @@ const Home = props => {
                 <span className={styles.metricsValue}>{props.contracts[4].count}</span>
               </p>
             </div> 
-          </div>
-
-          {/* ROW 5 - stacksonchain */}
-          <div className={styles.indexRow}>
-            <p className={styles.indexStxOnChain}>
-              {/* <span className={styles.metricsKey}> */}
-                <Link href="https://stacksonchain.com">
-                  <a target="_blank" rel="noopener noreferrer">
-                    Data provided by Stacks on Chain
-                  </a>
-                </Link>
-              {/* </span> */}
-            </p>
           </div>
         </div>
     </div>

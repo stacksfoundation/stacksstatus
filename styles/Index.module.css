@@ -1,21 +1,23 @@
 .topRow {
-    /* width: 95vw; */
-    height: 150px;
+    height: 200px;
     right: 5px;
     top: 5px;
+    text-align: right;
     /* border: 1px solid rgba(255, 255, 255, 0.9); */
 }
 
 .indexParent {
     width: 99vw;
     margin: auto;
+    height: 90%;
+    /* border: 1px solid rgba(255, 255, 255, 0.9); */
 }
 
-.indexParent1 {
+.indexData {
     min-width: 1250px;
     padding-left: 50px;
     padding-right: 50px;
-    padding-bottom: 100px;
+    height:90%;
     /* border: 5px solid rgba(255, 255, 255, 0.9); */
 }
 
@@ -27,13 +29,14 @@
 
 .indexStxOnChain {
     height: auto;
-    padding-top: 1.5rem;
-    color: rgba(255, 255, 255, 0.7);
-    position: relative;
-    text-align: left;
+    width: 50vw;
+    margin-right: 20px;
+    padding-right: 20px;
+    text-align: right;
     white-space: nowrap;
-    font-size: 1.5vw;
-    /* border: 1px solid rgba(255, 255, 255, 0.24); */
+    font-size: 26px;
+    color: rgba(255, 255, 255, 0.7);
+    /* border: 1px solid rgba(255, 255, 255, 0.9); */
 }
 
 .indexStxOnChain:hover {
