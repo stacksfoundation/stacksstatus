@@ -66,9 +66,7 @@ const Home = (props) => {
             <p className={styles.metricsData}>
               <span className={styles.metricsKey}>Current Mempool size</span>
               <span className={styles.metricsValue}>
-                {props.mempool_size[0]
-                  ? props.mempool_size[0].data
-                  : "Data Unavailable"}
+                {props.mempool_size.data}
               </span>
             </p>
           </div>
@@ -76,16 +74,16 @@ const Home = (props) => {
             <p className={styles.metricsData}>
               <span className={styles.metricsKey}>Avg Daily Fees</span>
               <span className={styles.metricsValue}>
-                {props.tx_fees_daily[0]
-                  ? props.tx_fees_daily[0].data
+                {props.tx_fees_daily
+                  ? props.tx_fees_daily.data
                   : "Data Unavailable"}
               </span>
             </p>
             <p className={styles.metricsData}>
               <span className={styles.metricsKey}>Avg Hourly Fees</span>
               <span className={styles.metricsValue}>
-                {props.tx_fees_hourly[0]
-                  ? props.tx_fees_hourly[0].data
+                {props.tx_fees_hourly
+                  ? props.tx_fees_hourly.data
                   : "Data Unavailable"}
               </span>
             </p>
@@ -96,13 +94,13 @@ const Home = (props) => {
         <div className={styles.indexRow}>
           <div className={styles.metrics}>
             <Link
-              href={`https://explorer.stacks.co/block/${props.blocks[0].block_hash}?chain=mainnet`}
+              href={`https://explorer.stacks.co/block/${props.blocks.block_hash}?chain=mainnet`}
             >
               <a target="_blank" rel="noopener noreferrer">
                 <p className={styles.metricsData}>
                   <span className={styles.metricsKey}>Block Transactions</span>
                   <span className={styles.metricsValue}>
-                    {props.block_txs[0].data}
+                    {props.block_txs.data}
                   </span>
                 </p>
               </a>
@@ -112,7 +110,7 @@ const Home = (props) => {
             <p className={styles.metricsData}>
               <span className={styles.metricsKey}>Single tx blocks</span>
               <span className={styles.metricsValue}>
-                {props.single_tx_blocks[0].data}
+                {props.single_tx_blocks.data}
               </span>
             </p>
           </div>
@@ -122,25 +120,25 @@ const Home = (props) => {
         <div className={styles.indexRow}>
           <div className={styles.metrics}>
             <Link
-              href={`https://explorer.stacks.co/block/${props.blocks[0].block_hash}?chain=mainnet`}
+              href={`https://explorer.stacks.co/block/${props.blocks.block_hash}?chain=mainnet`}
             >
               <a target="_blank" rel="noopener noreferrer">
                 <p className={styles.metricsData}>
                   <span className={styles.metricsKey}>Block Height</span>
                   <span className={styles.metricsValue}>
-                    {props.blocks[0].block_height}
+                    {props.blocks.block_height}
                   </span>
                 </p>
               </a>
             </Link>
             <Link
-              href={`https://explorer.stacks.co/block/${props.blocks[0].block_hash}?chain=mainnet`}
+              href={`https://explorer.stacks.co/block/${props.blocks.block_hash}?chain=mainnet`}
             >
               <a target="_blank" rel="noopener noreferrer">
                 <p className={styles.metricsData}>
                   <span className={styles.metricsKey}>Block Hash</span>
                   <span className={styles.metricsValue}>
-                    {props.blocks[0].block_hash}
+                    {props.blocks.block_hash}
                   </span>
                 </p>
               </a>
@@ -148,7 +146,7 @@ const Home = (props) => {
             <p className={styles.metricsData}>
               <span className={styles.metricsKey}>Burn Blocktime</span>
               <span className={styles.metricsValue}>
-                {convertEpoch(props.blocks[0].burn_block_time)}
+                {convertEpoch(props.blocks.burn_block_time)}
               </span>
             </p>
           </div>
@@ -218,43 +216,104 @@ const Home = (props) => {
 };
 
 export const getServerSideProps = async () => {
-  const block_time = await prisma.$queryRawUnsafe(
-    `select * from block_time order by ts desc limit 1;`
-  );
-  const block_txs = await prisma.$queryRawUnsafe(
-    `select * from block_txs order by ts desc limit 1;`
-  );
-  const blocks = await prisma.$queryRawUnsafe(
-    `select * from blocks order by ts desc limit 1;`
-  );
-  const mempool_size = await prisma.$queryRawUnsafe(
-    `select * from mempool_size order by ts desc limit 1;`
-  );
-  const single_tx_blocks = await prisma.$queryRawUnsafe(
-    `select * from single_tx_blocks order by ts desc limit 1;`
-  );
-  const tx_fees_daily = await prisma.$queryRawUnsafe(
-    `select * from tx_fees_daily order by ts desc limit 1;`
-  );
-  const tx_fees_hourly = await prisma.$queryRawUnsafe(
-    `select * from tx_fees_hourly order by ts desc limit 1;`
-  );
-  const contracts = await prisma.$queryRawUnsafe(`
-    with contracts as (
-      select
-          *
-      from
-          mempool_contracts
-      order by
-          ts
-      desc
-      limit 5
-    ) select * from contracts order by count desc;
-  `);
+  let block_time;
+  try {
+    block_time = await prisma.block_time.findFirst({
+      orderBy: {
+        ts: "desc",
+      },
+    });
+  } catch (e) {
+    block_time = { data: "Error fetching data" };
+  }
+
+  let block_txs;
+  try {
+    block_txs = await prisma.block_txs.findFirst({
+      orderBy: {
+        ts: "desc",
+      },
+    });
+  } catch {
+    block_txs = { data: "Error fetching data" };
+  }
+
+  let blocks;
+  try {
+    blocks = await prisma.blocks.findFirst({
+      orderBy: {
+        ts: "desc",
+      },
+    });
+  } catch {
+    blocks = { data: "Error fetching data" };
+  }
+
+  let mempool_size;
+  try {
+    mempool_size = await prisma.mempool_size.findFirst({
+      orderBy: {
+        ts: "desc",
+      },
+    });
+  } catch (e) {
+    mempool_size = { data: "Error fetching data" };
+  }
+
+  let single_tx_blocks;
+  try {
+    single_tx_blocks = await prisma.single_tx_blocks.findFirst({
+      orderBy: {
+        ts: "desc",
+      },
+    });
+  } catch {
+    single_tx_blocks = { data: "Error fetching data" };
+  }
+
+  let tx_fees_daily;
+  try {
+    tx_fees_daily = await prisma.tx_fees_daily.findFirst({
+      orderBy: {
+        ts: "desc",
+      },
+    });
+  } catch {
+    tx_fees_daily = { data: "Error fetching data" };
+  }
+
+  let tx_fees_hourly;
+  try {
+    tx_fees_hourly = await prisma.tx_fees_hourly.findFirst({
+      orderBy: {
+        ts: "desc",
+      },
+    });
+  } catch {
+    tx_fees_hourly = { data: "Error fetching data" };
+  }
+
+  let contracts;
+  try {
+    contracts = await prisma.$queryRawUnsafe(`
+      with contracts as (
+        select
+            *
+        from
+            mempool_contracts
+        order by
+            ts
+        desc
+        limit 5
+      ) select * from contracts order by count desc;
+    `);
+  } catch {
+    contracts = { data: "Error fetching data" };
+  }
   return {
     props: {
       mempool_size: makeSerializable(mempool_size),
-      block_time: makeSerializable(block_time),
+      block_time,
       block_txs: makeSerializable(block_txs),
       blocks: makeSerializable(blocks),
       single_tx_blocks: makeSerializable(single_tx_blocks),
