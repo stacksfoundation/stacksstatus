@@ -1,54 +1,38 @@
-.topRow {
-    height: 200px;
-    right: 5px;
-    top: 5px;
-    text-align: right;
-    /* border: 1px solid rgba(255, 255, 255, 0.9); */
-}
-
 .indexParent {
-    width: 99vw;
-    margin: auto;
+    width: 99%;
     height: 90%;
     /* border: 1px solid rgba(255, 255, 255, 0.9); */
 }
 
-.indexData {
-    min-width: 1250px;
-    padding-left: 50px;
-    padding-right: 50px;
-    height:90%;
-    /* border: 5px solid rgba(255, 255, 255, 0.9); */
+.topRow {
+    width: 99%;
+    position: relative;
+    height: 200px;
+    /* border: 1px solid rgba(255, 255, 255, 0.9); */
 }
 
 .indexLogos {
     position: absolute;
     right: 0px;
     top: 0px;
-}
-
-.indexStxOnChain {
-    height: auto;
-    width: 50vw;
-    margin-right: 20px;
-    padding-right: 20px;
-    text-align: right;
-    white-space: nowrap;
-    font-size: 26px;
     /* border: 1px solid rgba(255, 255, 255, 0.9); */
 }
 
-.indexStxOnChain:hover {
-    font-weight: bold;
+.indexData {
+    min-width: 1250px;
+    padding-left: 25px;
+    padding-right: 25px;
+    height: 90%;
+    /* border: 5px solid rgba(255, 255, 255, 0.9); */
 }
 
 .indexRow {
     position: relative;
     display: flex;
     justify-content: space-between;
-    padding-left: 10px;
-    padding-right: 10px;
     height: auto;
+    padding-left: 50px;
+    padding-right: 50px;
     /* border: 1px solid rgba(255, 255, 255, 0.24); */
 }
 
@@ -65,25 +49,22 @@
     position: relative;
     text-align: left;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.24);
+    /* opacity: 0.55; */
 }
 
 .metrics:hover {
     cursor: default;
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
-    /* text-decoration-line: underline; */
+    /* opacity: 0.5; */
     /* color: rgba(255, 255, 255, 0.1); */
 }
 
 .metrics:hover .metricsValue {
-    /* text-decoration-line: underline; */
     color: rgba(255, 255, 255, 1);
-    /* font-weight: bold; */
 }
 
 .metrics:hover .metricsKey {
-    /* text-decoration-line: underline; */
     color: rgba(255, 255, 255, 1);
-    /* font-weight: bold; */
 }
 
 .metrics:hover .metricsTitle {
@@ -123,6 +104,7 @@
     text-transform: uppercase;
     /* border: 1px solid rgba(255, 255, 255, 0.9); */
     padding: 10px;
+    /* opacity: 0.55; */
 }
 
 .contractTable {
@@ -144,18 +126,15 @@
     filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(97deg) brightness(105%) contrast(101%);
     position: relative;
     right: 2%;
-    width: 65px;
-    height: 65px;
+    width: 75px;
+    height: 75px;
     display: inline-block;
-    justify-content: right;
     padding-right: 10px;
     padding-left: 10px;
     padding-top: 25px;
-    margin-top: 10px;
     margin-right: 10px;
-    margin-bottom:10px;
+    margin-bottom: 10px;
     align-items: center;
-    gap: 8px;
 }
 
 .serviceLogo:hover {

@@ -13,15 +13,16 @@ import { makeSerializable } from "../lib/util";
 import { convertEpoch } from "../lib/util";
 
 const Home = (props) => {
-  console.log(props.mempool_size);
-  console.log(props.block_time);
-  console.log(props.block_txs);
-  console.log(props.blocks);
-  console.log(props.single_tx_blocks);
-  console.log(props.tx_fees_daily);
-  console.log(props.tx_fees_hourly);
-  console.log(props.contracts);
-
+  console.log("mempool_size: " + props.mempool_size.data);
+  console.log("block_time: " + props.block_time.data);
+  console.log("block_txs: " + props.block_txs.data);
+  console.log("block_height: " + props.blocks.block_height);
+  console.log("block_hash: " + props.blocks.block_hash);
+  console.log("burn_block_time: " + props.blocks.burn_block_time);
+  console.log("single_tx_blocks:" + props.single_tx_blocks.data);
+  console.log("tx_fees_daily: " + props.tx_fees_daily.data)
+  console.log("tx_fees_hourly: " + props.tx_fees_hourly.data)
+  // console.log(props.contracts);
   return (
     <div className={styles.indexParent}>
       <Logo className={styles.stxLogo} />
@@ -171,6 +172,7 @@ const Home = (props) => {
         {/* ROW 3 - blocks*/}
         <div className={styles.indexRow}>
           <div className={styles.metrics}>
+              <p className={styles.metricsTitle}>Last Block</p>
             <Link
               href={`https://explorer.stacks.co/block/${props.blocks.block_hash}?chain=mainnet`}
             >
@@ -200,6 +202,14 @@ const Home = (props) => {
               </a>
             </Link>
             <div className={styles.metricsData}>
+              <p className={styles.metricsKey}>Block Duration</p>
+              <p className={styles.metricsValue}>
+                <span className={styles.metricsValueSmall}>
+                  {props.block_time.data}
+                </span>
+              </p>
+            </div>
+            <div className={styles.metricsData}>
               <p className={styles.metricsKey}>Burn Blocktime</p>
               <p className={styles.metricsValue}>
                 <span className={styles.metricsValueSmall}>
@@ -213,7 +223,7 @@ const Home = (props) => {
         {/* ROW 4 - contract*/}
         <div className={styles.indexRow}>
           <div className={styles.metrics}>
-            <p className={styles.metricsKey}>ACTIVE CONTRACTS</p>
+            <p className={styles.metricsTitle}>ACTIVE CONTRACTS</p>
             <table className={styles.contractTable}>
               <tbody>
               <tr className={styles.contractRow}>
@@ -244,17 +254,6 @@ const Home = (props) => {
             </table>
           </div>
         </div>
-
-        {/* ROW 5 - stacksonchain */}
-        {/* <div className={styles.indexRow}>
-          <p className={styles.indexStxOnChain}>
-            <Link href="https://stacksonchain.com">
-              <a target="_blank" rel="noopener noreferrer">
-                Data provided by Stacks on Chain
-              </a>
-            </Link>
-          </p>
-        </div> */}
       </div>
     </div>
   );
@@ -263,20 +262,9 @@ const Home = (props) => {
 export const getServerSideProps = async () => {
   let block_time;
   try {
-    block_time = await prisma.$queryRawUnsafe(`
-      select * 
-      from block_time 
-      order by ts 
-      desc 
-      limit 1;
-    `);
-  //   block_time = await prisma.block_time.findFirst({
-  //     orderBy: {
-  //       ts: "desc",
-  //     },
-  //   });
+    block_time = await prisma.$queryRawUnsafe(`select * from block_time order by ts desc limit 1;`);
   } catch (e) {
-    block_time = { data: "Error fetching data" };
+    block_time = { data: "Error fetching block_time data" };
   }
 
   let block_txs;
@@ -287,7 +275,7 @@ export const getServerSideProps = async () => {
       },
     });
   } catch {
-    block_txs = { data: "Error fetching data" };
+    block_txs = { data: "Error fetching tx data" };
   }
 
   let blocks;
@@ -298,7 +286,7 @@ export const getServerSideProps = async () => {
       },
     });
   } catch {
-    blocks = { data: "Error fetching data" };
+    blocks = { data: "Error fetching last block data" };
   }
 
   let mempool_size;
@@ -309,7 +297,7 @@ export const getServerSideProps = async () => {
       },
     });
   } catch (e) {
-    mempool_size = { data: "Error fetching data" };
+    mempool_size = { data: "Error fetching mempool data" };
   }
 
   let single_tx_blocks;
@@ -320,29 +308,21 @@ export const getServerSideProps = async () => {
       },
     });
   } catch {
-    single_tx_blocks = { data: "Error fetching data" };
+    single_tx_blocks = { data: "Error fetching block tx data" };
   }
 
   let tx_fees_daily;
   try {
-    tx_fees_daily = await prisma.tx_fees_daily.findFirst({
-      orderBy: {
-        ts: "desc",
-      },
-    });
+    tx_fees_daily = await prisma.$queryRawUnsafe(`select data from tx_fees_daily order by ts desc limit 1;`);
   } catch {
-    tx_fees_daily = { data: "Error fetching data" };
+    tx_fees_daily = { data: "Error fetching daily fee data" };
   }
 
   let tx_fees_hourly;
   try {
-    tx_fees_hourly = await prisma.tx_fees_hourly.findFirst({
-      orderBy: {
-        ts: "desc",
-      },
-    });
+    tx_fees_hourly = await prisma.$queryRawUnsafe(`select data from tx_fees_hourly order by ts desc limit 1;`);
   } catch {
-    tx_fees_hourly = { data: "Error fetching data" };
+    tx_fees_hourly = { data: "Error fetching hourly fee data" };
   }
 
   let contracts;
@@ -360,17 +340,17 @@ export const getServerSideProps = async () => {
       ) select * from contracts order by count desc;
     `);
   } catch {
-    contracts = { data: "Error fetching data" };
+    contracts = { data: "Error fetching mempool contract data" };
   }
   return {
     props: {
       mempool_size: makeSerializable(mempool_size),
-      block_time: makeSerializable(block_time),
+      block_time: makeSerializable(block_time[0]),
       block_txs: makeSerializable(block_txs),
       blocks: makeSerializable(blocks),
       single_tx_blocks: makeSerializable(single_tx_blocks),
-      tx_fees_daily: makeSerializable(tx_fees_daily),
-      tx_fees_hourly: makeSerializable(tx_fees_hourly),
+      tx_fees_daily: makeSerializable(tx_fees_daily[0]),
+      tx_fees_hourly: makeSerializable(tx_fees_hourly[0]),
       contracts: makeSerializable(contracts),
     },
   };
