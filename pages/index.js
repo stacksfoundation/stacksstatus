@@ -159,10 +159,10 @@ const Home = (props) => {
           <div className={styles.metrics}>
             <p className={styles.metricsKey}>ACTIVE CONTRACTS</p>
             <table className={styles.contractTable}>
-              <thead className={styles.contractRow}>
+              <tr className={styles.contractRow}>
                 <th className={styles.contractHeading}>Contract Name</th>
                 <th className={styles.contractHeading}>TXs in Mempool</th>
-              </thead>
+              </tr>
               <tbody>
                 {props.contracts.map((contract, index) => {
                   return (
