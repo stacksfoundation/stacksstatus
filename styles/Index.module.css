@@ -99,7 +99,7 @@
 }
 
 .metricsValueSmall {
-    font-size: 2vw
+    font-size: 1.5vw
 }
 
 .metricsKey {
@@ -123,6 +123,21 @@
     text-transform: uppercase;
     /* border: 1px solid rgba(255, 255, 255, 0.9); */
     padding: 10px;
+}
+
+.contractTable {
+    padding-top: 1.5vw;
+}
+
+.contractHeading {
+    text-transform: uppercase;
+    letter-spacing: 2%;
+    font-weight: bold;
+    font-size: 0.8vw;
+}
+
+.contractCell {
+    padding: 1.5vw 3vw 1.5vw 0;
 }
 
 .serviceLogo {

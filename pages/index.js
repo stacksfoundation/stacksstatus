@@ -23,7 +23,7 @@ const Home = (props) => {
   return (
     <div className={styles.indexParent}>
       <Logo className={styles.stxLogo} />
-      <div className={styles.indexParent1}>
+      <div className={styles.indexData}>
         <style global jsx>
           {`
             html,
@@ -158,46 +158,30 @@ const Home = (props) => {
         <div className={styles.indexRow}>
           <div className={styles.metrics}>
             <p className={styles.metricsKey}>ACTIVE CONTRACTS</p>
-            <p className={styles.metricsData}>
-              <span className={styles.metricsKey}>
-                {props.contracts[0].contract}
-              </span>
-              <span className={styles.metricsValue}>
-                {props.contracts[0].count}
-              </span>
-            </p>
-            <p className={styles.metricsData}>
-              <span className={styles.metricsKey}>
-                {props.contracts[1].contract}
-              </span>
-              <span className={styles.metricsValue}>
-                {props.contracts[1].count}
-              </span>
-            </p>
-            <p className={styles.metricsData}>
-              <span className={styles.metricsKey}>
-                {props.contracts[2].contract}
-              </span>
-              <span className={styles.metricsValue}>
-                {props.contracts[2].count}
-              </span>
-            </p>
-            <p className={styles.metricsData}>
-              <span className={styles.metricsKey}>
-                {props.contracts[3].contract}
-              </span>
-              <span className={styles.metricsValue}>
-                {props.contracts[3].count}
-              </span>
-            </p>
-            <p className={styles.metricsData}>
-              <span className={styles.metricsKey}>
-                {props.contracts[4].contract}
-              </span>
-              <span className={styles.metricsValue}>
-                {props.contracts[4].count}
-              </span>
-            </p>
+            <table className={styles.contractTable}>
+              <thead className={styles.contractRow}>
+                <th className={styles.contractHeading}>Contract Name</th>
+                <th className={styles.contractHeading}>TXs in Mempool</th>
+              </thead>
+              <tbody>
+                {props.contracts.map((contract, index) => {
+                  return (
+                    <tr className={styles.metricsData} key={index}>
+                      <td className={(styles.metricsKey, styles.contractCell)}>
+                        {contract.contract}
+                      </td>
+                      <td
+                        className={
+                          (styles.metricsValueSmall, styles.contractCell)
+                        }
+                      >
+                        {contract.count}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         </div>
 
