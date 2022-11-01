@@ -4,8 +4,10 @@ import GithubLogo from "../public/images/github.svg";
 import DiscordLogo from "../public/images/discord.svg";
 import TwitterLogo from "../public/images/twitter.svg";
 import StacksLogo from "../public/images/stacks.svg";
+import StacksOnChain from '../public/images/stacksonchain.svg';
 
 import Link from "next/link";
+import { Tooltip } from '@nextui-org/react';
 import prisma from "../lib/db";
 import { makeSerializable } from "../lib/util";
 import { convertEpoch } from "../lib/util";
@@ -37,26 +39,80 @@ const Home = (props) => {
         </style>
         <div className={styles.topRow}>
           <div className={styles.indexLogos}>
-            <Link href="https://stacks.org">
-              <a target="_blank" rel="noopener noreferrer">
-                <StacksLogo className={styles.serviceLogo} />
-              </a>
-            </Link>
-            <Link href="https://discord.gg/HsK3ShU">
-              <a target="_blank" rel="noopener noreferrer">
-                <DiscordLogo className={styles.serviceLogo} />
-              </a>
-            </Link>
-            <Link href="https://twitter.com/stacksstatus">
-              <a target="_blank" rel="noopener noreferrer">
-                <TwitterLogo className={styles.serviceLogo} />
-              </a>
-            </Link>
-            <Link href="https://github.com/stacks-network/stacks-blockchain">
-              <a target="_blank" rel="noopener noreferrer">
-                <GithubLogo className={styles.serviceLogo} />
-              </a>
-            </Link>
+              <grid>
+                <Tooltip 
+                  placement="bottomStart" 
+                  hideArrow
+                  rounded
+                  content="StacksOnChain"
+                >
+                  <Link href="https://stacksonchain.com">
+                    <a target="_blank" rel="noopener noreferrer">
+                        <StacksOnChain className={styles.serviceLogo} />
+                    </a>
+                  </Link>
+                </Tooltip>
+              </grid>
+              
+              <grid>
+                <Tooltip 
+                  placement="bottomStart" 
+                  hideArrow
+                  rounded
+                  content="Stacks.org"
+                >
+                  <Link href="https://stacks.org">
+                    <a target="_blank" rel="noopener noreferrer">
+                      <StacksLogo className={styles.serviceLogo} />
+                    </a>
+                  </Link>
+                </Tooltip>
+              </grid>
+
+              <grid>
+                <Tooltip 
+                  placement="bottomStart" 
+                  hideArrow
+                  rounded
+                  content="Stacks Blockchain Repo"
+                >
+                  <Link href="https://github.com/stacks-network/stacks-blockchain">
+                    <a target="_blank" rel="noopener noreferrer">
+                      <GithubLogo className={styles.serviceLogo} />
+                    </a>
+                  </Link>
+                </Tooltip>
+              </grid>
+
+              <grid>
+                <Tooltip 
+                  placement="bottomStart" 
+                  hideArrow
+                  rounded
+                  content="Stacks Discord"
+                >
+                  <Link href="https://discord.gg/HsK3ShU">
+                    <a target="_blank" rel="noopener noreferrer">
+                      <DiscordLogo className={styles.serviceLogo} />
+                    </a>
+                  </Link>
+                </Tooltip>
+              </grid>
+
+              <grid>
+                <Tooltip 
+                  placement="bottomStart" 
+                  hideArrow
+                  rounded
+                  content="Stacks Twitter"
+                >
+                  <Link href="https://twitter.com/stacksstatus">
+                    <a target="_blank" rel="noopener noreferrer">
+                      <TwitterLogo className={styles.serviceLogo} />
+                    </a>
+                  </Link>
+                </Tooltip>
+              </grid>
           </div>
         </div>
 
@@ -168,7 +224,11 @@ const Home = (props) => {
                   return (
                     <tr className={styles.metricsData} key={index}>
                       <td className={(styles.metricsKey, styles.contractCell)}>
-                        {contract.contract}
+                        <Link href={`https://explorer.stacks.co/txid/${contract.contract}?chain=mainnet`}>
+                          <a target="_blank" rel="noopener noreferrer">
+                            {contract.contract}
+                          </a>
+                        </Link>
                       </td>
                       <td
                         className={
@@ -186,17 +246,15 @@ const Home = (props) => {
         </div>
 
         {/* ROW 5 - stacksonchain */}
-        <div className={styles.indexRow}>
+        {/* <div className={styles.indexRow}>
           <p className={styles.indexStxOnChain}>
-            {/* <span className={styles.metricsKey}> */}
             <Link href="https://stacksonchain.com">
               <a target="_blank" rel="noopener noreferrer">
                 Data provided by Stacks on Chain
               </a>
             </Link>
-            {/* </span> */}
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   );
