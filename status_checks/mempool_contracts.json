@@ -4,7 +4,7 @@
   "table": "mempool_contracts",
   "query": [
     "SELECT",
-    "    split_part(payload ->> 'contract_id','.',2)",
+    "    payload ->> 'contract_id'",
     "as",
     "    Contract, count(*)",
     "FROM",
