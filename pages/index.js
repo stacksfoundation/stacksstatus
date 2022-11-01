@@ -63,30 +63,28 @@ const Home = (props) => {
         {/* ROW 1 - mempool/fees */}
         <div className={styles.indexRow}>
           <div className={styles.metrics}>
-            <p className={styles.metricsData}>
-              <span className={styles.metricsKey}>Current Mempool size</span>
-              <span className={styles.metricsValue}>
-                {props.mempool_size.data}
-              </span>
-            </p>
+            <div className={styles.metricsData}>
+              <p className={styles.metricsKey}>Current Mempool Size</p>
+              <p className={styles.metricsValue}>{props.mempool_size.data}</p>
+            </div>
           </div>
           <div className={styles.metrics}>
-            <p className={styles.metricsData}>
-              <span className={styles.metricsKey}>Avg Daily Fees</span>
-              <span className={styles.metricsValue}>
+            <div className={styles.metricsData}>
+              <p className={styles.metricsKey}>Avg Daily Fees</p>
+              <p className={styles.metricsValue}>
                 {props.tx_fees_daily
                   ? props.tx_fees_daily.data
                   : "Data Unavailable"}
-              </span>
-            </p>
-            <p className={styles.metricsData}>
-              <span className={styles.metricsKey}>Avg Hourly Fees</span>
-              <span className={styles.metricsValue}>
+              </p>
+            </div>
+            <div className={styles.metricsData}>
+              <p className={styles.metricsKey}>Avg Hourly Fees</p>
+              <p className={styles.metricsValue}>
                 {props.tx_fees_hourly
                   ? props.tx_fees_hourly.data
                   : "Data Unavailable"}
-              </span>
-            </p>
+              </p>
+            </div>
           </div>
         </div>
 
@@ -97,22 +95,20 @@ const Home = (props) => {
               href={`https://explorer.stacks.co/block/${props.blocks.block_hash}?chain=mainnet`}
             >
               <a target="_blank" rel="noopener noreferrer">
-                <p className={styles.metricsData}>
-                  <span className={styles.metricsKey}>Block Transactions</span>
-                  <span className={styles.metricsValue}>
-                    {props.block_txs.data}
-                  </span>
-                </p>
+                <div className={styles.metricsData}>
+                  <p className={styles.metricsKey}>Block Transactions</p>
+                  <p className={styles.metricsValue}>{props.block_txs.data}</p>
+                </div>
               </a>
             </Link>
           </div>
           <div className={styles.metrics}>
-            <p className={styles.metricsData}>
-              <span className={styles.metricsKey}>Single tx blocks</span>
-              <span className={styles.metricsValue}>
+            <div className={styles.metricsData}>
+              <p className={styles.metricsKey}>Single tx blocks</p>
+              <p className={styles.metricsValue}>
                 {props.single_tx_blocks.data}
-              </span>
-            </p>
+              </p>
+            </div>
           </div>
         </div>
 
@@ -123,38 +119,45 @@ const Home = (props) => {
               href={`https://explorer.stacks.co/block/${props.blocks.block_hash}?chain=mainnet`}
             >
               <a target="_blank" rel="noopener noreferrer">
-                <p className={styles.metricsData}>
-                  <span className={styles.metricsKey}>Block Height</span>
-                  <span className={styles.metricsValue}>
-                    {props.blocks.block_height}
-                  </span>
-                </p>
+                <div className={styles.metricsData}>
+                  <p className={styles.metricsKey}>Block Height</p>
+                  <p className={styles.metricsValue}>
+                    <span className={styles.metricsValueSmall}>
+                      {props.blocks.block_height}
+                    </span>
+                  </p>
+                </div>
               </a>
             </Link>
             <Link
               href={`https://explorer.stacks.co/block/${props.blocks.block_hash}?chain=mainnet`}
             >
               <a target="_blank" rel="noopener noreferrer">
-                <p className={styles.metricsData}>
-                  <span className={styles.metricsKey}>Block Hash</span>
-                  <span className={styles.metricsValue}>
-                    {props.blocks.block_hash}
-                  </span>
-                </p>
+                <div className={styles.metricsData}>
+                  <p className={styles.metricsKey}>Block Hash</p>
+                  <p className={styles.metricsValue}>
+                    <span className={styles.metricsValueSmall}>
+                      {props.blocks.block_hash}
+                    </span>
+                  </p>
+                </div>
               </a>
             </Link>
-            <p className={styles.metricsData}>
-              <span className={styles.metricsKey}>Burn Blocktime</span>
-              <span className={styles.metricsValue}>
-                {convertEpoch(props.blocks.burn_block_time)}
-              </span>
-            </p>
+            <div className={styles.metricsData}>
+              <p className={styles.metricsKey}>Burn Blocktime</p>
+              <p className={styles.metricsValue}>
+                <span className={styles.metricsValueSmall}>
+                  {convertEpoch(props.blocks.burn_block_time)}
+                </span>
+              </p>
+            </div>
           </div>
         </div>
 
         {/* ROW 4 - contract*/}
         <div className={styles.indexRow}>
           <div className={styles.metrics}>
+            <p className={styles.metricsKey}>ACTIVE CONTRACTS</p>
             <p className={styles.metricsData}>
               <span className={styles.metricsKey}>
                 {props.contracts[0].contract}

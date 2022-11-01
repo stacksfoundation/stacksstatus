@@ -63,7 +63,6 @@
     position: relative;
     text-align: left;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.24);
-    white-space: nowrap;
 }
 
 .metrics:hover {
@@ -74,25 +73,27 @@
 .metricsValue {
     color: rgba(255, 255, 255, 0.7);
     font-weight: bold;
-    font-size: 1.5vw;
+    font-size: 3vw;
     text-transform: none;
     /* border: 1px solid rgba(255, 255, 255, 0.9); */
 }
 
+.metricsValueSmall {
+    font-size: 2vw
+}
+
 .metricsKey {
-    font-size: 1.5vw;
-    margin-right: 1em;
-    font-weight: bold;
+    font-size: 1vw;
+    color: #999CA3;
+    letter-spacing: 1px;
     /* border: 1px solid rgba(255, 255, 255, 0.9); */
-} 
+}
 
 .metricsData {
     font-weight: bold;
     text-transform: uppercase;
     /* border: 1px solid rgba(255, 255, 255, 0.9); */
     padding: 10px;
-    display: flex;
-    justify-content: space-between;
 }
 
 .serviceLogo {
