@@ -159,11 +159,11 @@ const Home = (props) => {
           <div className={styles.metrics}>
             <p className={styles.metricsKey}>ACTIVE CONTRACTS</p>
             <table className={styles.contractTable}>
+              <tbody>
               <tr className={styles.contractRow}>
                 <th className={styles.contractHeading}>Contract Name</th>
                 <th className={styles.contractHeading}>TXs in Mempool</th>
               </tr>
-              <tbody>
                 {props.contracts.map((contract, index) => {
                   return (
                     <tr className={styles.metricsData} key={index}>
@@ -205,11 +205,18 @@ const Home = (props) => {
 export const getServerSideProps = async () => {
   let block_time;
   try {
-    block_time = await prisma.block_time.findFirst({
-      orderBy: {
-        ts: "desc",
-      },
-    });
+    block_time = await prisma.$queryRawUnsafe(`
+      select * 
+      from block_time 
+      order by ts 
+      desc 
+      limit 1;
+    `);
+  //   block_time = await prisma.block_time.findFirst({
+  //     orderBy: {
+  //       ts: "desc",
+  //     },
+  //   });
   } catch (e) {
     block_time = { data: "Error fetching data" };
   }
@@ -300,7 +307,7 @@ export const getServerSideProps = async () => {
   return {
     props: {
       mempool_size: makeSerializable(mempool_size),
-      block_time,
+      block_time: makeSerializable(block_time),
       block_txs: makeSerializable(block_txs),
       blocks: makeSerializable(blocks),
       single_tx_blocks: makeSerializable(single_tx_blocks),
