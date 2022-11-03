@@ -6,8 +6,10 @@ import prisma from '../../lib/db';
 export default function handler(req, res) {
     const status_dir = "status_checks"
 
-    async function parse_file_data(file) {
-        console.log("parse_data: " + file)
+    async function parse_file_data(fileName) {
+        console.log("parse_data: " + fileName)
+        const file = path.join(process.cwd(), fileName);
+        console.log("file: " + file)
         fs.readFile(file, function (err, json) {
             if (err) throw err;
             const data = JSON.parse(json);

@@ -50,5 +50,5 @@ model single_tx_blocks {
 
 model block_time {
   ts DateTime @unique @default(now())
-  data DateTime
+  data Decimal
 }
