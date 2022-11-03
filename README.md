@@ -4,11 +4,18 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+* PostgreSQL is a required dependency
 
 ```bash
 # Clone this repo and enter its directory
 git clone https://github.com/stacksfoundation/stacksstatus && cd stacksstatus
+
+
+# Create .env file
+cp .env.local.example .env
+
+# update .env file with DB connection options (HOST, USER, PASSWORD, etc) and apply migrations
+npx prisma migrate dev --name init
 
 # Install dependencies
 npm install
