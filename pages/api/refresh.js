@@ -81,8 +81,10 @@ export default function handler(req, res) {
         });
     }
 
-    async function read_dir() {    
-        fs.readdir(status_dir, (err, files) => {
+    async function read_dir() {  
+        const status_dir_path = path.join(process.cwd(), status_dir);  
+        console.log("status_dir_path: " + status_dir_path);
+        fs.readdir(status_dir_path, (err, files) => {
             if (err)
                 console.log(err);
             else {
