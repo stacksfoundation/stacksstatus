@@ -13,15 +13,19 @@ import { makeSerializable } from "../lib/util";
 import { convertEpoch } from "../lib/util";
 
 const Home = (props) => {
-  console.log("mempool_size: " + props.mempool_size.data);
-  console.log("block_time: " + props.block_time.data);
-  console.log("block_txs: " + props.block_txs.data);
-  console.log("block_height: " + props.blocks.block_height);
-  console.log("block_hash: " + props.blocks.block_hash);
-  console.log("burn_block_time: " + props.blocks.burn_block_time);
-  // console.log("single_tx_blocks:" + props.single_tx_blocks.data);
-  console.log("tx_fees_daily: " + props.tx_fees_daily.data)
-  console.log("tx_fees_hourly: " + props.tx_fees_hourly.data)
+  if (process.env.NODE_ENV != 'production') {
+    console.log("mempool_size: " + props.mempool_size.data);
+    console.log("block_time: " + props.block_time.data);
+    console.log("block_txs: " + props.block_txs.data);
+    console.log("block_height: " + props.blocks.block_height);
+    console.log("block_hash: " + props.blocks.block_hash);
+    console.log("burn_block_time: " + props.blocks.burn_block_time);
+    // console.log("single_tx_blocks:" + props.single_tx_blocks.data); // disabled
+    console.log("tx_fees_daily: " + props.tx_fees_daily.data)
+    console.log("tx_fees_hourly: " + props.tx_fees_hourly.data)
+    console.log("node_env: " + process.env.NODE_ENV)
+  }
+  
   var tx_fees_daily_num = Number(props.tx_fees_daily.data);
   var tx_fees_hourly_num = Number(props.tx_fees_hourly.data);
 
@@ -147,6 +151,7 @@ const Home = (props) => {
               </p>                
             </div>
           </div>
+          {/* Disabled */}
           {/* <div className={styles.metrics}>
             <div className={styles.metricsData}>
               <p className={styles.metricsKey}>Single tx blocks</p>
@@ -275,16 +280,17 @@ export const getServerSideProps = async () => {
     mempool_size = { data: "Error fetching mempool data" };
   }
 
-  let single_tx_blocks;
-  try {
-    single_tx_blocks = await prisma.single_tx_blocks.findFirst({
-      orderBy: {
-        ts: "desc",
-      },
-    });
-  } catch {
-    single_tx_blocks = { data: "Error fetching block tx data" };
-  }
+  // // Disabled 
+  // let single_tx_blocks;
+  // try {
+  //   single_tx_blocks = await prisma.single_tx_blocks.findFirst({
+  //     orderBy: {
+  //       ts: "desc",
+  //     },
+  //   });
+  // } catch {
+  //   single_tx_blocks = { data: "Error fetching block tx data" };
+  // }
 
   let tx_fees_daily;
   try {
@@ -323,7 +329,7 @@ export const getServerSideProps = async () => {
       block_time: makeSerializable(block_time[0]),
       block_txs: makeSerializable(block_txs),
       blocks: makeSerializable(blocks),
-      // single_tx_blocks: makeSerializable(single_tx_blocks),
+      // single_tx_blocks: makeSerializable(single_tx_blocks),  // Disabled
       tx_fees_daily: makeSerializable(tx_fees_daily[0]),
       tx_fees_hourly: makeSerializable(tx_fees_hourly[0]),
       contracts: makeSerializable(contracts),
