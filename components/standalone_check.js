@@ -12,6 +12,10 @@ async function parse_file_data(file) {
     fs.readFile(file, function (err, json) {
         if (err) throw err;
         const data = JSON.parse(json);
+        if (data.disabled) {
+            console.log("Skipping file: " + file)
+            return;
+        }
         if ( Array.isArray(data.query) ) {
             var query = data.query.join('\n');
         } else {

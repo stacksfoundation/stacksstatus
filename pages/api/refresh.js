@@ -11,6 +11,10 @@ export default function handler(req, res) {
         fs.readFile(file, function (err, json) {
             if (err) throw err;
             const data = JSON.parse(json);
+            if (data.disabled) {
+                // skip if disabled is true
+                return;
+            }
             if ( Array.isArray(data.query) ) {
                 var query = data.query.join('\n');
             } else {
@@ -52,36 +56,6 @@ export default function handler(req, res) {
             const createrow = await prisma.$queryRawUnsafe(`INSERT INTO public.${table} (${keys}) VALUES (${values});`)
         }
     }
-
-    // async function parse_fetch_data(table, json) {
-    //     const tablename = JSON.stringify(table)
-    //     var json_data = JSON.parse(json.toString());
-    //     var multiple_keys = false
-    //     let ts = new Date().toISOString();
-    //     let keys = ["ts"]
-    //     let values = ["'"+ts+"'"]
-    //     for (var i=0; i < json_data.order.length; i++) {
-    //         const key = json_data.order[i]
-    //         const value = json_data.columns[key][0]  
-    //         keys.push(key)
-    //         values.push("'"+value+"'")
-    //         if ( json_data.columns[key].length > 1 ) {
-    //             multiple_keys = true
-    //             if (i+1 == json_data.order.length ){
-    //                 for (var j=0; j < json_data.columns[key].length; j++) {
-    //                     let local_ts = new Date().toISOString();
-    //                     let local_values = ["'"+local_ts+"'"]
-    //                     local_values.push("'"+json_data.columns[json_data.order[i-1]][j]+"'")
-    //                     local_values.push("'"+json_data.columns[json_data.order[i]][j]+"'")
-    //                     const createrow = await prisma.$queryRawUnsafe(`INSERT INTO public.${table} (${keys}) VALUES (${local_values});`)
-    //                 }
-    //             }
-    //         }
-    //         if ( multiple_keys == false ){
-    //             const createrow = await prisma.$queryRawUnsafe(`INSERT INTO public.${table} (${keys}) VALUES (${values});`)
-    //         }
-    //     }        
-    // }
 
     async function fetch_data(url, method, table, query) {
         console.log("url: "+ url)

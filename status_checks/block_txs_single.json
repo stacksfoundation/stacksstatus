@@ -1,6 +1,7 @@
 {
   "url": "https://api.stacksdata.info/v1/sql",
   "method": "POST",
+  "disabled": true,
   "table": "single_tx_blocks",
   "query": [
     "with rows as(",
@@ -21,8 +22,8 @@
     "SELECT",
     "  count(*)",
     "as",
-    "  data", 
-    "FROM", 
+    "  data",
+    "FROM",
     "  rows"
   ]
 }

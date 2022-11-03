@@ -19,10 +19,12 @@ const Home = (props) => {
   console.log("block_height: " + props.blocks.block_height);
   console.log("block_hash: " + props.blocks.block_hash);
   console.log("burn_block_time: " + props.blocks.burn_block_time);
-  console.log("single_tx_blocks:" + props.single_tx_blocks.data);
+  // console.log("single_tx_blocks:" + props.single_tx_blocks.data);
   console.log("tx_fees_daily: " + props.tx_fees_daily.data)
   console.log("tx_fees_hourly: " + props.tx_fees_hourly.data)
-  // console.log(props.contracts);
+  var tx_fees_daily_num = Number(props.tx_fees_daily.data);
+  var tx_fees_hourly_num = Number(props.tx_fees_hourly.data);
+
   return (
     <div className={styles.indexParent}>
       <Logo className={styles.stxLogo} />
@@ -38,177 +40,149 @@ const Home = (props) => {
             }
           `}
         </style>
+        
         <div className={styles.topRow}>
           <div className={styles.indexLogos}>
-              <grid>
-                <Tooltip 
-                  placement="bottomStart" 
-                  hideArrow
-                  rounded
-                  content="StacksOnChain"
-                >
-                  <Link href="https://stacksonchain.com">
-                    <a target="_blank" rel="noopener noreferrer">
-                        <StacksOnChain className={styles.serviceLogo} />
-                    </a>
-                  </Link>
-                </Tooltip>
-              </grid>
-              
-              <grid>
-                <Tooltip 
-                  placement="bottomStart" 
-                  hideArrow
-                  rounded
-                  content="Stacks.org"
-                >
-                  <Link href="https://stacks.org">
-                    <a target="_blank" rel="noopener noreferrer">
-                      <StacksLogo className={styles.serviceLogo} />
-                    </a>
-                  </Link>
-                </Tooltip>
-              </grid>
-
-              <grid>
-                <Tooltip 
-                  placement="bottomStart" 
-                  hideArrow
-                  rounded
-                  content="Stacks Blockchain Repo"
-                >
-                  <Link href="https://github.com/stacks-network/stacks-blockchain">
-                    <a target="_blank" rel="noopener noreferrer">
-                      <GithubLogo className={styles.serviceLogo} />
-                    </a>
-                  </Link>
-                </Tooltip>
-              </grid>
-
-              <grid>
-                <Tooltip 
-                  placement="bottomStart" 
-                  hideArrow
-                  rounded
-                  content="Stacks Discord"
-                >
-                  <Link href="https://discord.gg/HsK3ShU">
-                    <a target="_blank" rel="noopener noreferrer">
-                      <DiscordLogo className={styles.serviceLogo} />
-                    </a>
-                  </Link>
-                </Tooltip>
-              </grid>
-
-              <grid>
-                <Tooltip 
-                  placement="bottomStart" 
-                  hideArrow
-                  rounded
-                  content="Stacks Twitter"
-                >
-                  <Link href="https://twitter.com/stacksstatus">
-                    <a target="_blank" rel="noopener noreferrer">
-                      <TwitterLogo className={styles.serviceLogo} />
-                    </a>
-                  </Link>
-                </Tooltip>
-              </grid>
+            <grid>
+              <Tooltip placement="bottomStart" hideArrow rounded content="StacksOnChain" >
+                <Link href="https://stacksonchain.com">
+                  <a target="_blank" rel="noopener noreferrer">
+                      <StacksOnChain className={styles.serviceLogo} />
+                  </a>
+                </Link>
+              </Tooltip>
+            </grid>
+            <grid>
+              <Tooltip placement="bottomStart" hideArrow rounded content="Stacks.org">
+                <Link href="https://stacks.org">
+                  <a target="_blank" rel="noopener noreferrer">
+                    <StacksLogo className={styles.serviceLogo} />
+                  </a>
+                </Link>
+              </Tooltip>
+            </grid>
+            <grid>
+              <Tooltip placement="bottomStart" hideArrow rounded content="Stacks Blockchain Repo">
+                <Link href="https://github.com/stacks-network/stacks-blockchain">
+                  <a target="_blank" rel="noopener noreferrer">
+                    <GithubLogo className={styles.serviceLogo} />
+                  </a>
+                </Link>
+              </Tooltip>
+            </grid>
+            <grid>
+              <Tooltip placement="bottomStart" hideArrow rounded content="Stacks Discord">
+                <Link href="https://discord.gg/HsK3ShU">
+                  <a target="_blank" rel="noopener noreferrer">
+                    <DiscordLogo className={styles.serviceLogo} />
+                  </a>
+                </Link>
+              </Tooltip>
+            </grid>
+            <grid>
+              <Tooltip placement="bottomStart" hideArrow rounded content="Stacks Twitter">
+                <Link href="https://twitter.com/stacksstatus">
+                  <a target="_blank" rel="noopener noreferrer">
+                    <TwitterLogo className={styles.serviceLogo} />
+                  </a>
+                </Link>
+              </Tooltip>
+            </grid>
           </div>
         </div>
 
-        {/* ROW 1 - mempool/fees */}
+        {/* ROW 1 */}
+        <div className={styles.indexRow}>
+          <div className={styles.metrics}>
+            <div className={styles.metricsData}>
+              <p className={styles.metricsKey}>Block Height</p>
+              <p className={styles.metricsValue}>
+                <Link href={`https://explorer.stacks.co/block/${props.blocks.block_hash}?chain=mainnet`}>
+                  <a className={styles.metricsValue} target="_blank" rel="noopener noreferrer">
+                    {props.blocks ? props.blocks.block_height: "Data Unavailable"}
+                  </a>
+                </Link>
+              </p>
+            </div>
+          </div>
+          <div className={styles.metrics}>
+            <div className={styles.metricsData}>
+              <p className={styles.metricsKey}>Block Hash</p>
+              <p className={styles.metricsValue}>
+                <span className={styles.metricsValueSmall}>
+                  <Link href={`https://explorer.stacks.co/block/${props.blocks.block_hash}?chain=mainnet`}>
+                    <a className={styles.metricsValueSmall} target="_blank" rel="noopener noreferrer">
+                      {props.blocks.block_hash}
+                    </a>
+                  </Link>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* ROW 2 */}
         <div className={styles.indexRow}>
           <div className={styles.metrics}>
             <div className={styles.metricsData}>
               <p className={styles.metricsKey}>Current Mempool Size</p>
-              <p className={styles.metricsValue}>{props.mempool_size.data}</p>
+              <p className={styles.metricsValue}>{props.mempool_size.data}<span className={styles.metricsValueDesc}>TXS</span></p>
             </div>
           </div>
           <div className={styles.metrics}>
             <div className={styles.metricsData}>
               <p className={styles.metricsKey}>Avg Daily Fees</p>
               <p className={styles.metricsValue}>
-                {props.tx_fees_daily
-                  ? props.tx_fees_daily.data
-                  : "Data Unavailable"}
-              </p>
+                {tx_fees_daily_num ? tx_fees_daily_num.toFixed(2) : "Data Unavailable"}
+                  <span className={styles.metricsValueDesc}>STX</span>
+              </p> 
             </div>
+          </div>
+          <div className={styles.metrics}>
             <div className={styles.metricsData}>
               <p className={styles.metricsKey}>Avg Hourly Fees</p>
               <p className={styles.metricsValue}>
-                {props.tx_fees_hourly
-                  ? props.tx_fees_hourly.data
-                  : "Data Unavailable"}
-              </p>
+                {tx_fees_hourly_num ? tx_fees_hourly_num.toFixed(2) : "Data Unavailable"}
+                  <span className={styles.metricsValueDesc}>STX</span>
+              </p>                
             </div>
           </div>
-        </div>
-
-        {/* ROW 2 - txs*/}
-        <div className={styles.indexRow}>
-          <div className={styles.metrics}>
-            <Link
-              href={`https://explorer.stacks.co/block/${props.blocks.block_hash}?chain=mainnet`}
-            >
-              <a target="_blank" rel="noopener noreferrer">
-                <div className={styles.metricsData}>
-                  <p className={styles.metricsKey}>Block Transactions</p>
-                  <p className={styles.metricsValue}>{props.block_txs.data}</p>
-                </div>
-              </a>
-            </Link>
-          </div>
-          <div className={styles.metrics}>
+          {/* <div className={styles.metrics}>
             <div className={styles.metricsData}>
               <p className={styles.metricsKey}>Single tx blocks</p>
               <p className={styles.metricsValue}>
                 {props.single_tx_blocks.data}
               </p>
             </div>
-          </div>
+          </div> */}
         </div>
 
-        {/* ROW 3 - blocks*/}
+        {/* ROW 3 */}
         <div className={styles.indexRow}>
+         <div className={styles.metrics}>
+            <div className={styles.metricsData}>
+              <p className={styles.metricsKey}>Txs In Last block</p>
+              <p className={styles.metricsValue}>
+                <Link href={`https://explorer.stacks.co/block/${props.blocks.block_hash}?chain=mainnet`}>
+                  <a className={styles.metricsValue} target="_blank" rel="noopener noreferrer">
+                    {props.block_txs.data}
+                  </a>
+                </Link>
+              </p>
+            </div>
+          </div>
           <div className={styles.metrics}>
-              <p className={styles.metricsTitle}>Last Block</p>
-            <Link
-              href={`https://explorer.stacks.co/block/${props.blocks.block_hash}?chain=mainnet`}
-            >
-              <a target="_blank" rel="noopener noreferrer">
-                <div className={styles.metricsData}>
-                  <p className={styles.metricsKey}>Block Height</p>
-                  <p className={styles.metricsValue}>
-                    <span className={styles.metricsValueSmall}>
-                      {props.blocks.block_height}
-                    </span>
-                  </p>
-                </div>
-              </a>
-            </Link>
-            <Link
-              href={`https://explorer.stacks.co/block/${props.blocks.block_hash}?chain=mainnet`}
-            >
-              <a target="_blank" rel="noopener noreferrer">
-                <div className={styles.metricsData}>
-                  <p className={styles.metricsKey}>Block Hash</p>
-                  <p className={styles.metricsValue}>
-                    <span className={styles.metricsValueSmall}>
-                      {props.blocks.block_hash}
-                    </span>
-                  </p>
-                </div>
-              </a>
-            </Link>
             <div className={styles.metricsData}>
               <p className={styles.metricsKey}>Block Duration</p>
               <p className={styles.metricsValue}>
-                <span className={styles.metricsValueSmall}>
+                <span className={styles.metricsValue}>
                   {props.block_time.data}
+                  <span className={styles.metricsValueDesc}>Minutes</span>
                 </span>
               </p>
             </div>
+          </div>
+          <div className={styles.metrics}>
             <div className={styles.metricsData}>
               <p className={styles.metricsKey}>Burn Blocktime</p>
               <p className={styles.metricsValue}>
@@ -223,28 +197,24 @@ const Home = (props) => {
         {/* ROW 4 - contract*/}
         <div className={styles.indexRow}>
           <div className={styles.metrics}>
-            <p className={styles.metricsTitle}>ACTIVE CONTRACTS</p>
-            <table className={styles.contractTable}>
+            <div className={styles.metricsData}>
+            <table className={styles.table}>
               <tbody>
-              <tr className={styles.contractRow}>
-                <th className={styles.contractHeading}>Contract Name</th>
-                <th className={styles.contractHeading}>TXs in Mempool</th>
-              </tr>
+                <tr className={styles.tableRow}>
+                  <th className={styles.metricsKey}>Contract</th>
+                  <th className={styles.metricsKey}>txs in mempool</th>
+                </tr>
                 {props.contracts.map((contract, index) => {
                   return (
-                    <tr className={styles.metricsData} key={index}>
-                      <td className={(styles.metricsKey, styles.contractCell)}>
+                    <tr className={styles.tableRow} key={index}>
+                      <td className={(styles.metricsValueSmall, styles.tableCellKey)}>
                         <Link href={`https://explorer.stacks.co/txid/${contract.contract}?chain=mainnet`}>
-                          <a target="_blank" rel="noopener noreferrer">
+                          <a className={styles.metricsValueSmall} target="_blank" rel="noopener noreferrer">
                             {contract.contract}
                           </a>
                         </Link>
                       </td>
-                      <td
-                        className={
-                          (styles.metricsValueSmall, styles.contractCell)
-                        }
-                      >
+                      <td className={(styles.metricsValueSmall, styles.tableCellValue)}>
                         {contract.count}
                       </td>
                     </tr>
@@ -252,9 +222,14 @@ const Home = (props) => {
                 })}
               </tbody>
             </table>
+            </div>
           </div>
         </div>
+
+        {/* ROW 5 - add some space at bottom of page */}
+        <div className={styles.bottomRow}></div>
       </div>
+  
     </div>
   );
 };
@@ -348,7 +323,7 @@ export const getServerSideProps = async () => {
       block_time: makeSerializable(block_time[0]),
       block_txs: makeSerializable(block_txs),
       blocks: makeSerializable(blocks),
-      single_tx_blocks: makeSerializable(single_tx_blocks),
+      // single_tx_blocks: makeSerializable(single_tx_blocks),
       tx_fees_daily: makeSerializable(tx_fees_daily[0]),
       tx_fees_hourly: makeSerializable(tx_fees_hourly[0]),
       contracts: makeSerializable(contracts),

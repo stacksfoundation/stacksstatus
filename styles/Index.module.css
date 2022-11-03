@@ -1,138 +1,40 @@
 .indexParent {
     width: 99%;
     height: 90%;
-    /* border: 1px solid rgba(255, 255, 255, 0.9); */
 }
 
 .topRow {
     width: 99%;
     position: relative;
     height: 200px;
-    /* border: 1px solid rgba(255, 255, 255, 0.9); */
+}
+
+.bottomRow {
+    width: 99%;
+    position: relative;
+    height: 200px;
+    left: 0px;
+    bottom: 0px;
 }
 
 .indexLogos {
     position: absolute;
     right: 0px;
     top: 0px;
-    /* border: 1px solid rgba(255, 255, 255, 0.9); */
-}
-
-.indexData {
-    min-width: 1250px;
-    padding-left: 25px;
-    padding-right: 25px;
-    height: 90%;
-    /* border: 5px solid rgba(255, 255, 255, 0.9); */
-}
-
-.indexRow {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    height: auto;
-    padding-left: 50px;
-    padding-right: 50px;
-    /* border: 1px solid rgba(255, 255, 255, 0.24); */
-}
-
-.metrics {
-    display: block;
-    width: 100vw;
-    height: auto;
-    padding: 1.5rem;
-    margin: 1rem;
-    color: rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.24);
-    border-radius: 10px;
-    background: rgba(0, 0, 0, 0.8);
-    position: relative;
-    text-align: left;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.24);
-    /* opacity: 0.55; */
-}
-
-.metrics:hover {
-    cursor: default;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
-    /* opacity: 0.5; */
-    /* color: rgba(255, 255, 255, 0.1); */
-}
-
-.metrics:hover .metricsValue {
-    color: rgba(255, 255, 255, 1);
-}
-
-.metrics:hover .metricsKey {
-    color: rgba(255, 255, 255, 1);
-}
-
-.metrics:hover .metricsTitle {
-    font-weight: bold;
-}
-
-.metricsValue {
-    color: rgba(255, 255, 255, 0.7);
-    font-weight: bold;
-    font-size: 3vw;
-    text-transform: none;
-    /* border: 1px solid rgba(255, 255, 255, 0.9); */
-}
-
-.metricsValueSmall {
-    font-size: 1.5vw
-}
-
-.metricsKey {
-    font-size: 1vw;
-    color: #999CA3;
-    letter-spacing: 1px;
-}
-
-.metricsTitle {
-    color: rgba(255, 255, 255, 0.45);
-    text-decoration-line: underline;
-    text-transform: uppercase;
-    margin-bottom: 15px;
-    font-size: 1.5vw;
-    margin-right: 1em;
-    /* font-weight: bold; */
-}
-
-.metricsData {
-    font-weight: bold;
-    text-transform: uppercase;
-    /* border: 1px solid rgba(255, 255, 255, 0.9); */
-    padding: 10px;
-    /* opacity: 0.55; */
-}
-
-.contractTable {
-    padding-top: 1.5vw;
-}
-
-.contractHeading {
-    text-transform: uppercase;
-    letter-spacing: 2%;
-    font-weight: bold;
-    font-size: 0.8vw;
-}
-
-.contractCell {
-    padding: 1.5vw 3vw 1.5vw 0;
+    margin-right: 35px;
 }
 
 .serviceLogo {
     filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(97deg) brightness(105%) contrast(101%);
     position: relative;
     right: 2%;
-    width: 75px;
-    height: 75px;
+    width: 60px;
+    height: 60px;
     display: inline-block;
-    padding-right: 10px;
-    padding-left: 10px;
+    padding-right: 15px;
+    padding-left: 15px;
     padding-top: 25px;
-    margin-right: 10px;
+    margin-right: 0px;
     margin-bottom: 10px;
     align-items: center;
 }
@@ -145,4 +47,127 @@
     position: absolute;
     top: 0;
     left: 0;
+}
+
+.indexData {
+    min-width: 1250px;
+    height: 90%;
+}
+
+.indexRow {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    height: auto;
+    padding-left: 75px;
+    padding-right: 75px;
+}
+
+.metrics {
+    display: block;
+    width: 100vw;
+    height: auto;
+    padding: 1.5rem;
+    margin: .75rem;
+    color: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    position: relative;
+    text-align: left;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.24);
+    white-space: nowrap;
+}
+
+.metrics:hover {
+    cursor: default;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+}
+
+.metrics:hover .metricsValue {
+    color: rgba(255, 255, 255, 1);
+}
+
+.metrics:hover .metricsValueSmall {
+    color: rgba(255, 255, 255, 1);
+}
+
+.metrics:hover .metricsKey {
+    color: rgba(255, 255, 255, 1);
+}
+
+.metrics:hover .metricsTitle {
+    font-weight: bold;
+}
+
+.metricsData {
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 10px;
+}
+
+.metricsValue {
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: bold;
+    font-size: 3vw;
+    text-transform: none;
+}
+
+.metricsValueSmall {
+    font-size: 1.5vw;
+}
+
+.metricsValueDesc {
+    font-size: 1.5vw;
+    padding-left: 1vw;
+}
+
+.metricsKey {
+    font-size: 1.5vw;
+    color: rgba(255, 255, 255, 0.45);
+    letter-spacing: 1px;
+    font-weight: unset;
+    text-transform: uppercase;
+}
+
+.metricsTitle {
+    color: rgba(255, 255, 255, 0.45);
+    text-decoration-line: underline;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 1.5vw;
+    font-weight: unset;
+}
+
+.table {
+    width: 100%;
+    padding-top: 1.5vw;
+}
+
+.tableRow {
+    font-weight: bold;
+}
+
+.tableCellKey {
+    padding-top: 1.5vw;
+    padding-bottom: .5vw;
+    padding-right: 1.5vw;
+    font-size: 1.5vw;
+    border-bottom: 5px dashed rgba(255, 255, 255, 0.45);
+}
+
+.tableCellValue {
+    padding-top: 1.5vw;
+    padding-left: 1.5vw;
+    font-size: 1.5vw;
+    text-align: center;
+    border-bottom: 5px dashed rgba(255, 255, 255, 0.45);
+}
+
+.metrics:hover .tableCellValue {
+    color: rgba(255, 255, 255, 1);
+}
+
+.metrics:hover .tableCellKey {
+    color: rgba(255, 255, 255, 1);
 }
