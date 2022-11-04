@@ -5,7 +5,7 @@ import prisma from '../../lib/db';
 
 export default async function handler(req,res) {
   const status_dir = "status_checks"
-  console.log("[handler] method:" + req.method)
+//   console.log("[handler] method:" + req.method)
   if (req.method === 'POST') {
     try {
       const { authorization } = req.headers;
@@ -33,40 +33,16 @@ export default async function handler(req,res) {
                 // console.log("[parse_file_data] data.method"+ data.method)
                 // console.log("[parse_file_data] data.table"+ data.table)
                 // console.log("[parse_file_data] data.query" + data.query)
-                console.log("[parse_file_data] calling fetch_data")
+                // console.log("[parse_file_data] calling fetch_data")
                 fetch_data(data.url, data.method, data.table, query)
             } catch (e) {
                 if (e.code === 'ENOENT') {
-                    console.log('File not found!');
+                    console.log("File (" + file + ")not found");
                 } else {
                     // console.log("[parse_file_data] error reading file " + file)
                     console.log('Error:', e);
                 }
             }
-            // fs.readFile(file, function (err, json) {
-            //     if (err) throw err;
-            //     console.log("[parse_file_data] err: " + err)
-            //     const data = JSON.parse(json);
-            //     if (data.disabled) {
-            //         console.log("[parse_file_data] skipping file: " + file)
-            //         // skip if disabled is true
-            //         return;
-            //     }
-            //     if ( Array.isArray(data.query) ) {
-            //         var query = data.query.join('\n');
-            //     } else {
-            //         var query = data.query
-            //     }
-            //     console.log("[parse_file_data] data.url"+ data.url)
-            //     console.log("[parse_file_data] data.method"+ data.method)
-            //     console.log("[parse_file_data] data.table"+ data.table)
-            //     console.log("[parse_file_data] data.query" + data.query)
-            //     console.log("[parse_file_data] calling fetch_data")
-            //     fetch_data(data.url, data.method, data.table, query)
-            // });
-            // console.log("asdf: "+ fs.readFile(file))
-            // console.log("[parse_file_data] file contents: "+ fs.readFileSync(file))
-            // console.log("[parse_file_data] this shouldn't print")
         }
 
         async function parse_fetch_data(table, json) {
@@ -111,31 +87,32 @@ export default async function handler(req,res) {
                 method: method,
                 headers: {
                     'content-type': 'application/json;charset=UTF-8',
+                    'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
                 },
                 body: query
             }).then((response) => response.json())
                 .then((json) => {
                 let data = JSON.stringify(json);
                 console.log("[fetch_data] table (" + table + ") data: " + data)
-                console.log("[fetch_data] calling parse_fetch_data")
+                // console.log("[fetch_data] calling parse_fetch_data")
                 parse_fetch_data(table, data);
             }).catch((response) => {
                 console.log("[fetch_data] error fetching data from: " + url);
                 console.error();
             });
-            console.log("[fetch_data] this shouldn't print")
+            // console.log("[fetch_data] this shouldn't print")
         }
 
         async function read_dir() {  
             const status_dir_path = path.join(process.cwd(), status_dir);  
-            console.log("[read_dir] status_dir_path: " + status_dir_path);
+            // console.log("[read_dir] status_dir_path: " + status_dir_path);
             fs.readdir(status_dir_path, (err, files) => {
                 if (err)
                     console.log(err);
                 else {
                     files.forEach(file => {
                         if (path.extname(file) == ".json")
-                            console.log("[read_dir] calling parse_file_data")
+                            // console.log("[read_dir] calling parse_file_data")
                             parse_file_data(status_dir + "/" + file)
                         })
                 }
