@@ -9,14 +9,15 @@ export default async function handler(req,res) {
     try {
       const { authorization } = req.headers;
       if (authorization === `Bearer ${process.env.API_SECRET_KEY}`) {
+
         async function parse_file_data(fileName) {
             const file = path.join(process.cwd(), fileName);
-            // console.log("reading file: " + file)
+            console.log("[parse_file_data] reading file: " + file)
             fs.readFile(file, function (err, json) {
                 if (err) throw err;
                 const data = JSON.parse(json);
                 if (data.disabled) {
-                    // console.log("skipping file: " + file)
+                    console.log("[parse_file_data] skipping file: " + file)
                     // skip if disabled is true
                     return;
                 }
@@ -25,12 +26,13 @@ export default async function handler(req,res) {
                 } else {
                     var query = data.query
                 }
-
+                console.log("[parse_file_data] calling fetch_data")
                 fetch_data(data.url, data.method, data.table, query)
             });
         }
 
         async function parse_fetch_data(table, json) {
+            console.log("[parse_fetch_data] updating table: " + table)
             const tablename = JSON.stringify(table)
             var json_data = JSON.parse(json.toString());
             var multiple_keys = false
@@ -50,22 +52,20 @@ export default async function handler(req,res) {
                             let local_values = ["'"+local_ts+"'"]
                             local_values.push("'"+json_data.columns[json_data.order[i-1]][j]+"'")
                             local_values.push("'"+json_data.columns[json_data.order[i]][j]+"'")
-                            // console.log("Query: INSERT INTO public.table ("+keys+") VALUES ("+local_values+");")
+                            console.log("[parse_fetch_data] Query: INSERT INTO public.table ("+keys+") VALUES ("+local_values+");")
                             const createrow = await prisma.$queryRawUnsafe(`INSERT INTO public.${table} (${keys}) VALUES (${local_values});`)
                         }
                     }
                 }
             }
             if ( multiple_keys == false ){
-                // console.log("Query: INSERT INTO public.table ("+keys+") VALUES ("+values+");")
+                console.log("[parse_fetch_data] Query: INSERT INTO public.table ("+keys+") VALUES ("+values+");")
                 const createrow = await prisma.$queryRawUnsafe(`INSERT INTO public.${table} (${keys}) VALUES (${values});`)
             }
         }
 
         async function fetch_data(url, method, table, query) {
-            // console.log("url: "+ url)
-            // console.log("method: "+ method)
-            // console.log("query: "+ query)
+            console.log("[fetch_data] fetching ur: "+ url)
             fetch(url, {
                 method: method,
                 headers: {
@@ -76,17 +76,18 @@ export default async function handler(req,res) {
                 .then((json) => {
                 // console.log(json);
                 let data = JSON.stringify(json);
-                console.log("table (" + table + ") data: " + data)
+                console.log("[fetch_data] table (" + table + ") data: " + data)
+                console.log("[fetch_data] calling parse_fetch_data")
                 parse_fetch_data(table, data);
             }).catch((response) => {
-                console.log("error fetching data from: " + url);
+                console.log("[fetch_data] error fetching data from: " + url);
                 console.error();
             });
         }
 
         async function read_dir() {  
             const status_dir_path = path.join(process.cwd(), status_dir);  
-            // console.log("status_dir_path: " + status_dir_path);
+            console.log("[read_dir] status_dir_path: " + status_dir_path);
             fs.readdir(status_dir_path, (err, files) => {
                 if (err)
                     console.log(err);
