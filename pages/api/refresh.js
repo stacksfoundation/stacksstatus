@@ -14,13 +14,11 @@ export default async function handler(req,res) {
             const file = path.join(process.cwd(), fileName);
             // console.log("[parse_file_data] reading file: " + file)
 
-            fs.readFile(file, (err, buff) => {
-                if (err) {
-                    console.error(err);
-                    return;
-                }
-                const data = JSON.parse(buff);
-                console.log("[parse_file_data] data " + JSON.stringify(data))
+            try {
+                console.log("[parse_file_data] reading file: " + file)
+                var fd = fs.openSync(file,"r");
+                var json = fs.readSync(fd, buffer, 0, size, 0);
+                const data = JSON.parse(json);
                 if (data.disabled) {
                     console.log("[parse_file_data] skipping file: " + file)
                     // skip if disabled is true
@@ -31,13 +29,17 @@ export default async function handler(req,res) {
                 } else {
                     var query = data.query
                 }
-                console.log("[parse_file_data] data.url: "+ data.url)
-                console.log("[parse_file_data] data.method: "+ data.method)
-                console.log("[parse_file_data] data.table: "+ data.table)
-                console.log("[parse_file_data] data.query: " + data.query)
+                console.log("[parse_file_data] data.url"+ data.url)
+                console.log("[parse_file_data] data.method"+ data.method)
+                console.log("[parse_file_data] data.table"+ data.table)
+                console.log("[parse_file_data] data.query" + data.query)
                 console.log("[parse_file_data] calling fetch_data")
                 fetch_data(data.url, data.method, data.table, query)
-            });
+                fs.closeSync(fd);
+            } catch (e) {
+                console.log("[parse_file_data] error reading file " + file)
+                console.log('Error:', e);
+            }
             // fs.readFile(file, function (err, json) {
             //     if (err) throw err;
             //     console.log("[parse_file_data] err: " + err)
@@ -60,7 +62,8 @@ export default async function handler(req,res) {
             //     fetch_data(data.url, data.method, data.table, query)
             // });
             // console.log("asdf: "+ fs.readFile(file))
-            console.log("[parse_file_data] file contents: "+ fs.readFileSync(file))
+            // console.log("[parse_file_data] file contents: "+ fs.readFileSync(file))
+            console.log("[parse_file_data] this shouldn't print")
         }
 
         async function parse_fetch_data(table, json) {
