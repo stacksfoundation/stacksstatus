@@ -123,6 +123,7 @@ export default async function handler(req,res) {
                 console.log("[fetch_data] error fetching data from: " + url);
                 console.error();
             });
+            console.log("[fetch_data] this shouldn't print")
         }
 
         async function read_dir() {  
