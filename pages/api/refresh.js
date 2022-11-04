@@ -16,8 +16,8 @@ export default async function handler(req,res) {
 
             try {
                 console.log("[parse_file_data] reading file: " + file)
-                var fd = fs.openSync(file,"r");
-                var json = fs.readSync(fd, buffer, 0, size, 0);
+                // var fd = fs.openSync(file,"r");
+                var json = fs.readFileSync(file);
                 const data = JSON.parse(json);
                 if (data.disabled) {
                     console.log("[parse_file_data] skipping file: " + file)
@@ -35,10 +35,13 @@ export default async function handler(req,res) {
                 console.log("[parse_file_data] data.query" + data.query)
                 console.log("[parse_file_data] calling fetch_data")
                 fetch_data(data.url, data.method, data.table, query)
-                fs.closeSync(fd);
             } catch (e) {
-                console.log("[parse_file_data] error reading file " + file)
-                console.log('Error:', e);
+                if (e.code === 'ENOENT') {
+                    console.log('File not found!');
+                } else {
+                    console.log("[parse_file_data] error reading file " + file)
+                    console.log('Error:', e);
+                }
             }
             // fs.readFile(file, function (err, json) {
             //     if (err) throw err;
