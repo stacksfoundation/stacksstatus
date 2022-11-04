@@ -13,6 +13,7 @@ export default async function handler(req,res) {
         async function parse_file_data(fileName) {
             const file = path.join(process.cwd(), fileName);
             console.log("[parse_file_data] reading file: " + file)
+
             fs.readFile(file, function (err, json) {
                 if (err) throw err;
                 const data = JSON.parse(json);
@@ -33,6 +34,8 @@ export default async function handler(req,res) {
                 console.log("[parse_file_data] calling fetch_data")
                 fetch_data(data.url, data.method, data.table, query)
             });
+            // console.log("asdf: "+ fs.readFile(file))
+            console.log("[parse_file_data] file contents: "+ fs.readFileSync(file))
         }
 
         async function parse_fetch_data(table, json) {
