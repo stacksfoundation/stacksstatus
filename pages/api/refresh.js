@@ -87,7 +87,7 @@ export default async function handler(req,res) {
                 const result = await fetch(url, {
                     method: method,
                     headers: {
-                        "Content-Type": "application/json",
+                        'content-type': 'application/json;charset=UTF-8',
                     },
                     body: query,
                 });
