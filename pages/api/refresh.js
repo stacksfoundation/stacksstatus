@@ -79,28 +79,26 @@ export default async function handler(req,res) {
         }
 
         async function fetch_data(url, method, table, query) {
-            // console.log("[fetch_data] fetching url: "+ url)
-            // console.log("[fetch_data] fetching method: "+ method)
-            // console.log("[fetch_data] fetching table: "+ table)
-            // console.log("[fetch_data] fetching query: "+ query)
-            fetch(url, {
-                method: method,
-                headers: {
-                    'content-type': 'application/json;charset=UTF-8',
-                    'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
-                },
-                body: query
-            }).then((response) => response.json())
-                .then((json) => {
-                let data = JSON.stringify(json);
-                console.log("[fetch_data] table (" + table + ") data: " + data)
-                // console.log("[fetch_data] calling parse_fetch_data")
-                parse_fetch_data(table, data);
-            }).catch((response) => {
-                console.log("[fetch_data] error fetching data from: " + url);
-                console.error();
+        // console.log("[fetch_data] fetching url: "+ url)
+        // console.log("[fetch_data] fetching method: "+ method)
+        // console.log("[fetch_data] fetching table: "+ table)
+        // console.log("[fetch_data] fetching query: "+ query)
+        try {
+            const result = await fetch(url, {
+            method: method,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: query,
             });
-            // console.log("[fetch_data] this shouldn't print")
+            const json = await result.json();
+            const data = JSON.stringify(json);
+            console.log("[fetch_data] table (" + table + ") data: " + data);
+            console.log("[fetch_data] calling parse_fetch_data");
+            await parse_fetch_data(table, data);
+        } catch (error) {
+            console.log("[fetch_data] error fetching data from: " + url);
+        }
         }
 
         async function read_dir() {  
