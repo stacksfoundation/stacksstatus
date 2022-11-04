@@ -10,13 +10,13 @@ export default async function handler(req,res) {
       const { authorization } = req.headers;
       if (authorization === `Bearer ${process.env.API_SECRET_KEY}`) {
         async function parse_file_data(fileName) {
-            console.log("parse_data: " + fileName)
             const file = path.join(process.cwd(), fileName);
-            console.log("file: " + file)
+            // console.log("reading file: " + file)
             fs.readFile(file, function (err, json) {
                 if (err) throw err;
                 const data = JSON.parse(json);
                 if (data.disabled) {
+                    // console.log("skipping file: " + file)
                     // skip if disabled is true
                     return;
                 }
@@ -25,6 +25,7 @@ export default async function handler(req,res) {
                 } else {
                     var query = data.query
                 }
+
                 fetch_data(data.url, data.method, data.table, query)
             });
         }
@@ -49,22 +50,22 @@ export default async function handler(req,res) {
                             let local_values = ["'"+local_ts+"'"]
                             local_values.push("'"+json_data.columns[json_data.order[i-1]][j]+"'")
                             local_values.push("'"+json_data.columns[json_data.order[i]][j]+"'")
-                            console.log("Query: INSERT INTO public.table ("+keys+") VALUES ("+local_values+");")
+                            // console.log("Query: INSERT INTO public.table ("+keys+") VALUES ("+local_values+");")
                             const createrow = await prisma.$queryRawUnsafe(`INSERT INTO public.${table} (${keys}) VALUES (${local_values});`)
                         }
                     }
                 }
             }
             if ( multiple_keys == false ){
-                console.log("Query: INSERT INTO public.table ("+keys+") VALUES ("+values+");")
+                // console.log("Query: INSERT INTO public.table ("+keys+") VALUES ("+values+");")
                 const createrow = await prisma.$queryRawUnsafe(`INSERT INTO public.${table} (${keys}) VALUES (${values});`)
             }
         }
 
         async function fetch_data(url, method, table, query) {
-            console.log("url: "+ url)
-            console.log("method: "+ method)
-            console.log("query: "+ query)
+            // console.log("url: "+ url)
+            // console.log("method: "+ method)
+            // console.log("query: "+ query)
             fetch(url, {
                 method: method,
                 headers: {
@@ -73,8 +74,9 @@ export default async function handler(req,res) {
                 body: query
             }).then((response) => response.json())
                 .then((json) => {
-                console.log(json);
+                // console.log(json);
                 let data = JSON.stringify(json);
+                console.log("table (" + table + ") data: " + data)
                 parse_fetch_data(table, data);
             }).catch((response) => {
                 console.log("error fetching data from: " + url);
@@ -84,7 +86,7 @@ export default async function handler(req,res) {
 
         async function read_dir() {  
             const status_dir_path = path.join(process.cwd(), status_dir);  
-            console.log("status_dir_path: " + status_dir_path);
+            // console.log("status_dir_path: " + status_dir_path);
             fs.readdir(status_dir_path, (err, files) => {
                 if (err)
                     console.log(err);
