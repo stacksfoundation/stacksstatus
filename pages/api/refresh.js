@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import * as fetch from "node-fetch";
+import * as fetch from "isomorphic-fetch";
 import prisma from '../../lib/db';
 
 export default async function handler(req,res) {
