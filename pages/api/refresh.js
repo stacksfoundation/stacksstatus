@@ -29,10 +29,10 @@ export default async function handler(req,res) {
                 } else {
                     var query = data.query
                 }
-                console.log("[parse_file_data] data.url"+ data.url)
-                console.log("[parse_file_data] data.method"+ data.method)
-                console.log("[parse_file_data] data.table"+ data.table)
-                console.log("[parse_file_data] data.query" + data.query)
+                // console.log("[parse_file_data] data.url"+ data.url)
+                // console.log("[parse_file_data] data.method"+ data.method)
+                // console.log("[parse_file_data] data.table"+ data.table)
+                // console.log("[parse_file_data] data.query" + data.query)
                 console.log("[parse_file_data] calling fetch_data")
                 fetch_data(data.url, data.method, data.table, query)
             } catch (e) {
@@ -66,7 +66,7 @@ export default async function handler(req,res) {
             // });
             // console.log("asdf: "+ fs.readFile(file))
             // console.log("[parse_file_data] file contents: "+ fs.readFileSync(file))
-            console.log("[parse_file_data] this shouldn't print")
+            // console.log("[parse_file_data] this shouldn't print")
         }
 
         async function parse_fetch_data(table, json) {
@@ -104,6 +104,9 @@ export default async function handler(req,res) {
 
         async function fetch_data(url, method, table, query) {
             console.log("[fetch_data] fetching url: "+ url)
+            console.log("[fetch_data] fetching method: "+ method)
+            console.log("[fetch_data] fetching table: "+ table)
+            console.log("[fetch_data] fetching query: "+ query)
             fetch(url, {
                 method: method,
                 headers: {
