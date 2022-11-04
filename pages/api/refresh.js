@@ -5,11 +5,11 @@ import prisma from '../../lib/db';
 
 export default async function handler(req,res) {
   const status_dir = "status_checks"
+  console.log("[handler] method:" + req.method)
   if (req.method === 'POST') {
     try {
       const { authorization } = req.headers;
       if (authorization === `Bearer ${process.env.API_SECRET_KEY}`) {
-
         async function parse_file_data(fileName) {
             const file = path.join(process.cwd(), fileName);
             console.log("[parse_file_data] reading file: " + file)
@@ -26,6 +26,10 @@ export default async function handler(req,res) {
                 } else {
                     var query = data.query
                 }
+                console.log("[parse_file_data] data.url"+ data.url)
+                console.log("[parse_file_data] data.method"+ data.method)
+                console.log("[parse_file_data] data.table"+ data.table)
+                console.log("[parse_file_data] data.query" + data.query)
                 console.log("[parse_file_data] calling fetch_data")
                 fetch_data(data.url, data.method, data.table, query)
             });
@@ -65,7 +69,7 @@ export default async function handler(req,res) {
         }
 
         async function fetch_data(url, method, table, query) {
-            console.log("[fetch_data] fetching ur: "+ url)
+            console.log("[fetch_data] fetching url: "+ url)
             fetch(url, {
                 method: method,
                 headers: {
@@ -94,6 +98,7 @@ export default async function handler(req,res) {
                 else {
                     files.forEach(file => {
                         if (path.extname(file) == ".json")
+                            console.log("[read_dir] calling parse_file_data")
                             parse_file_data(status_dir + "/" + file)
                         })
                 }
