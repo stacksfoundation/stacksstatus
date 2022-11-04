@@ -9,6 +9,6 @@ jobs:
     steps:
       - name: Refresh Data
         run: |
-          curl --request POST \
+          curl -sL --request POST \
           --url 'https://stacksstatus.vercel.app/api/refresh' \
           --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'
