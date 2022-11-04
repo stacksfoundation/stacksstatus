@@ -78,13 +78,13 @@ export default async function handler(req,res) {
             }
         }
 
-        function fetch_data(url, method, table, query) {
+        async function fetch_data(url, method, table, query) {
             // console.log("[fetch_data] fetching url: "+ url)
             // console.log("[fetch_data] fetching method: "+ method)
             // console.log("[fetch_data] fetching table: "+ table)
             // console.log("[fetch_data] fetching query: "+ query)
             try {
-                const result = fetch(url, {
+                const result = await fetch(url, {
                     method: method,
                     headers: {
                         "Content-Type": "application/json",
@@ -95,10 +95,9 @@ export default async function handler(req,res) {
                 const data = JSON.stringify(json);
                 console.log("[fetch_data] table (" + table + ") data: " + data);
                 console.log("[fetch_data] calling parse_fetch_data");
-                parse_fetch_data(table, data);
+                await parse_fetch_data(table, data);
             } catch (error) {
                 console.log("[fetch_data] error fetching data: " + error);
-
             }
         }
 
