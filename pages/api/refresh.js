@@ -78,27 +78,28 @@ export default async function handler(req,res) {
             }
         }
 
-        async function fetch_data(url, method, table, query) {
-        // console.log("[fetch_data] fetching url: "+ url)
-        // console.log("[fetch_data] fetching method: "+ method)
-        // console.log("[fetch_data] fetching table: "+ table)
-        // console.log("[fetch_data] fetching query: "+ query)
-        try {
-            const result = await fetch(url, {
-            method: method,
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: query,
-            });
-            const json = await result.json();
-            const data = JSON.stringify(json);
-            console.log("[fetch_data] table (" + table + ") data: " + data);
-            console.log("[fetch_data] calling parse_fetch_data");
-            await parse_fetch_data(table, data);
-        } catch (error) {
-            console.log("[fetch_data] error fetching data from: " + url);
-        }
+        function fetch_data(url, method, table, query) {
+            // console.log("[fetch_data] fetching url: "+ url)
+            // console.log("[fetch_data] fetching method: "+ method)
+            // console.log("[fetch_data] fetching table: "+ table)
+            // console.log("[fetch_data] fetching query: "+ query)
+            try {
+                const result = fetch(url, {
+                    method: method,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: query,
+                });
+                const json = await result.json();
+                const data = JSON.stringify(json);
+                console.log("[fetch_data] table (" + table + ") data: " + data);
+                console.log("[fetch_data] calling parse_fetch_data");
+                parse_fetch_data(table, data);
+            } catch (error) {
+                console.log("[fetch_data] error fetching data: " + error);
+
+            }
         }
 
         async function read_dir() {  
