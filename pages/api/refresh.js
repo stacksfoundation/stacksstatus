@@ -12,11 +12,15 @@ export default async function handler(req,res) {
       if (authorization === `Bearer ${process.env.API_SECRET_KEY}`) {
         async function parse_file_data(fileName) {
             const file = path.join(process.cwd(), fileName);
-            console.log("[parse_file_data] reading file: " + file)
+            // console.log("[parse_file_data] reading file: " + file)
 
-            fs.readFile(file, function (err, json) {
-                if (err) throw err;
-                const data = JSON.parse(json);
+            fs.readFile(file, (err, buff) => {
+                if (err) {
+                    console.error(err);
+                    return;
+                }
+                const data = JSON.parse(buff);
+                console.log("[parse_file_data] data " + JSON.stringify(data))
                 if (data.disabled) {
                     console.log("[parse_file_data] skipping file: " + file)
                     // skip if disabled is true
@@ -27,13 +31,34 @@ export default async function handler(req,res) {
                 } else {
                     var query = data.query
                 }
-                console.log("[parse_file_data] data.url"+ data.url)
-                console.log("[parse_file_data] data.method"+ data.method)
-                console.log("[parse_file_data] data.table"+ data.table)
-                console.log("[parse_file_data] data.query" + data.query)
+                console.log("[parse_file_data] data.url: "+ data.url)
+                console.log("[parse_file_data] data.method: "+ data.method)
+                console.log("[parse_file_data] data.table: "+ data.table)
+                console.log("[parse_file_data] data.query: " + data.query)
                 console.log("[parse_file_data] calling fetch_data")
                 fetch_data(data.url, data.method, data.table, query)
             });
+            // fs.readFile(file, function (err, json) {
+            //     if (err) throw err;
+            //     console.log("[parse_file_data] err: " + err)
+            //     const data = JSON.parse(json);
+            //     if (data.disabled) {
+            //         console.log("[parse_file_data] skipping file: " + file)
+            //         // skip if disabled is true
+            //         return;
+            //     }
+            //     if ( Array.isArray(data.query) ) {
+            //         var query = data.query.join('\n');
+            //     } else {
+            //         var query = data.query
+            //     }
+            //     console.log("[parse_file_data] data.url"+ data.url)
+            //     console.log("[parse_file_data] data.method"+ data.method)
+            //     console.log("[parse_file_data] data.table"+ data.table)
+            //     console.log("[parse_file_data] data.query" + data.query)
+            //     console.log("[parse_file_data] calling fetch_data")
+            //     fetch_data(data.url, data.method, data.table, query)
+            // });
             // console.log("asdf: "+ fs.readFile(file))
             console.log("[parse_file_data] file contents: "+ fs.readFileSync(file))
         }
