@@ -313,18 +313,7 @@ export const getServerSideProps = async () => {
 
   let contracts;
   try {
-    contracts = await prisma.$queryRawUnsafe(`
-      with contracts as (
-        select
-            *
-        from
-            mempool_contracts
-        order by
-            ts
-        desc
-        limit 5
-      ) select * from contracts order by count desc;
-    `);
+    contracts = await prisma.$queryRawUnsafe(`with contracts as ( select * from mempool_contracts order by ts desc limit 5 ) select * from contracts order by count desc;`);
   } catch {
     contracts = { data: "Error fetching mempool contract data" };
   }
