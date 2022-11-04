@@ -15,12 +15,12 @@ export default async function handler(req,res) {
             // console.log("[parse_file_data] reading file: " + file)
 
             try {
-                console.log("[parse_file_data] reading file: " + file)
+                // console.log("[parse_file_data] reading file: " + file)
                 // var fd = fs.openSync(file,"r");
                 var json = fs.readFileSync(file);
                 const data = JSON.parse(json);
                 if (data.disabled) {
-                    console.log("[parse_file_data] skipping file: " + file)
+                    // console.log("[parse_file_data] skipping file: " + file)
                     // skip if disabled is true
                     return;
                 }
@@ -39,7 +39,7 @@ export default async function handler(req,res) {
                 if (e.code === 'ENOENT') {
                     console.log('File not found!');
                 } else {
-                    console.log("[parse_file_data] error reading file " + file)
+                    // console.log("[parse_file_data] error reading file " + file)
                     console.log('Error:', e);
                 }
             }
@@ -103,10 +103,10 @@ export default async function handler(req,res) {
         }
 
         async function fetch_data(url, method, table, query) {
-            console.log("[fetch_data] fetching url: "+ url)
-            console.log("[fetch_data] fetching method: "+ method)
-            console.log("[fetch_data] fetching table: "+ table)
-            console.log("[fetch_data] fetching query: "+ query)
+            // console.log("[fetch_data] fetching url: "+ url)
+            // console.log("[fetch_data] fetching method: "+ method)
+            // console.log("[fetch_data] fetching table: "+ table)
+            // console.log("[fetch_data] fetching query: "+ query)
             fetch(url, {
                 method: method,
                 headers: {
@@ -115,7 +115,6 @@ export default async function handler(req,res) {
                 body: query
             }).then((response) => response.json())
                 .then((json) => {
-                // console.log(json);
                 let data = JSON.stringify(json);
                 console.log("[fetch_data] table (" + table + ") data: " + data)
                 console.log("[fetch_data] calling parse_fetch_data")
