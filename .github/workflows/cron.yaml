@@ -1,0 +1,13 @@
+name: refresh-data
+on:
+  schedule:
+    - cron: "00,15,30,45 * * * *"
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Refresh Data
+        run: |
+          curl --request POST \
+          --url 'https://stacksstatus.vercel.app/api/refresh' \
+          --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'
