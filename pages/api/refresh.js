@@ -1,135 +1,204 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import * as fetch from "isomorphic-fetch";
-import prisma from '../../lib/db';
+import * as fs from 'fs'
+import path from 'path'
+import fetch from 'isomorphic-fetch'
+import prisma from '../../lib/db'
 
-export default async function handler(req,res) {
-  const status_dir = "status_checks"
-//   console.log("[handler] method:" + req.method)
-  if (req.method === 'POST') {
-    try {
-      const { authorization } = req.headers;
-      if (authorization === `Bearer ${process.env.API_SECRET_KEY}`) {
-        async function parse_file_data(fileName) {
-            const file = path.join(process.cwd(), fileName);
-            // console.log("[parse_file_data] reading file: " + file)
-
-            try {
-                // console.log("[parse_file_data] reading file: " + file)
-                // var fd = fs.openSync(file,"r");
-                var json = fs.readFileSync(file);
-                const data = JSON.parse(json);
-                if (data.disabled) {
-                    // console.log("[parse_file_data] skipping file: " + file)
-                    // skip if disabled is true
-                    return;
-                }
-                if ( Array.isArray(data.query) ) {
-                    var query = data.query.join('\n');
-                } else {
-                    var query = data.query
-                }
-                // console.log("[parse_file_data] data.url"+ data.url)
-                // console.log("[parse_file_data] data.method"+ data.method)
-                // console.log("[parse_file_data] data.table"+ data.table)
-                // console.log("[parse_file_data] data.query" + data.query)
-                // console.log("[parse_file_data] calling fetch_data")
-                fetch_data(data.url, data.method, data.table, query)
-            } catch (e) {
-                if (e.code === 'ENOENT') {
-                    console.log("File (" + file + ")not found");
-                } else {
-                    // console.log("[parse_file_data] error reading file " + file)
-                    console.log('Error:', e);
-                }
-            }
-        }
-
-        async function parse_fetch_data(table, json) {
-            console.log("[parse_fetch_data] updating table: " + table)
-            const tablename = JSON.stringify(table)
-            var json_data = JSON.parse(json.toString());
-            var multiple_keys = false
-            let ts = new Date().toISOString();
-            let keys = ["ts"]
-            let values = ["'"+ts+"'"]
-            for (var i=0; i < json_data.order.length; i++) {
-                const key = json_data.order[i]
-                const value = json_data.columns[key][0]
-                keys.push(key)
-                values.push("'"+value+"'")
-                if ( json_data.columns[key].length > 1 ) {
-                    multiple_keys = true
-                    if (i+1 == json_data.order.length ){
-                        for (var j=0; j < json_data.columns[key].length; j++) {
-                            let local_ts = new Date().toISOString();
-                            let local_values = ["'"+local_ts+"'"]
-                            local_values.push("'"+json_data.columns[json_data.order[i-1]][j]+"'")
-                            local_values.push("'"+json_data.columns[json_data.order[i]][j]+"'")
-                            console.log("[parse_fetch_data] Query: INSERT INTO public.table ("+keys+") VALUES ("+local_values+");")
-                            const createrow = await prisma.$queryRawUnsafe(`INSERT INTO public.${table} (${keys}) VALUES (${local_values});`)
-                        }
-                    }
-                }
-            }
-            if ( multiple_keys == false ){
-                console.log("[parse_fetch_data] Query: INSERT INTO public.table ("+keys+") VALUES ("+values+");")
-                const createrow = await prisma.$queryRawUnsafe(`INSERT INTO public.${table} (${keys}) VALUES (${values});`)
-            }
-        }
-
-        async function fetch_data(url, method, table, query) {
-        // console.log("[fetch_data] fetching url: "+ url)
-        // console.log("[fetch_data] fetching method: "+ method)
-        // console.log("[fetch_data] fetching table: "+ table)
-        // console.log("[fetch_data] fetching query: "+ query)
+export default async function handler (req, res) {
+    if (req.method === "POST") {
         try {
-            const result = await fetch(url, {
-            method: method,
+            const { authorization } = req.headers;
+            if (authorization === `Bearer ${process.env.API_SECRET_KEY}`) {
+                await updateData();
+                res.status(200).json({ success: true });
+            } else {
+                res.status(401).json({ success: false });
+            }
+        } catch (err) {
+            res.status(500).json({ statusCode: 500, message: err.message });
+        }
+    } else {
+        res.setHeader("Allow", "POST");
+        res.status(405).end("Method Not Allowed");
+    }
+}
+
+// main function that calls everything else
+// gets fired off by the handler above on success
+// optionally could be moved into the handler
+async function updateData() {
+    const statusDir = "status_checks";
+    try {
+        // get the array of json files
+        const jsonFiles = await getFiles(statusDir);
+
+        // loop through the array of json file names
+        // and parse into an array of queries
+        // returns values for success and failure
+        const queries = await Promise.allSettled(
+            jsonFiles.map((fileName) => parseFileData(statusDir, fileName))
+        );
+        const successfulQueries = [];
+        for (const query of queries) {
+            // log if unsuccessful
+            if (query.status === "rejected") {
+                console.log(`[updateData] rejected: ${query.reason}`);
+                continue;
+            }
+            // show successful value and store for next step
+            successfulQueries.push(query.value);
+        }
+
+        // loop through the array of succesful queries
+        // and fetch the related data
+        // returns values for success and failure
+        const fetchResults = await Promise.allSettled(
+            successfulQueries.map((query) => fetchData(query))
+        );
+        const successfulFetches = [];
+        for (const result of fetchResults) {
+            // log if unsuccessful
+            if (result.status === "rejected") {
+                continue;
+            }
+            // show successful value and store for next step
+            successfulFetches.push(result.value);
+        }
+
+        // loop through the array of succesful fetches
+        // and parse the data then insert into the db
+        // returns values for success and failure
+        const dbResults = await Promise.allSettled(
+            successfulFetches.map((result) => parseFetchData(result))
+        );
+    } catch (err) {
+        console.log(`err reading files in ${statusDir}: ${err}`);
+    }
+}
+
+//////////////////////////////////////////////////
+
+// read the directory for a given path
+// and return the file names in an array
+async function getFiles(dir) {
+    const statusDirPath = path.join(process.cwd(), dir);
+    // switched this to the synchronous version
+    // gets an array of all file names in the directory
+    const files = fs.readdirSync(statusDirPath);
+    // filter out the non-json files
+    const jsonFiles = files.filter((file) => path.extname(file) === ".json");
+    // return the array of json files
+    return jsonFiles;
+}
+
+// read the file data for a given file
+// and return the data as a json object
+async function parseFileData(dir, fileName) {
+    // get the full path to the file
+    const filePath = path.join(process.cwd(), dir, fileName);
+    try {
+        // read the file data
+        const json = fs.readFileSync(filePath);
+        const data = JSON.parse(json);
+        // skip if disabled
+        if (data.disabled)
+            return new Promise((resolve, reject) => {
+            reject(`[parseFileData] disabled ${data.table}`);
+        });
+        // reformat the query
+        if (Array.isArray(data.query)) {
+            data.query = data.query.join("\n");
+        }
+        // return the data
+        return data;
+    } catch (err) {
+        if (err.code === "ENOENT") {
+            return new Promise((resolve, reject) => {
+                reject(`[parseFileData] File ${filePath} not found!`);
+            });
+        } else {
+            return new Promise((resolve, reject) => {
+                reject(`[parseFileData] Error parsing JSON file: ${err}`);
+            });
+        }
+    }
+}
+
+// fetch JSON data for a given query
+// from the stacksonchain API
+// and return the data as a json object
+async function fetchData(request) {
+    try {
+        // request contains .url .method .table .query
+        const result = await fetch(request.url, {
+            method: request.method,
             headers: {
                 "Content-Type": "application/json",
             },
-            body: query,
-            });
-            const json = await result.json();
-            const data = JSON.stringify(json);
-            console.log("[fetch_data] table (" + table + ") data: " + data);
-            console.log("[fetch_data] calling parse_fetch_data");
-            await parse_fetch_data(table, data);
-        } catch (error) {
-            console.log("[fetch_data] error fetching data from: " + url);
-        }
-        }
-
-        async function read_dir() {  
-            const status_dir_path = path.join(process.cwd(), status_dir);  
-            // console.log("[read_dir] status_dir_path: " + status_dir_path);
-            fs.readdir(status_dir_path, (err, files) => {
-                if (err)
-                    console.log(err);
-                else {
-                    files.forEach(file => {
-                        if (path.extname(file) == ".json")
-                            // console.log("[read_dir] calling parse_file_data")
-                            parse_file_data(status_dir + "/" + file)
-                        })
-                }
-            })
-        }
-
-        read_dir()
-            .catch((e) => {
-            throw e;
+            body: request.query,
         });
-        res.status(200).json({ success: true });
-      } else {
-        res.status(401).json({ success: false });
-      }
+        const json = await result.json();
+        const data = JSON.stringify(json);
+
+        // return the data
+        return { table: request.table, data: data };
     } catch (err) {
-      res.status(500).json({ statusCode: 500, message: err.message });
+        return new Promise((resolve, reject) => {
+            reject(`[fetchData] Error fetching data: ${err}`);
+        });
     }
-  } else {
-    res.setHeader('Allow', 'POST');
-    res.status(405).end('Method Not Allowed');
-  }
+}
+
+// parse the JSON data for a given table
+// and insert into the db
+// and return the success or failure
+async function parseFetchData(result) {
+    // result contains .table .data
+    const jsonData = JSON.parse(result.data.toString());
+    // skip if returned query contains 'code' key (likely a 400 from the API)
+    if ( jsonData.code ){
+        return
+    }
+    // set initial values
+    const table = result.table.toString();
+    const ts = new Date().toISOString();
+    const keys = ["ts"];
+    const values = [`'${ts}'`];
+    var multipleKeys = false;
+    for (var i=0; i < jsonData.order.length; i++) {
+        const key = jsonData.order[i];
+        const value = jsonData.columns[key][0];
+        keys.push(key);
+        values.push(`'${value}'`);
+        // if there are > 1 value for columns, switch bool for multipleKeys
+        if ( jsonData.columns[key].length > 1 ){
+            multipleKeys = true;
+            if ((i+1) === jsonData.order.length ){
+                // this is the last element of the order array
+                for (var j=0; j < jsonData.columns[key].length; j++) {
+                    // loop through the columns, storing the values of each key
+                    let localTs = new Date().toISOString();
+                    let localValues = [`'${localTs}'`];
+                    localValues.push(`'${jsonData.columns[jsonData.order[i-1]][j]}'`);
+                    localValues.push(`'${jsonData.columns[jsonData.order[i]][j]}'`);
+                    // since each key should be it's own row in db, execute the sql to insert
+                    try {
+                        await prisma.$queryRawUnsafe(`INSERT INTO public.${table} (${keys}) VALUES (${localValues});`)
+                    } catch (err) {
+                        // log an error if sql insert fails
+                        console.error(`SQL error: ${err} (INSERT INTO public.${table} (${keys}) VALUES (${localValues}))`);
+                    }
+                }
+            }
+        }
+    }
+    if (multipleKeys === false ){
+        // finally, execute the sql for "simple" queries of a single row insert
+        try {
+            await prisma.$queryRawUnsafe(`INSERT INTO public.${table} (${keys}) VALUES (${values});`)
+        } catch (err) {
+            // log an error if sql insert fails
+            console.error(`SQL error: ${err} (INSERT INTO public.${table} (${keys}) VALUES (${values}))`);
+        }
+    } 
+    return true;
 }

@@ -13,21 +13,21 @@ import { makeSerializable } from "../lib/util";
 import { convertEpoch } from "../lib/util";
 
 const Home = (props) => {
-  if (process.env.NODE_ENV != 'production') {
-    console.log("mempool_size: " + props.mempool_size.data);
-    console.log("block_time: " + props.block_time.data);
-    console.log("block_txs: " + props.block_txs.data);
-    console.log("block_height: " + props.blocks.block_height);
-    console.log("block_hash: " + props.blocks.block_hash);
-    console.log("burn_block_time: " + props.blocks.burn_block_time);
-    // console.log("single_tx_blocks:" + props.single_tx_blocks.data); // disabled
-    console.log("tx_fees_daily: " + props.tx_fees_daily.data)
-    console.log("tx_fees_hourly: " + props.tx_fees_hourly.data)
-    console.log("node_env: " + process.env.NODE_ENV)
+  if (process.env.nodeEnv != 'production') {
+    console.log("mempoolSize: " + props.mempoolSize.data);
+    console.log("blockTime: " + props.blockTime.data);
+    console.log("blockTxs: " + props.blockTxs.data);
+    console.log("blockHeight: " + props.blocks.block_height);
+    console.log("blockHash: " + props.blocks.block_hash);
+    console.log("burnBlockTime: " + props.blocks.burn_block_time);
+    // console.log("singleTxBlocks:" + props.singleTxBlocks.data); // disabled
+    console.log("txFeesDaily: " + props.txFeesDaily.data)
+    console.log("txFeesHourly: " + props.txFeesHourly.data)
+    console.log("nodeEnv: " + process.env.nodeEnv)
   }
   
-  var tx_fees_daily_num = Number(props.tx_fees_daily.data);
-  var tx_fees_hourly_num = Number(props.tx_fees_hourly.data);
+  var txFeesDailyNum = Number(props.txFeesDaily.data);
+  var txFeesHourlyNum = Number(props.txFeesHourly.data);
 
   return (
     <div className={styles.indexParent}>
@@ -130,14 +130,14 @@ const Home = (props) => {
           <div className={styles.metrics}>
             <div className={styles.metricsData}>
               <p className={styles.metricsKey}>Current Mempool Size</p>
-              <p className={styles.metricsValue}>{props.mempool_size.data}<span className={styles.metricsValueDesc}>TXS</span></p>
+              <p className={styles.metricsValue}>{props.mempoolSize.data}<span className={styles.metricsValueDesc}>TXS</span></p>
             </div>
           </div>
           <div className={styles.metrics}>
             <div className={styles.metricsData}>
               <p className={styles.metricsKey}>Avg Daily Fees</p>
               <p className={styles.metricsValue}>
-                {tx_fees_daily_num ? tx_fees_daily_num.toFixed(2) : "Data Unavailable"}
+                {txFeesDailyNum ? txFeesDailyNum.toFixed(2) : "Data Unavailable"}
                   <span className={styles.metricsValueDesc}>STX</span>
               </p> 
             </div>
@@ -146,7 +146,7 @@ const Home = (props) => {
             <div className={styles.metricsData}>
               <p className={styles.metricsKey}>Avg Hourly Fees</p>
               <p className={styles.metricsValue}>
-                {tx_fees_hourly_num ? tx_fees_hourly_num.toFixed(2) : "Data Unavailable"}
+                {txFeesHourlyNum ? txFeesHourlyNum.toFixed(2) : "Data Unavailable"}
                   <span className={styles.metricsValueDesc}>STX</span>
               </p>                
             </div>
@@ -156,7 +156,7 @@ const Home = (props) => {
             <div className={styles.metricsData}>
               <p className={styles.metricsKey}>Single tx blocks</p>
               <p className={styles.metricsValue}>
-                {props.single_tx_blocks.data}
+                {props.singleTxBlocks.data}
               </p>
             </div>
           </div> */}
@@ -170,7 +170,7 @@ const Home = (props) => {
               <p className={styles.metricsValue}>
                 <Link href={`https://explorer.stacks.co/block/${props.blocks.block_hash}?chain=mainnet`}>
                   <a className={styles.metricsValue} target="_blank" rel="noopener noreferrer">
-                    {props.block_txs.data}
+                    {props.blockTxs.data}
                   </a>
                 </Link>
               </p>
@@ -181,7 +181,7 @@ const Home = (props) => {
               <p className={styles.metricsKey}>Block Duration</p>
               <p className={styles.metricsValue}>
                 <span className={styles.metricsValue}>
-                  {props.block_time.data}
+                  {props.blockTime.data}
                   <span className={styles.metricsValueDesc}>Minutes</span>
                 </span>
               </p>
@@ -240,22 +240,26 @@ const Home = (props) => {
 };
 
 export const getServerSideProps = async () => {
-  let block_time;
+  let blockTime;
   try {
-    block_time = await prisma.$queryRawUnsafe(`select * from block_time order by ts desc limit 1;`);
-  } catch (e) {
-    block_time = { data: "Error fetching block_time data" };
+    blockTime = await prisma.block_time.findFirst({
+      orderBy: {
+        ts: "desc",
+      },
+    });
+    } catch (e) {
+    blockTime = { data: "Error fetching block time data" };
   }
 
-  let block_txs;
+  let blockTxs;
   try {
-    block_txs = await prisma.block_txs.findFirst({
+    blockTxs = await prisma.block_txs.findFirst({
       orderBy: {
         ts: "desc",
       },
     });
   } catch {
-    block_txs = { data: "Error fetching tx data" };
+    blockTxs = { data: "Error fetching tx data" };
   }
 
   let blocks;
@@ -269,41 +273,49 @@ export const getServerSideProps = async () => {
     blocks = { data: "Error fetching last block data" };
   }
 
-  let mempool_size;
+  let mempoolSize;
   try {
-    mempool_size = await prisma.mempool_size.findFirst({
+    mempoolSize = await prisma.mempool_size.findFirst({
       orderBy: {
         ts: "desc",
       },
     });
   } catch (e) {
-    mempool_size = { data: "Error fetching mempool data" };
+    mempoolSize = { data: "Error fetching mempool data" };
   }
 
   // // Disabled 
-  // let single_tx_blocks;
+  // let singleTxBlocks;
   // try {
-  //   single_tx_blocks = await prisma.single_tx_blocks.findFirst({
+  //   singleTxBlocks = await prisma.singleTxBlocks.findFirst({
   //     orderBy: {
   //       ts: "desc",
   //     },
   //   });
   // } catch {
-  //   single_tx_blocks = { data: "Error fetching block tx data" };
+  //   singleTxBlocks = { data: "Error fetching block tx data" };
   // }
 
-  let tx_fees_daily;
+  let txFeesDaily;
   try {
-    tx_fees_daily = await prisma.$queryRawUnsafe(`select data from tx_fees_daily order by ts desc limit 1;`);
+    txFeesDaily = await prisma.tx_fees_daily.findFirst({
+      orderBy: {
+        ts: "desc",
+      },
+    });
   } catch {
-    tx_fees_daily = { data: "Error fetching daily fee data" };
+    txFeesDaily = { data: "Error fetching daily fee data" };
   }
 
-  let tx_fees_hourly;
+  let txFeesHourly;
   try {
-    tx_fees_hourly = await prisma.$queryRawUnsafe(`select data from tx_fees_hourly order by ts desc limit 1;`);
+    txFeesHourly = await prisma.tx_fees_hourly.findFirst({
+      orderBy: {
+        ts: "desc",
+      },
+    });
   } catch {
-    tx_fees_hourly = { data: "Error fetching hourly fee data" };
+    txFeesHourly = { data: "Error fetching hourly fee data" };
   }
 
   let contracts;
@@ -325,13 +337,13 @@ export const getServerSideProps = async () => {
   }
   return {
     props: {
-      mempool_size: makeSerializable(mempool_size),
-      block_time: makeSerializable(block_time[0]),
-      block_txs: makeSerializable(block_txs),
+      mempoolSize: makeSerializable(mempoolSize),
+      blockTime: makeSerializable(blockTime),
+      blockTxs: makeSerializable(blockTxs),
       blocks: makeSerializable(blocks),
-      // single_tx_blocks: makeSerializable(single_tx_blocks),  // Disabled
-      tx_fees_daily: makeSerializable(tx_fees_daily[0]),
-      tx_fees_hourly: makeSerializable(tx_fees_hourly[0]),
+      // singleTxBlocks: makeSerializable(singleTxBlocks),  // Disabled
+      txFeesDaily: makeSerializable(txFeesDaily),
+      txFeesHourly: makeSerializable(txFeesHourly),
       contracts: makeSerializable(contracts),
     },
   };
