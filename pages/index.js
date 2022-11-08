@@ -1,50 +1,35 @@
-import styles from "../styles/Index.module.css";
-import Logo from "../public/images/indexStxLogo.svg";
-import GithubLogo from "../public/images/github.svg";
-import DiscordLogo from "../public/images/discord.svg";
-import TwitterLogo from "../public/images/twitter.svg";
-import StacksLogo from "../public/images/stacks.svg";
-import StacksOnChain from '../public/images/stacksonchain.svg';
-
-import Link from "next/link";
-import { Tooltip } from '@nextui-org/react';
-import prisma from "../lib/db";
-import { makeSerializable } from "../lib/util";
-import { convertEpoch } from "../lib/util";
+import styles from '../styles/Index.module.css'
+import Logo from '../public/images/indexStxLogo.svg'
+import GithubLogo from '../public/images/github.svg'
+import DiscordLogo from '../public/images/discord.svg'
+import TwitterLogo from '../public/images/twitter.svg'
+import StacksLogo from '../public/images/stacks.svg'
+import StacksOnChain from '../public/images/stacksonchain.svg'
+import Link from 'next/link'
+import { Tooltip } from '@nextui-org/react'
+import prisma from '../lib/db'
+import { makeSerializable, convertEpoch } from '../lib/util'
+import React from 'react'
 
 const Home = (props) => {
-  if (process.env.nodeEnv != 'production') {
-    console.log("mempoolSize: " + props.mempoolSize.data);
-    console.log("blockTime: " + props.blockTime.data);
-    console.log("blockTxs: " + props.blockTxs.data);
-    console.log("blockHeight: " + props.blocks.block_height);
-    console.log("blockHash: " + props.blocks.block_hash);
-    console.log("burnBlockTime: " + props.blocks.burn_block_time);
-    // console.log("singleTxBlocks:" + props.singleTxBlocks.data); // disabled
-    console.log("txFeesDaily: " + props.txFeesDaily.data)
-    console.log("txFeesHourly: " + props.txFeesHourly.data)
-    console.log("nodeEnv: " + process.env.nodeEnv)
+  if (process.env.NODE_ENV !== 'production') {
+    console.log(`mempool_size: ${props.mempoolSize.data}`)
+    console.log(`block_time: ${props.blockTime.data}`)
+    console.log(`block_txs: ${props.blockTxs.data}`)
+    console.log(`block_height: ${props.blocks.block_height}`)
+    console.log(`block_hash: ${props.blocks.block_hash}`)
+    console.log(`burn_block_time: ${props.blocks.burn_block_time}`)
+    // console.log("single_tx_blocks: ${props.singleTxBlocks.data}`) // disabled
+    console.log(`txFeesDaily: ${props.txFeesDaily.data}`)
+    console.log(`txFeesHourly: ${props.txFeesHourly.data}`)
+    console.log(`node_env: ${process.env.NODE_ENV}`)
   }
-  
-  var txFeesDailyNum = Number(props.txFeesDaily.data);
-  var txFeesHourlyNum = Number(props.txFeesHourly.data);
-
+  const txFeesDailyNum = Number(props.txFeesDaily.data)
+  const txFeesHourlyNum = Number(props.txFeesHourly.data)
   return (
     <div className={styles.indexParent}>
       <Logo className={styles.stxLogo} />
       <div className={styles.indexData}>
-        <style global jsx>
-          {`
-            html,
-            body,
-            body > div:first-child,
-            div#__next,
-            div#__next > div {
-              height: 100%;
-            }
-          `}
-        </style>
-        
         <div className={styles.topRow}>
           <div className={styles.indexLogos}>
             <grid>
@@ -103,7 +88,7 @@ const Home = (props) => {
               <p className={styles.metricsValue}>
                 <Link href={`https://explorer.stacks.co/block/${props.blocks.block_hash}?chain=mainnet`}>
                   <a className={styles.metricsValue} target="_blank" rel="noopener noreferrer">
-                    {props.blocks ? props.blocks.block_height: "Data Unavailable"}
+                    {props.blocks ? props.blocks.block_height : 'Data Unavailable'}
                   </a>
                 </Link>
               </p>
@@ -137,18 +122,18 @@ const Home = (props) => {
             <div className={styles.metricsData}>
               <p className={styles.metricsKey}>Avg Daily Fees</p>
               <p className={styles.metricsValue}>
-                {txFeesDailyNum ? txFeesDailyNum.toFixed(2) : "Data Unavailable"}
+                {txFeesDailyNum ? txFeesDailyNum.toFixed(2) : 'Data Unavailable'}
                   <span className={styles.metricsValueDesc}>STX</span>
-              </p> 
+              </p>
             </div>
           </div>
           <div className={styles.metrics}>
             <div className={styles.metricsData}>
               <p className={styles.metricsKey}>Avg Hourly Fees</p>
               <p className={styles.metricsValue}>
-                {txFeesHourlyNum ? txFeesHourlyNum.toFixed(2) : "Data Unavailable"}
+                {txFeesHourlyNum ? txFeesHourlyNum.toFixed(2) : 'Data Unavailable'}
                   <span className={styles.metricsValueDesc}>STX</span>
-              </p>                
+              </p>
             </div>
           </div>
           {/* Disabled */}
@@ -199,7 +184,7 @@ const Home = (props) => {
           </div>
         </div>
 
-        {/* ROW 4 - contract*/}
+        {/* ROW 4 - contract */}
         <div className={styles.indexRow}>
           <div className={styles.metrics}>
             <div className={styles.metricsData}>
@@ -223,7 +208,7 @@ const Home = (props) => {
                         {contract.count}
                       </td>
                     </tr>
-                  );
+                  )
                 })}
               </tbody>
             </table>
@@ -234,91 +219,93 @@ const Home = (props) => {
         {/* ROW 5 - add some space at bottom of page */}
         <div className={styles.bottomRow}></div>
       </div>
-  
     </div>
-  );
-};
+  )
+}
 
 export const getServerSideProps = async () => {
-  let blockTime;
+  let blockTime
   try {
+    // block_time = await prisma.$queryRawUnsafe(`select * from block_time order by ts desc limit 1;`)
     blockTime = await prisma.block_time.findFirst({
       orderBy: {
-        ts: "desc",
-      },
-    });
-    } catch (e) {
-    blockTime = { data: "Error fetching block time data" };
+        ts: 'desc'
+      }
+    })
+  } catch (e) {
+    blockTime = { data: 'Error fetching block_time data' }
   }
 
-  let blockTxs;
+  let blockTxs
   try {
     blockTxs = await prisma.block_txs.findFirst({
       orderBy: {
-        ts: "desc",
-      },
-    });
+        ts: 'desc'
+      }
+    })
   } catch {
-    blockTxs = { data: "Error fetching tx data" };
+    blockTxs = { data: 'Error fetching tx data' }
   }
 
-  let blocks;
+  let blocks
   try {
     blocks = await prisma.blocks.findFirst({
       orderBy: {
-        ts: "desc",
-      },
-    });
+        ts: 'desc'
+      }
+    })
   } catch {
-    blocks = { data: "Error fetching last block data" };
+    blocks = { data: 'Error fetching last block data' }
   }
 
-  let mempoolSize;
+  let mempoolSize
   try {
     mempoolSize = await prisma.mempool_size.findFirst({
       orderBy: {
-        ts: "desc",
-      },
-    });
+        ts: 'desc'
+      }
+    })
   } catch (e) {
-    mempoolSize = { data: "Error fetching mempool data" };
+    mempoolSize = { data: 'Error fetching mempool data' }
   }
 
-  // // Disabled 
-  // let singleTxBlocks;
+  // // Disabled
+  // let singleTxBlocks
   // try {
-  //   singleTxBlocks = await prisma.singleTxBlocks.findFirst({
+  //   singleTxBlocks = await prisma.single_tx_blocks.findFirst({
   //     orderBy: {
-  //       ts: "desc",
-  //     },
-  //   });
+  //       ts: 'desc',
+  //     }
+  //   })
   // } catch {
-  //   singleTxBlocks = { data: "Error fetching block tx data" };
+  //   single_tx_blocks = { data: 'Error fetching block tx data' }
   // }
 
-  let txFeesDaily;
+  let txFeesDaily
   try {
+    // tx_fees_daily = await prisma.$queryRawUnsafe(`select data from tx_fees_daily order by ts desc limit 1;`)
     txFeesDaily = await prisma.tx_fees_daily.findFirst({
       orderBy: {
-        ts: "desc",
-      },
-    });
+        ts: 'desc'
+      }
+    })
   } catch {
-    txFeesDaily = { data: "Error fetching daily fee data" };
+    txFeesDaily = { data: 'Error fetching daily fee data' }
   }
 
-  let txFeesHourly;
+  let txFeesHourly
   try {
+    // tx_fees_hourly = await prisma.$queryRawUnsafe(`select data from tx_fees_hourly order by ts desc limit 1;`)
     txFeesHourly = await prisma.tx_fees_hourly.findFirst({
       orderBy: {
-        ts: "desc",
-      },
-    });
+        ts: 'desc'
+      }
+    })
   } catch {
-    txFeesHourly = { data: "Error fetching hourly fee data" };
+    txFeesHourly = { data: 'Error fetching hourly fee data' }
   }
 
-  let contracts;
+  let contracts
   try {
     contracts = await prisma.$queryRawUnsafe(`
       with contracts as (
@@ -331,9 +318,9 @@ export const getServerSideProps = async () => {
         desc
         limit 5
       ) select * from contracts order by count desc;
-    `);
+    `)
   } catch {
-    contracts = { data: "Error fetching mempool contract data" };
+    contracts = { data: 'Error fetching mempool contract data' }
   }
   return {
     props: {
@@ -341,12 +328,12 @@ export const getServerSideProps = async () => {
       blockTime: makeSerializable(blockTime),
       blockTxs: makeSerializable(blockTxs),
       blocks: makeSerializable(blocks),
-      // singleTxBlocks: makeSerializable(singleTxBlocks),  // Disabled
+      // single_tx_blocks: makeSerializable(singleTxBlocks),  // Disabled
       txFeesDaily: makeSerializable(txFeesDaily),
       txFeesHourly: makeSerializable(txFeesHourly),
-      contracts: makeSerializable(contracts),
-    },
-  };
-};
+      contracts: makeSerializable(contracts)
+    }
+  }
+}
 
-export default Home;
+export default Home
