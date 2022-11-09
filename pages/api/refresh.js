@@ -181,6 +181,7 @@ async function parseFetchData (result) {
           localValues.push(`'${jsonData.columns[jsonData.order[i - 1]][j]}'`)
           localValues.push(`'${jsonData.columns[jsonData.order[i]][j]}'`)
           // since each key should be it's own row in db, execute the sql to insert
+          console.log(`INSERT INTO public.${table} (${keys}) VALUES (${localValues})`)
           try {
             await prisma.$queryRawUnsafe(`INSERT INTO public.${table} (${keys}) VALUES (${localValues});`)
           } catch (err) {
@@ -193,6 +194,7 @@ async function parseFetchData (result) {
   }
   if (multipleKeys === false) {
     // finally, execute the sql for "simple" queries of a single row insert
+    console.log(`INSERT INTO public.${table} (${keys}) VALUES (${values})`)
     try {
       await prisma.$queryRawUnsafe(`INSERT INTO public.${table} (${keys}) VALUES (${values});`)
     } catch (err) {
