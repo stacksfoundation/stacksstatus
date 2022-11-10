@@ -127,13 +127,18 @@ async function parseFileData (dir, fileName) {
 // from the stacksonchain API
 // and return the data as a json object
 async function fetchData (request) {
+  const RequestHeaders = {
+    'Content-Type': 'application/json'
+  }
+  // add STACKSONCHAIN_JWT if it's defined
+  if (process.env.STACKSONCHAIN_JWT) {
+    RequestHeaders.Authorization = `Bearer ${process.env.STACKSONCHAIN_JWT}`
+  }
   try {
     // request contains .url .method .table .query
     const result = await fetch(request.url, {
       method: request.method,
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: RequestHeaders,
       body: request.query
     })
     const json = await result.json()
