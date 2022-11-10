@@ -1,11 +1,10 @@
 name: refresh-data
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "*/15 * * * *"
+  # schedule:
+  #   - cron: "*/15 * * * *"
 jobs:
   cron:
-    if: ${{ false }}
     runs-on: ubuntu-latest
     steps:
       - name: Refresh Data
