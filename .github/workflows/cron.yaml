@@ -5,6 +5,7 @@ on:
     - cron: "*/15 * * * *"
 jobs:
   cron:
+    if: ${{ false }}
     runs-on: ubuntu-latest
     steps:
       - name: Refresh Data
