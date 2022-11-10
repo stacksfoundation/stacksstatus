@@ -1,4 +1,7 @@
 # Stacks Status
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://mit-license.org/)
+[![Pull Requests Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
+
 This repository contains the code for the [**Stacks Blockchain Status Page**](https://status.stacks.org/) code used by the [Stacks Foundation](https://www.stacks.org) to display blockchain metrics.
 This is a next.js react app that reads locally stored metric data from a postgres database, and periodically will fetch data from [https://stacksonchain.com/](https://stacksonchain.com/) to refresh the displayed data. 
 

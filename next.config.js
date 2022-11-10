@@ -11,16 +11,16 @@
 // }
 
 module.exports = {
-  webpack: true,
+  // webpack: true,
   webpack: (config) => {
-    config.resolve.fallback = { 
+    config.resolve.fallback = {
       fs: false,
       path: false
-    };
-		config.module.rules.push({
-			test: /\.svg$/,
-			use: ['@svgr/webpack']
-		});
-    return config;
-  },
-};
+    }
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack']
+    })
+    return config
+  }
+}
