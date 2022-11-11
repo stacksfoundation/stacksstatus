@@ -12,7 +12,7 @@ function MyApp ({ Component, pageProps: { ...pageProps } }) {
         <meta property="title" content="Stacks Blockchain Status" key="title" />
         <meta name="theme-color" content="#05030A" />
         <meta property="description" content="Stacks Blockchain Status" key="description" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/images/favicon.ico" />
       </Head>
       <Component {...pageProps} />
     </>
