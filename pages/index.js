@@ -6,11 +6,11 @@ import TwitterLogo from "../public/images/twitter.svg";
 import StacksLogo from "../public/images/stacks.svg";
 import Link from "next/link";
 import { Tooltip } from "@nextui-org/react";
-import prisma from "../lib/db";
+// import prisma from "../lib/db";
 import { makeSerializable, convertEpoch, getData } from "../lib/util";
 import React from "react";
 
-const apiRoot = "https://api.stacks.org";
+const apiRoot = "https://api.hiro.so";
 const Home = (props) => {
   if (process.env.NODE_ENV !== "production") {
     console.log(`mempool_size: ${props.mempoolSize}`);
