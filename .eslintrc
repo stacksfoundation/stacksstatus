@@ -21,6 +21,11 @@
     }
   },
   "rules": {
-    "react/prop-types": 0
+    "react/prop-types": 0,
+    "no-extra-semi": 0,
+    "semi": 0,
+    "quotes": "off",
+    "space-before-function-paren": "off",
+    "comma-dangle": "off"
   }
 }
