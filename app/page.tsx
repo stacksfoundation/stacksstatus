@@ -27,26 +27,18 @@ const Home = async () => {
       <div className={styles.indexData}>
         <div className={styles.topRow}>
           <div className={styles.indexLogos}>
-            <grid>
-              <Link href="https://stacks.org">
-                <StacksLogo className={styles.serviceLogo} />
-              </Link>
-            </grid>
-            <grid>
-              <Link href="https://github.com/stacks-network/stacks-core">
-                <GithubLogo className={styles.serviceLogo} />
-              </Link>
-            </grid>
-            <grid>
-              <Link href="https://discord.gg/HsK3ShU">
-                <DiscordLogo className={styles.serviceLogo} />
-              </Link>
-            </grid>
-            <grid>
-              <Link href="https://twitter.com/stacksstatus">
-                <TwitterLogo className={styles.serviceLogo} />
-              </Link>
-            </grid>
+            <Link href="https://stacks.org">
+              <StacksLogo className={styles.serviceLogo} />
+            </Link>
+            <Link href="https://github.com/stacks-network/stacks-core">
+              <GithubLogo className={styles.serviceLogo} />
+            </Link>
+            <Link href="https://discord.gg/HsK3ShU">
+              <DiscordLogo className={styles.serviceLogo} />
+            </Link>
+            <Link href="https://twitter.com/stacksstatus">
+              <TwitterLogo className={styles.serviceLogo} />
+            </Link>
           </div>
         </div>
 
