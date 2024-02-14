@@ -13,24 +13,27 @@
     "dotenv-flow": "^3.2.0",
     "express": "^4.18.1",
     "express-winston": "4.2.0",
-    "next": "12.3.1",
+    "next": "^14.1.0",
     "prisma": "5.8.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@nextui-org/react": "^1.0.0-beta.10",
     "@prisma/client": "5.8.0",
     "@svgr/webpack": "^6.5.0",
+    "@types/node": "^20.11.17",
+    "@types/react": "^18.2.55",
     "@upstash/qstash": "^0.1.8",
     "eslint": "^8.27.0",
-    "eslint-config-next": "12.3.1",
+    "eslint-config-next": "^14.1.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-n": "^15.5.0",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.31.10",
     "isomorphic-fetch": "^3.0.0",
+    "typescript": "^5.3.3",
     "winston": "^3.8.2"
   }
 }
