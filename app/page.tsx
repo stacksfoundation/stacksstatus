@@ -194,7 +194,7 @@ const Home = async () => {
   )
 }
 
-export const getServerData = async () => {
+const getServerData = async () => {
   let blocks
   try {
     blocks = await getData(`${apiRoot}/extended/v1/block?limit=2`)
