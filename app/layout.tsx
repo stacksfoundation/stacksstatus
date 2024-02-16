@@ -2,6 +2,7 @@ import '../styles/globals.css';
 import { Metadata, Viewport } from 'next';
 import React from 'react';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 export const metadata: Metadata = {
   title: 'Stacks Blockchain Status',
@@ -21,6 +22,7 @@ export default function RootLayout({
       <body>
         <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );
