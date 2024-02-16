@@ -9,8 +9,8 @@ export function makeSerializable(o) {
 
 export const getTimestampFromNow = (milliseconds: number) => {
   const now = new Date();
-  const timestampDaysAgo = new Date(now.getTime() - milliseconds).getTime();
-  return timestampDaysAgo;
+  const oldTimestamp = new Date(now.getTime() - milliseconds).getTime();
+  return oldTimestamp;
 };
 
 export function convertEpoch(date) {
