@@ -47,7 +47,7 @@ const Fees = async () => {
 
   // show up to 2 decimal places
   const formatFee = (feeInMicroStacks: number) => {
-    const fee = feeInMicroStacks / 10 ** 3;
+    const fee = feeInMicroStacks / 10 ** 6;
     return parseFloat((Math.round(fee * 100) / 100).toFixed(2));
   };
 
