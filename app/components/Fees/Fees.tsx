@@ -24,7 +24,7 @@ const Fees = async () => {
     return (await getData(`${apiRoot}/extended/v2/mempool/fees`)) as FeeI;
   };
   const fees = await getFees();
-  if (!Object(fees).keys?.length) return;
+  if (!Object.keys(fees)?.length) return;
 
   const tooltipContent = (
     priority: 'low_priority' | 'medium_priority' | 'high_priority'
