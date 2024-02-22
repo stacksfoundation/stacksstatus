@@ -32,8 +32,10 @@ const blockPercentagesToBarData = (data: BlockExecutionCost) => {
 const BlockFullness = async ({ block }: BlockFullnessProps) => {
   const transactions = await getTxs(block.index_block_hash);
 
-  const { blockTxs, blockCosts, microblockTxs, microblockCosts } =
-    await getTotalCosts(block, transactions);
+  const { blockCosts, microblockCosts } = await getTotalCosts(
+    block,
+    transactions
+  );
 
   const blockPercentages: BlockExecutionCost = {
     read_count: BigInt(0),
@@ -61,9 +63,9 @@ const BlockFullness = async ({ block }: BlockFullnessProps) => {
       (Number(microblockCosts[key]) / Number(blockLimits[key])) * 100;
   });
 
-  const totalFees = await getTotalFees(transactions);
-  const highestCost = Math.max(Number(...Object.values(blockPercentages)));
-  const feeRate = Math.round(totalFees / highestCost);
+  // const totalFees = await getTotalFees(transactions);
+  // const highestCost = Math.max(Number(...Object.values(blockPercentages)));
+  // const feeRate = Math.round(totalFees / highestCost);
   return (
     <div className='card col-span-4 h-full rounded-lg border border-gray-700 bg-[#081115] p-6 shadow-lg'>
       <div className='w-full items-center justify-between md:flex'>
