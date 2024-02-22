@@ -4,7 +4,6 @@ import {
   BlockExecutionCostDB,
   blockLimits,
   getTotalCosts,
-  getTotalFees,
   capitalizeFirstLetter,
 } from '../../lib/util';
 import { getTxs } from '../datastore/nodeDB';
