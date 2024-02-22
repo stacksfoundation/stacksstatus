@@ -1,5 +1,6 @@
 import { blocks } from '@prisma/client';
 import React from 'react';
+import Card from './Card';
 
 interface TimeSinceLastBlockProps {
   blocks: Pick<blocks, 'block_height' | 'burn_block_time'>[];
@@ -40,9 +41,12 @@ const TimeSinceLastBlock = ({ blocks }: TimeSinceLastBlockProps) => {
     .slice(1); // remove the first element since prevBurnBlockTime was 0;
   secondsSinceLastBlockArray.push(timeSinceLastBlock); // add time since last block
   return (
-    <div>
-      <p>TimeSinceLastBlock</p>
-      <p>{formatSeconds(timeSinceLastBlock)}</p>
+    <div className='time-since-last-block col-span-2'>
+      <Card
+        title='Time since last block'
+        value={formatSeconds(timeSinceLastBlock)}
+        data={blocks}
+      />
     </div>
   );
 };

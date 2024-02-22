@@ -1,6 +1,7 @@
 import { blocks } from '@prisma/client';
 import React from 'react';
 import { getTimestampFromNow, millisecondsPerHour } from '../../lib/util';
+import Card from './Card';
 
 interface TxsPerTimeProps {
   blocks: Pick<blocks, 'tx_count' | 'block_height' | 'burn_block_time'>[];
@@ -16,16 +17,25 @@ const TxsPerTime = ({ blocks }: TxsPerTimeProps) => {
     (accumulator, currentValue) => accumulator + currentValue.tx_count,
     0
   );
+  // if (!blocksInLast24h.length) {
+  //   console.error({
+  //     'TxsPerTime.blocksInLast24h.length': blocksInLast24h.length,
+  //   });
+  //   return;
+  // }
   const secondsDiff =
-    blocksInLast24h[blocksInLast24h.length - 1].burn_block_time -
-    blocksInLast24h[0].burn_block_time;
+    blocksInLast24h[blocksInLast24h.length - 1]?.burn_block_time -
+    blocksInLast24h[0]?.burn_block_time;
   const tps = parseFloat(
     (Math.round((txCount / secondsDiff) * 100) / 100).toFixed(2)
   );
   return (
-    <div>
-      <p>Transactions per Second</p>
-      <p>{tps}</p>
+    <div className='txs-per-time col-span-2'>
+      <Card
+        title='Transactions per second'
+        value={tps.toLocaleString()}
+        data={blocks}
+      />
     </div>
   );
 };

@@ -1,8 +1,8 @@
 import '../styles/globals.css';
 import { Metadata, Viewport } from 'next';
 import React from 'react';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+import Navbar from './components/Navigation/Navbar';
+import Footer from './components/Navigation/Footer';
 
 export const metadata: Metadata = {
   title: 'Stacks Blockchain Status',
@@ -19,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body>
+      <body className='flex min-h-[100vh] flex-col'>
         <Navbar />
         {children}
         <Footer />

@@ -24,6 +24,7 @@ const Fees = async () => {
     return (await getData(`${apiRoot}/extended/v2/mempool/fees`)) as FeeI;
   };
   const fees = await getFees();
+  if (!Object(fees).keys?.length) return;
 
   const tooltipContent = (
     priority: 'low_priority' | 'medium_priority' | 'high_priority'
@@ -31,16 +32,22 @@ const Fees = async () => {
     const speed = priority.replace('_', ' ').split(' ')[0];
     const title = speed.charAt(0).toUpperCase() + speed.slice(1) + ' Priority';
     return (
-      <div className='min-w-40 rounded-lg bg-slate-700 px-1 py-2'>
-        <div className='text-small font-bold'>{title}</div>
-        <div className='text-tiny'>all: {formatFee(fees.all[priority])}</div>
-        <div className='text-tiny'>
-          transfer: {formatFee(fees.token_transfer[priority])}
-        </div>
-        <div className='text-tiny'>
-          contract call: {formatFee(fees.contract_call[priority])}
-        </div>
-        <div className='text-xs text-slate-400'>{mempoolFeesDescription}</div>
+      <div className="m-auto min-w-40 rounded-lg bg-slate-700 p-5 font-['Arial']">
+        <h2>{title}</h2>
+        <ul>
+          <li>
+            <strong>All: </strong> {formatFee(fees.all[priority])} stx
+          </li>
+          <li>
+            <strong>Transfer: </strong>
+            {formatFee(fees.token_transfer[priority])} stx
+          </li>
+          <li>
+            <strong>Contract Call: </strong>
+            {formatFee(fees.contract_call[priority])} stx
+          </li>
+        </ul>
+        <p className='mt-2 max-w-72 text-sm italic'>{mempoolFeesDescription}</p>
       </div>
     );
   };
@@ -52,23 +59,23 @@ const Fees = async () => {
   };
 
   return (
-    <div className='mx-5 flex justify-center rounded-md border border-slate-600 px-2'>
-      <p>Mempool fees : </p>
+    <div className='mx-5 flex justify-center rounded-2xl border border-slate-600 px-3 py-1'>
+      <p>Fees : </p>
       <FeesData tooltipContent={tooltipContent('low_priority')}>
-        <div className='ml-1 flex justify-center'>
-          <GiTurtle className='mt-1' />
+        <div className='flex justify-center'>
+          <GiTurtle className='mx-1 mt-1' />
           <p>{formatFee(fees.all.low_priority)}</p>
         </div>
       </FeesData>
       <FeesData tooltipContent={tooltipContent('medium_priority')}>
         <div className='flex justify-center '>
-          <GiRabbitHead className='mt-1' />
+          <GiRabbitHead className='mx-1 mt-1' />
           <p>{formatFee(fees.all.medium_priority)}</p>
         </div>
       </FeesData>
       <FeesData tooltipContent={tooltipContent('high_priority')}>
         <div className='flex justify-center'>
-          <GiBurningDot className='mt-1' />
+          <GiBurningDot className='mx-1 mt-1' />
           <p>{formatFee(fees.all.high_priority)}</p>
         </div>
       </FeesData>

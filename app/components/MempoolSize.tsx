@@ -1,4 +1,5 @@
 import React from 'react';
+import Card from './Card';
 
 interface MempoolSizeProps {
   txTypeCounts: {
@@ -10,15 +11,22 @@ interface MempoolSizeProps {
 }
 
 const MempoolSize = ({ txTypeCounts }: MempoolSizeProps) => {
+  if (!txTypeCounts) {
+    console.error({ txTypeCounts });
+    return;
+  }
   return (
-    <div>
-      <p>Pending Transactions</p>
-      <p>
-        {txTypeCounts.token_transfer +
+    <div className='mempool-txs col-span-2'>
+      <Card
+        title='Pending transactions in mempool'
+        value={(
+          txTypeCounts.token_transfer +
           txTypeCounts.smart_contract +
           txTypeCounts.contract_call +
-          txTypeCounts.poison_microblock}
-      </p>
+          txTypeCounts.poison_microblock
+        ).toLocaleString()}
+        data={['']} // TODO
+      />
     </div>
   );
 };
