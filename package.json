@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prismaDev": "dotenv -e .env.local prisma migrate dev"
+    "prismaDev": "dotenv -e .env.local prisma migrate dev",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@nextui-org/system": "^2.0.15",
