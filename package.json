@@ -7,24 +7,36 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prismaDev": "dotenv -e .env.local prisma migrate dev"
+    "prismaDev": "dotenv -e .env.local prisma migrate dev",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@nextui-org/system": "^2.0.15",
+    "@nextui-org/theme": "^2.1.17",
+    "@nextui-org/tooltip": "^2.0.29",
+    "@visx/axis": "^3.8.0",
+    "@visx/curve": "^3.3.0",
+    "@visx/group": "^3.3.0",
+    "@visx/scale": "^3.5.0",
+    "@visx/shape": "^3.5.0",
+    "@visx/tooltip": "^3.3.0",
     "dotenv-flow": "^3.2.0",
     "express": "^4.18.1",
     "express-winston": "4.2.0",
+    "framer-motion": "^11.0.5",
     "next": "^14.1.0",
     "prisma": "5.8.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-icons": "^5.0.1"
   },
   "devDependencies": {
-    "@nextui-org/react": "^1.0.0-beta.10",
     "@prisma/client": "5.8.0",
     "@svgr/webpack": "^6.5.0",
     "@types/node": "^20.11.17",
     "@types/react": "^18.2.55",
     "@upstash/qstash": "^0.1.8",
+    "autoprefixer": "^10.4.17",
     "eslint": "^8.27.0",
     "eslint-config-next": "^14.1.0",
     "eslint-config-standard": "^17.0.0",
@@ -33,6 +45,10 @@
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.31.10",
     "isomorphic-fetch": "^3.0.0",
+    "postcss": "^8.4.35",
+    "prettier": "^3.2.5",
+    "prettier-plugin-tailwindcss": "^0.5.11",
+    "tailwindcss": "^3.4.1",
     "typescript": "^5.3.3",
     "winston": "^3.8.2"
   }
