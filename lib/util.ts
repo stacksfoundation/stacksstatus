@@ -95,7 +95,10 @@ export const getBlockLen = async (block: BlockExecutionCostDB) => {
   const url = `https://api.mainnet.hiro.so/v2/blocks/${indexBlockHash}`;
   const response = await fetch(url);
   if (!response.ok) {
-    throw new Error(`Failed to retrieve block: ${response.statusText}`);
+    console.error(
+      `Failed to retrieve indexBlockHash ${indexBlockHash} from API: ${response.statusText}`
+    );
+    return 0;
   }
   const blob = await response.blob();
   return blob.size;

@@ -26,7 +26,9 @@ const Home = async () => {
   const data = await getStatusData();
   return (
     <div className='flex w-[95%] flex-col items-center justify-center'>
-      <p className='font-serif m-2 w-[95%] pl-2 font-bold'>Overview: </p>
+      <div className='flex items-center justify-center'>
+        <h2 className='font-serif m-2 text-lg font-bold'>Overview:</h2>
+      </div>
       <CardsGridLayout>
         {!!data.blocks.length && (
           <>

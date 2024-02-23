@@ -27,7 +27,7 @@ const LatestBlock = ({ block }: LatestBlockProps) => {
   return (
     <div className='latest-block col-span-2 row-span-3 flex items-center justify-center rounded-lg border border-gray-700 bg-[#081115]'>
       <div className='card h-full w-full max-w-lg p-3 shadow-lg'>
-        <h2 className='mb-4 text-xl font-bold text-white'>Latest Block</h2>
+        <h2 className='my-4 text-xl font-bold text-white'>Latest Block</h2>
         <ul className='list-none space-y-2'>
           <li className='text-gray-400'>
             <span className='font-semibold text-white'>Height: </span>
