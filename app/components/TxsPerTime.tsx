@@ -17,12 +17,6 @@ const TxsPerTime = ({ blocks }: TxsPerTimeProps) => {
     (accumulator, currentValue) => accumulator + currentValue.tx_count,
     0
   );
-  // if (!blocksInLast24h.length) {
-  //   console.error({
-  //     'TxsPerTime.blocksInLast24h.length': blocksInLast24h.length,
-  //   });
-  //   return;
-  // }
   const secondsDiff =
     blocksInLast24h[blocksInLast24h.length - 1]?.burn_block_time -
     blocksInLast24h[0]?.burn_block_time;
