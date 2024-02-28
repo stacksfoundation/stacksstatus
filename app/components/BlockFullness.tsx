@@ -66,7 +66,7 @@ const BlockFullness = async ({ block }: BlockFullnessProps) => {
   // const highestCost = Math.max(Number(...Object.values(blockPercentages)));
   // const feeRate = Math.round(totalFees / highestCost);
   return (
-    <div className='card col-span-4 h-full rounded-lg border border-gray-700 bg-[#081115] p-6 shadow-lg'>
+    <div className='card col-span-4 h-full rounded-lg  p-6 shadow-lg'>
       <div className='w-full items-center justify-between md:flex'>
         <div className='block-fullness'>
           <BarChart

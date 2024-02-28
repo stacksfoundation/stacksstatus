@@ -1,5 +1,9 @@
 import React from 'react';
-import { getTimestampFromNow, millisecondsPerHour } from '../../lib/util';
+import {
+  getTimestampFromNow,
+  millisecondsPerHour,
+  queryLineChartData,
+} from '../../lib/util';
 import { blocks } from '@prisma/client';
 import Card from './Card';
 
@@ -7,7 +11,11 @@ interface BlocksPerTimeProps {
   blocks: Pick<blocks, 'burn_block_time' | 'block_height'>[];
 }
 
-const BlocksPerTime = ({ blocks }: BlocksPerTimeProps) => {
+const BlocksPerTime = async ({ blocks }: BlocksPerTimeProps) => {
+  const data = (await queryLineChartData('BlocksPerHour')) as {
+    hourly_bucket: Date;
+    occurrences: number;
+  }[];
   const startTimestamp = getTimestampFromNow(millisecondsPerHour) / 1000;
   const blocksInLastHour = blocks.filter(
     (b) => b.burn_block_time >= startTimestamp
@@ -17,7 +25,9 @@ const BlocksPerTime = ({ blocks }: BlocksPerTimeProps) => {
       <Card
         title='Blocks in the last hour'
         value={blocksInLastHour.length.toLocaleString()}
-        data={blocks}
+        data={data}
+        x='hourly_bucket'
+        y='occurrences'
       />
     </div>
   );

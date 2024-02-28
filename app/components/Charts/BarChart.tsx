@@ -66,9 +66,9 @@ export default function BarChart({
     setTooltipData(
       <div>
         <strong className='m-1 text-cyan-600'>{d.name} : </strong>
-        <p className='m-2'>Bytes : {blockCosts[key].toString()}</p>
-        <p className='m-2'>Block Limit : {blockLimits[key].toString()}</p>
-        <p className='m-2'>{renderPercent(d.value)}</p>
+        <p className='m-2'>Bytes: {blockCosts[key].toString()}</p>
+        <p className='m-2'>Block limit: {blockLimits[key].toString()}</p>
+        <p className='m-2'>Block fullness: {renderPercent(d.value)}</p>
       </div>
     );
     setTooltipTop(y);

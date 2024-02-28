@@ -1,20 +1,22 @@
 import React from 'react';
 import Card from './Card';
+import { MempoolTxTypeI, queryLineChartData } from '../../lib/util';
 
 interface MempoolSizeProps {
-  txTypeCounts: {
-    token_transfer: number;
-    smart_contract: number;
-    contract_call: number;
-    poison_microblock: number;
-  };
+  txTypeCounts: MempoolTxTypeI;
 }
 
-const MempoolSize = ({ txTypeCounts }: MempoolSizeProps) => {
+const MempoolSize = async ({ txTypeCounts }: MempoolSizeProps) => {
   if (!txTypeCounts) {
-    console.error({ txTypeCounts });
+    console.error({ msg: 'failed to load MempoolSize', txTypeCounts });
     return;
   }
+
+  const data = (await queryLineChartData('PendingTxsInMempool')) as {
+    date: Date;
+    size: number;
+  }[];
+
   return (
     <div className='mempool-txs col-span-2'>
       <Card
@@ -25,7 +27,9 @@ const MempoolSize = ({ txTypeCounts }: MempoolSizeProps) => {
           txTypeCounts.contract_call +
           txTypeCounts.poison_microblock
         ).toLocaleString()}
-        data={['']} // TODO
+        data={data}
+        x='date'
+        y='size'
       />
     </div>
   );

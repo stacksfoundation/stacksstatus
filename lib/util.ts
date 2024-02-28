@@ -1,6 +1,9 @@
+import { promises as fs } from 'fs';
+import prisma from './db';
 import { blocks, txs } from '@prisma/client';
 
 export const apiRoot = 'https://api.hiro.so';
+export const hiroApiRoot = 'https://api.hiro.so';
 
 export const millisecondsPerHour = 60 * 60 * 1000;
 export const millisecondsPerDay = 24 * millisecondsPerHour;
@@ -23,17 +26,28 @@ export function convertEpoch(date) {
 export const isProd = process.env.NODE_ENV === 'production';
 
 // pages/api/user
-export async function getData(url) {
+export async function getData(url: string) {
+  let response: Response;
   try {
-    const response = await fetch(url, {
+    response = await fetch(url, {
       next: { revalidate: isProd ? 90 : 0 },
     });
     const jsonData = await response.json();
     return jsonData;
   } catch (error) {
-    console.error(`Couldn't fetch ${url}`, { error });
+    console.error(`Couldn't fetch ${url}`, {
+      error,
+      'response.body': JSON.stringify(response?.body),
+    });
     return {};
   }
+}
+
+export interface MempoolTxTypeI {
+  token_transfer: number;
+  smart_contract: number;
+  contract_call: number;
+  poison_microblock: number;
 }
 
 // brice.btc®
@@ -95,7 +109,8 @@ export const getBlockLen = async (block: BlockExecutionCostDB) => {
   const url = `https://api.mainnet.hiro.so/v2/blocks/${indexBlockHash}`;
   const response = await fetch(url);
   if (!response.ok) {
-    throw new Error(`Failed to retrieve block: ${response.statusText}`);
+    console.error(`Failed to retrieve block: ${url} ${response.statusText}`);
+    return 0;
   }
   const blob = await response.blob();
   return blob.size;
@@ -165,4 +180,12 @@ export const getTotalFees = async (transactions: TxExecutionCostDB[]) => {
 
 export const capitalizeFirstLetter = (s: string) => {
   return s.charAt(0).toUpperCase() + s.slice(1);
+};
+
+export const queryLineChartData = async (file: string) => {
+  const query = await fs.readFile(
+    process.cwd() + `/app/datastore/queries/${file}.sql`,
+    'utf8'
+  );
+  return await prisma.$queryRawUnsafe(query);
 };
