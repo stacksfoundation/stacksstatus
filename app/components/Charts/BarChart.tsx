@@ -4,23 +4,16 @@ import React, { useState } from 'react';
 import { Group } from '@visx/group';
 import { Bar } from '@visx/shape';
 import { scaleBand, scaleLinear } from '@visx/scale';
-import { TooltipWithBounds, defaultStyles } from '@visx/tooltip';
+import { TooltipWithBounds } from '@visx/tooltip';
 import { AxisBottom, AxisLeft } from '@visx/axis';
 import { BlockExecutionCost, blockLimits } from '../../../lib/util';
+import { tooltipStyles } from './helpers';
 
 // Define the dimensions and margins of the graph
 const margin = { top: 25, bottom: 25, left: 100, right: 20 };
 
 // Accessors
 const getName = (d) => d.name;
-
-// Tooltip styles
-const tooltipStyles = {
-  ...defaultStyles,
-  minWidth: 60,
-  backgroundColor: 'rgba(0,0,0,0.9)',
-  color: 'white',
-};
 
 const renderPercent = (num: number) => {
   return `${(Math.round(num * 100) / 100).toFixed(2)}%`;
@@ -89,6 +82,7 @@ export default function BarChart({
               height={yScale.bandwidth()}
               fill='#4f95f0'
               onMouseOver={(event) => handleMouseOver(event, d)}
+              onMouseMove={(event) => handleMouseOver(event, d)}
               onMouseOut={() => setTooltipData(null)}
             />
           ))}

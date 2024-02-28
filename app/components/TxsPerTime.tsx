@@ -13,11 +13,11 @@ interface TxsPerTimeProps {
 
 const TxsPerTime = async ({ blocks }: TxsPerTimeProps) => {
   const data = (await queryLineChartData('TPS')) as {
-    hourly_bucket: Date;
-    occurrences: number;
+    hour: Date;
+    tps: number;
   }[];
 
-  const startTimestamp = getTimestampFromNow(millisecondsPerHour) / 1000;
+  const startTimestamp = getTimestampFromNow(millisecondsPerHour * 24) / 1000;
   const filteredBlocks = blocks.filter(
     (b) => b.burn_block_time >= startTimestamp
   );
@@ -36,9 +36,14 @@ const TxsPerTime = async ({ blocks }: TxsPerTimeProps) => {
       <Card
         title='Transactions per second'
         value={tps.toLocaleString()}
-        data={data}
-        x='hourly_bucket'
-        y='txs_per_second'
+        data={data.map((d) => {
+          return {
+            hour: d.hour,
+            TPS: d.tps.toString(), // Fix for Warning: Only plain objects can be passed to Client Components from Server Components. Decimal objects are not supported.
+          };
+        })}
+        x='hour'
+        y='TPS'
       />
     </div>
   );

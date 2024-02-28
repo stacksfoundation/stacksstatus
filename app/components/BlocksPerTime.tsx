@@ -13,8 +13,8 @@ interface BlocksPerTimeProps {
 
 const BlocksPerTime = async ({ blocks }: BlocksPerTimeProps) => {
   const data = (await queryLineChartData('BlocksPerHour')) as {
-    hourly_bucket: Date;
-    occurrences: number;
+    hour: Date;
+    blocks: number;
   }[];
   const startTimestamp = getTimestampFromNow(millisecondsPerHour) / 1000;
   const blocksInLastHour = blocks.filter(
@@ -26,8 +26,8 @@ const BlocksPerTime = async ({ blocks }: BlocksPerTimeProps) => {
         title='Blocks in the last hour'
         value={blocksInLastHour.length.toLocaleString()}
         data={data}
-        x='hourly_bucket'
-        y='occurrences'
+        x='hour'
+        y='blocks'
       />
     </div>
   );

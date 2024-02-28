@@ -29,7 +29,7 @@ const Card = ({ title, value, data, x, y }: CardProps) => {
         </div>
         {data && (
           <div className='mt-4 min-w-0 flex-1 md:mt-0'>
-            <LineChart data={data} x={x} y={y} />
+            <LineChart data={data} xLabel={x} yLabel={y} tooltipTitle={title} />
           </div>
         )}
       </div>

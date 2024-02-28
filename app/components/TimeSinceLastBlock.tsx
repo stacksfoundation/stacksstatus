@@ -38,14 +38,14 @@ const TimeSinceLastBlock = ({ blocks }: TimeSinceLastBlockProps) => {
       const tempPrevBurnBlockTime = prevBurnBlockTime;
       prevBurnBlockTime = b.burn_block_time;
       return {
-        blockHeight: b.block_height,
+        block_height: b.block_height,
         seconds: b.burn_block_time - tempPrevBurnBlockTime,
       };
     })
     .slice(-200)
     .slice(1); // remove the first element since prevBurnBlockTime was 0;
   timeBetweenBlocks.push({
-    blockHeight: currentHeight + 1,
+    block_height: currentHeight + 1,
     seconds: timeSinceLastBlock,
   }); // add time since last block
   return (
@@ -54,7 +54,7 @@ const TimeSinceLastBlock = ({ blocks }: TimeSinceLastBlockProps) => {
         title='Time since last block'
         value={formatSeconds(timeSinceLastBlock)}
         data={timeBetweenBlocks}
-        x='blockHeight'
+        x='block_height'
         y='seconds'
       />
     </div>
