@@ -1,25 +1,33 @@
 import { blocks } from '@prisma/client';
 import React from 'react';
-import { getTimestampFromNow, millisecondsPerHour } from '../../lib/util';
+import {
+  getTimestampFromNow,
+  millisecondsPerHour,
+  queryLineChartData,
+} from '../../lib/util';
 import Card from './Card';
 
 interface TxsPerTimeProps {
   blocks: Pick<blocks, 'tx_count' | 'block_height' | 'burn_block_time'>[];
 }
 
-const TxsPerTime = ({ blocks }: TxsPerTimeProps) => {
-  const startTimestamp =
-    getTimestampFromNow(millisecondsPerHour * 24 * 10) / 1000;
-  const blocksInLast24h = blocks.filter(
+const TxsPerTime = async ({ blocks }: TxsPerTimeProps) => {
+  const data = (await queryLineChartData('TPS')) as {
+    hour: Date;
+    tps: number;
+  }[];
+
+  const startTimestamp = getTimestampFromNow(millisecondsPerHour * 24) / 1000;
+  const filteredBlocks = blocks.filter(
     (b) => b.burn_block_time >= startTimestamp
   );
-  const txCount = blocksInLast24h.reduce(
+  const txCount = filteredBlocks.reduce(
     (accumulator, currentValue) => accumulator + currentValue.tx_count,
     0
   );
   const secondsDiff =
-    blocksInLast24h[blocksInLast24h.length - 1]?.burn_block_time -
-    blocksInLast24h[0]?.burn_block_time;
+    filteredBlocks[filteredBlocks.length - 1]?.burn_block_time -
+    filteredBlocks[0]?.burn_block_time;
   const tps = parseFloat(
     (Math.round((txCount / secondsDiff) * 100) / 100).toFixed(2)
   );
@@ -28,7 +36,14 @@ const TxsPerTime = ({ blocks }: TxsPerTimeProps) => {
       <Card
         title='Transactions per second'
         value={tps.toLocaleString()}
-        data={blocks}
+        data={data.map((d) => {
+          return {
+            hour: d.hour,
+            TPS: d.tps.toString(), // Fix for Warning: Only plain objects can be passed to Client Components from Server Components. Decimal objects are not supported.
+          };
+        })}
+        x='hour'
+        y='TPS'
       />
     </div>
   );

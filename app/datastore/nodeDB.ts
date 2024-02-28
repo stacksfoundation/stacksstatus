@@ -31,12 +31,20 @@ export const getBlocks = async (pastDays: number) => {
         },
         canonical: true,
       },
+      orderBy: {
+        block_height: 'asc',
+      },
     });
     return blocks;
   } catch (e) {
     console.error(e);
     return [];
   }
+};
+
+export const getChainTip = async () => {
+  const tip = await prisma.chain_tip.findFirst({});
+  return tip;
 };
 
 export const getTxs = async (
@@ -61,4 +69,13 @@ export const getTxs = async (
     console.error(e);
     return [];
   }
+};
+
+export const addMempoolSize = async (size: number, date = new Date()) => {
+  await prisma.mempool_size.create({
+    data: {
+      date,
+      size,
+    },
+  });
 };

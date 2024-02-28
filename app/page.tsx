@@ -12,7 +12,7 @@ import BlockFullness from './components/BlockFullness';
 
 const getStatusData = async () => {
   const [blocks, mempool] = await Promise.all([
-    getBlocks(20),
+    getBlocks(7),
     getData(`${apiRoot}/extended/v1/tx/mempool/stats`),
   ]);
   console.info(JSON.stringify({ blocks: blocks.length, mempool }));

@@ -5,9 +5,11 @@ interface CardProps {
   title: string;
   value: string;
   data?: any[];
+  x?: string;
+  y?: string;
 }
 
-const Card = ({ title, value, data }: CardProps) => {
+const Card = ({ title, value, data, x, y }: CardProps) => {
   return (
     <div className='card h-full rounded-lg border border-gray-700 bg-[#081115] p-6 shadow-lg'>
       <div className='flex w-full flex-col items-center justify-between md:flex-row'>
@@ -27,7 +29,7 @@ const Card = ({ title, value, data }: CardProps) => {
         </div>
         {data && (
           <div className='mt-4 min-w-0 flex-1 md:mt-0'>
-            <LineChart />
+            <LineChart data={data} xLabel={x} yLabel={y} tooltipTitle={title} />
           </div>
         )}
       </div>

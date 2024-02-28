@@ -31,21 +31,31 @@ const TimeSinceLastBlock = ({ blocks }: TimeSinceLastBlockProps) => {
   const timeSinceLastBlock = Math.floor(
     now.getTime() / 1000 - blocks[blocks.length - 1].burn_block_time
   );
+  const currentHeight = blocks[blocks.length - 1].block_height;
   let prevBurnBlockTime = 0;
-  const secondsSinceLastBlockArray: number[] = blocks
+  const timeBetweenBlocks = blocks
     .map((b) => {
       const tempPrevBurnBlockTime = prevBurnBlockTime;
       prevBurnBlockTime = b.burn_block_time;
-      return b.burn_block_time - tempPrevBurnBlockTime;
+      return {
+        block_height: b.block_height,
+        seconds: b.burn_block_time - tempPrevBurnBlockTime,
+      };
     })
+    .slice(-200)
     .slice(1); // remove the first element since prevBurnBlockTime was 0;
-  secondsSinceLastBlockArray.push(timeSinceLastBlock); // add time since last block
+  timeBetweenBlocks.push({
+    block_height: currentHeight + 1,
+    seconds: timeSinceLastBlock,
+  }); // add time since last block
   return (
     <div className='time-since-last-block col-span-2'>
       <Card
         title='Time since last block'
         value={formatSeconds(timeSinceLastBlock)}
-        data={blocks}
+        data={timeBetweenBlocks}
+        x='block_height'
+        y='seconds'
       />
     </div>
   );

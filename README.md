@@ -29,49 +29,18 @@ git clone https://github.com/stacksfoundation/stacksstatus && cd stacksstatus
 # Create .env file
 cp .env.local.example .env
 
-# update .env file with DB connection options (HOST, USER, PASSWORD, etc) and apply migrations
-npx prisma migrate dev --name init
-
 # Install dependencies
-npm install
 
 # Run development server
-npm run dev
-# or
 yarn dev
 
 # Run production server
-npm run build && npm run start
-yarn build && yarn start
+yarn build && yarn prismamigrate && yarn start
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Refreshing the data
-
-There are 2 paths via the `/api` route to refresh the data, and 1 standalone script with not authentication
-
-1. `/api/refresh` - this path is used with [upstash](upstash.com) [docs](https://docs.upstash.com/qstash/quickstarts/vercel-nextjs)
-2. `/api/refresh_local` - this path is used with a local key defined below `API_SECRET_KEY`
-3. `node lib/standalone_check.js` - [package.json](./package.json) will need to be set to `"type": "module"` to run this
-
-To refresh the data, you can run a `curl` command like the following:
-
-```bash
-$ curl -sLw '\n' \
-    --request POST \
-    --url 'localhost:3000/api/refresh_local' \
-    --header 'Authorization: Bearer secret'
-```
-
-With upstash:
-
-```bash
-$ curl -sL \
-  --request POST \
-  --url "https://qstash.upstash.io/v1/publish/<url of app>/api/refresh" \
- --header "Authorization: Bearer <refer to upstash docs>"
-```
 
 ## Adding more checks
 
