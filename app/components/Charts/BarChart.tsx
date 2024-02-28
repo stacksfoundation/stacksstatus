@@ -66,8 +66,8 @@ export default function BarChart({
     setTooltipData(
       <div>
         <strong className='m-1 text-cyan-600'>{d.name} : </strong>
-        <p className='m-2'>Bytes: {blockCosts[key].toString()}</p>
-        <p className='m-2'>Block limit: {blockLimits[key].toString()}</p>
+        <p className='m-2'>Bytes: {blockCosts[key].toLocaleString()}</p>
+        <p className='m-2'>Block limit: {blockLimits[key].toLocaleString()}</p>
         <p className='m-2'>Block fullness: {renderPercent(d.value)}</p>
       </div>
     );
@@ -76,17 +76,10 @@ export default function BarChart({
   };
 
   return (
-    <div>
+    <div className='flex flex-col items-center justify-center text-lg font-bold'>
+      <span className='flex'>Block Fullness (%)</span>
       <svg width={width} height={height}>
         <Group>
-          <text
-            x={width / 2}
-            y={margin.top / 2}
-            textAnchor='middle'
-            style={{ fontSize: '16px', fontWeight: 'bold', fill: 'white' }}
-          >
-            Block Fullness (%)
-          </text>
           {data.map((d) => (
             <Bar
               key={d.name}
