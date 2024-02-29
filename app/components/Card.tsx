@@ -11,7 +11,7 @@ interface CardProps {
 
 const Card = ({ title, value, data, x, y }: CardProps) => {
   return (
-    <div className='card h-full rounded-lg border border-gray-700 bg-[#081115] p-6 shadow-lg'>
+    <div className='card flex h-full items-center justify-center rounded-lg border border-gray-700 bg-[#081115] p-6 shadow-lg'>
       <div className='flex w-full flex-col items-center justify-between md:flex-row'>
         <div className='min-w-0 flex-1'>
           <div className='flex items-center space-x-4'>

@@ -32,7 +32,7 @@ const LineChart = ({ data, xLabel, yLabel, tooltipTitle }: LineChartProps) => {
   // Dimensions
   const width = 300;
   const height = 100;
-  const margin = { top: 20, bottom: 20, left: 30, right: 30 };
+  const margin = { top: 20, bottom: 20, left: 0, right: 30 };
 
   // Scales
   const xScale = scaleLinear({
