@@ -19,6 +19,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
+      <head>
+        <link rel='icon' href='/images/favicon.ico' />
+      </head>
       <body className='flex min-h-[100vh] flex-col'>
         <Navbar />
         {children}
