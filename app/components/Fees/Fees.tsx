@@ -60,7 +60,7 @@ const Fees = async () => {
 
   return (
     <div className='mx-5 flex justify-center rounded-2xl border border-slate-600 px-3 py-1'>
-      <p>Fees : </p>
+      <p>Fees</p>
       <FeesData tooltipContent={tooltipContent('low_priority')}>
         <div className='flex justify-center'>
           <GiTurtle className='mx-1 mt-1' />
