@@ -85,14 +85,14 @@ const LineChart = ({ data, xLabel, yLabel, tooltipTitle }: LineChartProps) => {
             strokeLinecap='round'
             fill='none'
           />
-          {data.map((d) => {
+          {data.map((d, index) => {
             const barWidth = width / data.length;
             const barHeight = height;
             const barX = xScale(d[xLabel]);
             const barY = height - barHeight;
             return (
               <Bar
-                key={d[xLabel]}
+                key={index}
                 x={barX}
                 y={barY}
                 width={barWidth}
