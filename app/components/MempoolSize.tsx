@@ -13,7 +13,7 @@ const MempoolSize = async ({ txTypeCounts }: MempoolSizeProps) => {
   }
 
   const data = (await queryLineChartData('PendingTxsInMempool')) as {
-    date: Date;
+    hour: Date;
     size: number;
   }[];
 
@@ -28,7 +28,7 @@ const MempoolSize = async ({ txTypeCounts }: MempoolSizeProps) => {
           txTypeCounts.poison_microblock
         ).toLocaleString()}
         data={data}
-        x='date'
+        x='hour'
         y='size'
       />
     </div>

@@ -1,6 +1,7 @@
 import { promises as fs } from 'fs';
 import prisma from './db';
 import { blocks, txs } from '@prisma/client';
+import { getTxs } from '../app/datastore/nodeDB';
 
 export const apiRoot = 'https://api.hiro.so';
 export const hiroApiRoot = 'https://api.hiro.so';
@@ -109,7 +110,9 @@ export const getBlockLen = async (block: BlockExecutionCostDB) => {
   const url = `https://api.mainnet.hiro.so/v2/blocks/${indexBlockHash}`;
   const response = await fetch(url);
   if (!response.ok) {
-    console.error(`Failed to retrieve indexBlockHash in getBlockLen: ${url} ${response.statusText}`);
+    console.error(
+      `Failed to retrieve indexBlockHash in getBlockLen: ${url} ${response.statusText}`
+    );
     return 0;
   }
   const blob = await response.blob();
@@ -188,4 +191,39 @@ export const queryLineChartData = async (file: string) => {
     'utf8'
   );
   return await prisma.$queryRawUnsafe(query);
+};
+
+export const getBlockFullnessPercentages = async ({
+  block,
+}: {
+  block: BlockExecutionCostDB;
+}) => {
+  const transactions = await getTxs(block.index_block_hash);
+
+  const { blockCosts } = await getTotalCosts(block, transactions);
+
+  const blockPercentages: BlockExecutionCost = {
+    read_count: BigInt(0),
+    read_length: BigInt(0),
+    runtime: BigInt(0),
+    write_count: BigInt(0),
+    write_length: BigInt(0),
+    length: 0,
+  };
+
+  Object.keys(blockCosts).forEach((key) => {
+    blockPercentages[key] =
+      (Number(blockCosts[key]) / Number(blockLimits[key])) * 100;
+  });
+
+  return blockPercentages;
+};
+
+export const getMax = (obj: any) => {
+  let max = 0;
+  Object.keys(obj).map((k) => {
+    max = Math.max(obj[k], max);
+    return max;
+  });
+  return max;
 };

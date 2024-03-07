@@ -22,7 +22,7 @@ export default function RootLayout({
       <head>
         <link rel='icon' href='/images/favicon.ico' />
       </head>
-      <body className='flex min-h-[100vh] flex-col'>
+      <body className='flex min-h-screen flex-col'>
         <Navbar />
         {children}
         <Footer />
