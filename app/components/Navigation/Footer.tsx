@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 
-const Footer = () => {
+const Footer = async () => {
   return (
     <div className='mt-auto flex w-full items-center justify-center bg-[#141414] p-2'>
       <a
