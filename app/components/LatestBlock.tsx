@@ -1,5 +1,6 @@
 import { blocks } from '@prisma/client';
 import React from 'react';
+import { getBlockFullnessPercentages, getMax } from '../../lib/util';
 
 interface LatestBlockProps {
   block: Pick<
@@ -11,10 +12,16 @@ interface LatestBlockProps {
     | 'burn_block_height'
     | 'miner_txid'
     | 'burn_block_hash'
+    | 'index_block_hash'
+    | 'execution_cost_read_count'
+    | 'execution_cost_read_length'
+    | 'execution_cost_runtime'
+    | 'execution_cost_write_count'
+    | 'execution_cost_write_length'
   >;
 }
 
-const LatestBlock = ({ block }: LatestBlockProps) => {
+const LatestBlock = async ({ block }: LatestBlockProps) => {
   const blockHeight = block.block_height;
   const txCount = block.tx_count;
   const blockHash = '0x' + block.block_hash.toString('hex');
@@ -24,6 +31,9 @@ const LatestBlock = ({ block }: LatestBlockProps) => {
   const burnBlockHeight = block.burn_block_height;
   const minerTxID = '0x' + block.miner_txid.toString('hex');
   const burnBlockHash = '0x' + block.burn_block_hash.toString('hex');
+
+  const fullnessPerc = await getBlockFullnessPercentages({ block });
+  const maxFullness = getMax(fullnessPerc);
   return (
     <div className='latest-block col-span-2 row-span-2 flex items-center justify-center rounded-lg border border-gray-800 bg-[#081115] px-6'>
       <div className='card h-full w-full max-w-lg p-3 shadow-lg'>
@@ -38,6 +48,18 @@ const LatestBlock = ({ block }: LatestBlockProps) => {
               <span className='font-semibold text-white'>Height: </span>
               <span className='hover:bg-slate-800'>
                 {blockHeight.toLocaleString()}
+              </span>
+            </a>
+          </li>
+          <li className='text-gray-400'>
+            <a
+              target='_blank'
+              rel='noopener noreferrer'
+              href={`https://explorer.hiro.so/block/${blockHash}?chain=mainnet`}
+            >
+              <span className='font-semibold text-white'>Fullness: </span>
+              <span className='hover:bg-slate-800'>
+                {maxFullness.toFixed(2)}%
               </span>
             </a>
           </li>

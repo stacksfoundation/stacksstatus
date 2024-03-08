@@ -7,7 +7,7 @@ import TimeSinceLastBlock from './components/TimeSinceLastBlock';
 import MempoolSize from './components/MempoolSize';
 import TxsPerBlock from './components/TxsPerBlock';
 import LatestBlock from './components/LatestBlock';
-import BlockFullness from './components/BlockFullness';
+import OverviewData from './components/OverviewData';
 
 const getStatusData = async () => {
   const [blocks, mempool] = await Promise.all([
@@ -31,6 +31,7 @@ const Home = async () => {
       <CardsGridLayout>
         {!!data.blocks.length && (
           <>
+            <OverviewData block={data.blocks[data.blocks.length - 1]} />
             <LatestBlock block={data.blocks[data.blocks.length - 1]} />
             <BlocksPerTime blocks={data.blocks} />
             <TxsPerBlock blocks={data.blocks} />
@@ -41,11 +42,6 @@ const Home = async () => {
           <MempoolSize txTypeCounts={data.mempool.tx_type_counts} />
         )}
       </CardsGridLayout>
-      <div className='block-fullness-wrapper m-2'>
-        {!!data.blocks.length && (
-          <BlockFullness block={data.blocks[data.blocks.length - 1]} />
-        )}
-      </div>
     </div>
   );
 };

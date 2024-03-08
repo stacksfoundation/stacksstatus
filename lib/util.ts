@@ -1,6 +1,8 @@
 import { promises as fs } from 'fs';
 import prisma from './db';
 import { blocks, txs } from '@prisma/client';
+import { getTxs } from '../app/datastore/nodeDB';
+import { join as pathJoin } from 'path';
 
 export const apiRoot = 'https://api.hiro.so';
 export const hiroApiRoot = 'https://api.hiro.so';
@@ -56,6 +58,7 @@ export interface MempoolTxTypeI {
 export type BlockExecutionCostDB = Pick<
   blocks,
   | 'index_block_hash'
+  | 'block_hash'
   | 'execution_cost_read_count'
   | 'execution_cost_read_length'
   | 'execution_cost_runtime'
@@ -81,7 +84,6 @@ export interface BlockExecutionCost {
   runtime: bigint;
   write_count: bigint;
   write_length: bigint;
-  length: number;
 }
 
 export const blockLimits: BlockExecutionCost = {
@@ -90,7 +92,6 @@ export const blockLimits: BlockExecutionCost = {
   runtime: BigInt(5000000000),
   write_count: BigInt(15000),
   write_length: BigInt(15000000),
-  length: 2 * 1024 * 1024,
 };
 
 export const getCosts = (data: BlockExecutionCostDB | TxExecutionCostDB) => {
@@ -102,18 +103,6 @@ export const getCosts = (data: BlockExecutionCostDB | TxExecutionCostDB) => {
     }
   }
   return costs;
-};
-
-export const getBlockLen = async (block: BlockExecutionCostDB) => {
-  const indexBlockHash = block.index_block_hash.toString('hex');
-  const url = `https://api.mainnet.hiro.so/v2/blocks/${indexBlockHash}`;
-  const response = await fetch(url);
-  if (!response.ok) {
-    console.error(`Failed to retrieve indexBlockHash in getBlockLen: ${url} ${response.statusText}`);
-    return 0;
-  }
-  const blob = await response.blob();
-  return blob.size;
 };
 
 // The total costs reported for the block include the costs of the microblocks
@@ -131,7 +120,6 @@ export const getTotalCosts = async (
     runtime: BigInt(0),
     write_count: BigInt(0),
     write_length: BigInt(0),
-    length: 0,
   };
   let microblockTxs = 0;
   const microblockCosts = {
@@ -140,7 +128,6 @@ export const getTotalCosts = async (
     runtime: BigInt(0),
     write_count: BigInt(0),
     write_length: BigInt(0),
-    length: 0,
   };
 
   // When microblocks are confirmed, we need special handling because the API
@@ -164,9 +151,6 @@ export const getTotalCosts = async (
     }
   }
 
-  // Retrieve the tx_len of the block
-  blockCosts.length = await getBlockLen(block);
-
   return { blockTxs, blockCosts, microblockTxs, microblockCosts };
 };
 
@@ -184,8 +168,42 @@ export const capitalizeFirstLetter = (s: string) => {
 
 export const queryLineChartData = async (file: string) => {
   const query = await fs.readFile(
-    process.cwd() + `/app/datastore/queries/${file}.sql`,
+    pathJoin(process.cwd(), `/app/datastore/queries/${file}.sql`),
     'utf8'
   );
   return await prisma.$queryRawUnsafe(query);
+};
+
+export const getBlockFullnessPercentages = async ({
+  block,
+}: {
+  block: BlockExecutionCostDB;
+}) => {
+  const transactions = await getTxs(block.index_block_hash);
+
+  const { blockCosts } = await getTotalCosts(block, transactions);
+
+  const blockPercentages: BlockExecutionCost = {
+    read_count: BigInt(0),
+    read_length: BigInt(0),
+    runtime: BigInt(0),
+    write_count: BigInt(0),
+    write_length: BigInt(0),
+  };
+
+  Object.keys(blockCosts).forEach((key) => {
+    blockPercentages[key] =
+      (Number(blockCosts[key]) / Number(blockLimits[key])) * 100;
+  });
+
+  return blockPercentages;
+};
+
+export const getMax = (obj: any) => {
+  let max = 0;
+  Object.keys(obj).map((k) => {
+    max = Math.max(obj[k], max);
+    return max;
+  });
+  return max;
 };
