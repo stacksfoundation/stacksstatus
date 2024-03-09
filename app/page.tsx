@@ -8,13 +8,16 @@ import MempoolSize from './components/MempoolSize';
 import TxsPerBlock from './components/TxsPerBlock';
 import LatestBlock from './components/LatestBlock';
 import OverviewData from './components/OverviewData';
+import { revalidateTag } from 'next/cache';
 
 const getStatusData = async () => {
+  'use server';
   const [blocks, mempool] = await Promise.all([
     getBlocks(7),
     getData(`${apiRoot}/extended/v1/tx/mempool/stats`),
   ]);
   console.info(JSON.stringify({ blocks: blocks.length, mempool }));
+  revalidateTag('/');
   return {
     blocks,
     mempool,
