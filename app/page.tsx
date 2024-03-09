@@ -8,6 +8,8 @@ import MempoolSize from './components/MempoolSize';
 import TxsPerBlock from './components/TxsPerBlock';
 import LatestBlock from './components/LatestBlock';
 import OverviewData from './components/OverviewData';
+import { GetServerSideProps } from 'next';
+import { blocks } from '@prisma/client';
 
 const getStatusData = async () => {
   const [blocks, mempool] = await Promise.all([
@@ -20,6 +22,28 @@ const getStatusData = async () => {
     mempool,
   };
 };
+
+export const getServerSideProps = (async () => {
+  return { props: await getStatusData() };
+}) satisfies GetServerSideProps<{
+  blocks: Pick<
+    blocks,
+    | 'tx_count'
+    | 'block_hash'
+    | 'burn_block_time'
+    | 'block_height'
+    | 'burn_block_height'
+    | 'miner_txid'
+    | 'burn_block_hash'
+    | 'index_block_hash'
+    | 'execution_cost_read_count'
+    | 'execution_cost_read_length'
+    | 'execution_cost_runtime'
+    | 'execution_cost_write_count'
+    | 'execution_cost_write_length'
+  >[];
+  mempool: any;
+}>;
 
 const Home = async () => {
   const data = await getStatusData();
