@@ -53,27 +53,12 @@ npm run build && npm run prismamigrate && npm run start
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Refreshing the data
-
-## Adding more checks
-
-In folder `./status_checks`, each json file defines an API request to [stacksonchain](https://stacksonchain.com).
-To add a new check, copy/paste an existing file and modify the query (be sure to set `"disabled": false` to enable the check).
-Refer to the json schemas:
-
-- [status_checks_array.schema.json](./status_checks_array.schema.json)
-- [status_checks_string.schema.json](./status_checks_string.schema.json)
-
 ## Configuration
 
 ### Environment Variables
 
-| Name             | Description                      | Default Value                                            |
-| ---------------- | -------------------------------- | -------------------------------------------------------- |
-| `NODE_ENV`       | Sets the node environment        | `development`                                            |
-| `DATABASE_URL`   | Postgresql connection URI        | `postgresql://postgres:postgres@localhost:5432/postgres` |
-| `API_SECRET_KEY` | Key to refresh the data via POST | `secret`                                                 |
-
-```
-
-```
+| Name           | Description                      | Default Value                                                                              |
+| -------------- | -------------------------------- | ------------------------------------------------------------------------------------------ |
+| `NODE_ENV`     | Sets the node environment        | `development`                                                                              |
+| `DATABASE_URL` | Postgresql connection URI        | `postgresql://user:pass@localhost:5432/stacks_blockchain_api?schema=stacks_blockchain_api` |
+| `CRON_SECRET`  | Key to refresh the data via POST | `secret`                                                                                   |
