@@ -10,6 +10,7 @@ This is a next.js react app that reads [Stacks Blockchain API](https://github.co
 
 - PostgreSQL is a **required** dependency with a [Stacks Blockchain API](https://github.com/hirosystems/stacks-blockchain-api) instance writing chainstate data.
   - https://github.com/hirosystems/stacks-blockchain-api?tab=readme-ov-file#quick-start
+- [Vercel cron](https://vercel.com/docs/cron-jobs) is used for updating mempool txs
 
 ### Clone this repo and enter its directory
 
@@ -57,8 +58,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ### Environment Variables
 
-| Name           | Description                      | Default Value                                                                              |
-| -------------- | -------------------------------- | ------------------------------------------------------------------------------------------ |
-| `NODE_ENV`     | Sets the node environment        | `development`                                                                              |
-| `DATABASE_URL` | Postgresql connection URI        | `postgresql://user:pass@localhost:5432/stacks_blockchain_api?schema=stacks_blockchain_api` |
-| `CRON_SECRET`  | Key to refresh the data via POST | `secret`                                                                                   |
+| Name           | Description                                                                           | Default Value                                                                              |
+| -------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `NODE_ENV`     | Sets the node environment                                                             | `development`                                                                              |
+| `DATABASE_URL` | Postgresql connection URI                                                             | `postgresql://user:pass@localhost:5432/stacks_blockchain_api?schema=stacks_blockchain_api` |
+| `CRON_SECRET`  | Auth key to refresh mempool data via [vercel cron](https://vercel.com/docs/cron-jobs) | `secret`                                                                                   |
