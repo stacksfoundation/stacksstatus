@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/mempool-txs",
+      "schedule": "*/5 * * * *"
+    }
+  ]
+}
