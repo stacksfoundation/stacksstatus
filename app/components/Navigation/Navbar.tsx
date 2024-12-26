@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import Fees from '../Fees/Fees';
+// import Fees from '../Fees/Fees';
 
 const Navbar = () => {
   return (
@@ -9,7 +9,7 @@ const Navbar = () => {
           <span className='font-semibold text-white'>Stacks Status</span>
         </Link>
       </div>
-      <Fees />
+      {/* <Fees /> */}
     </div>
   );
 };
