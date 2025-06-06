@@ -5,7 +5,7 @@ import BlocksPerTime from './components/BlocksPerTime';
 import { getBlocks } from './datastore/nodeDB';
 import TimeSinceLastBlock from './components/TimeSinceLastBlock';
 import MempoolSize from './components/MempoolSize';
-import TxsPerBlock from './components/TxsPerBlock';
+// import TxsPerBlock from './components/TxsPerBlock';
 import LatestBlock from './components/LatestBlock';
 import OverviewData from './components/OverviewData';
 import { revalidateTag } from 'next/cache';
