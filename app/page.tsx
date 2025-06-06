@@ -1,9 +1,9 @@
 import React from 'react';
 import CardsGridLayout from './components/CardsGridLayout';
 import { apiRoot, getData } from '../lib/util';
-import BlocksPerTime from './components/BlocksPerTime';
+// import BlocksPerTime from './components/BlocksPerTime';
 import { getBlocks } from './datastore/nodeDB';
-import TimeSinceLastBlock from './components/TimeSinceLastBlock';
+// import TimeSinceLastBlock from './components/TimeSinceLastBlock';
 import MempoolSize from './components/MempoolSize';
 // import TxsPerBlock from './components/TxsPerBlock';
 import LatestBlock from './components/LatestBlock';
@@ -36,9 +36,9 @@ const Home = async () => {
           <>
             <OverviewData block={data.blocks[data.blocks.length - 1]} />
             <LatestBlock block={data.blocks[data.blocks.length - 1]} />
-            <BlocksPerTime blocks={data.blocks} />
+            {/* <BlocksPerTime blocks={data.blocks} /> */}
             {/* <TxsPerBlock blocks={data.blocks} /> */}
-            <TimeSinceLastBlock blocks={data.blocks} />
+            {/* <TimeSinceLastBlock blocks={data.blocks} /> */}
           </>
         )}
         {!!data.mempool && (
