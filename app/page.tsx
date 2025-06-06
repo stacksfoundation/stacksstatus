@@ -37,7 +37,7 @@ const Home = async () => {
             <OverviewData block={data.blocks[data.blocks.length - 1]} />
             <LatestBlock block={data.blocks[data.blocks.length - 1]} />
             <BlocksPerTime blocks={data.blocks} />
-            <TxsPerBlock blocks={data.blocks} />
+            {/* <TxsPerBlock blocks={data.blocks} /> */}
             <TimeSinceLastBlock blocks={data.blocks} />
           </>
         )}
